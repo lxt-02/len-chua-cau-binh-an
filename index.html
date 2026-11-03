@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Lên Chùa Cầu An - Chùa An Lạc 3D (Đa Người Chơi P2P)</title>
+  <title>Lên Chùa Cầu An - Chùa Xuân Toàn 3D (Đa Người Chơi P2P)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -550,12 +550,245 @@
       opacity: 1;
     }
 
+    
+    /* CSS THÊM MỚI: LỊCH ÂM, DỊP LỄ, NGÀY ĐÊM & 3 TÍNH NĂNG ĐỒNG HÀNH */
+    .badge-lunar {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-gold);
+      padding: 7px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fde047;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .badge-lunar:active {
+      background: rgba(240, 192, 90, 0.25);
+      transform: scale(0.96);
+    }
+
+    .hud-top-left {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .hud-top-actions {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      max-width: 100%;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .hud-top-actions::-webkit-scrollbar {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .icon-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 15px;
+      }
+      .badge-counter, .badge-lunar {
+        padding: 5px 9px;
+        font-size: 11px;
+      }
+    }
+
+    /* Rung màn hình mạnh hơn khi Đại Hồng Chung cộng hưởng */
+    @keyframes shakeHeavy {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      15% { transform: translate(-4px, 3px) rotate(-0.6deg); }
+      30% { transform: translate(4px, -3px) rotate(0.6deg); }
+      45% { transform: translate(-3px, -2px) rotate(-0.3deg); }
+      60% { transform: translate(3px, 3px) rotate(0.3deg); }
+      75% { transform: translate(-2px, 1px) rotate(-0.1deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+    #game-container.shake-heavy {
+      animation: shakeHeavy 0.6s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    /* Tùy chọn hoa đăng đôi */
+    #twin-lantern-options {
+      margin: 10px 0;
+      padding: 12px;
+      background: rgba(240, 192, 90, 0.08);
+      border: 1px dashed var(--gold-primary);
+      border-radius: 12px;
+      text-align: left;
+    }
+    .twin-name-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+    .twin-name-col {
+      flex: 1;
+      min-width: 130px;
+    }
+    .twin-name-col label {
+      font-size: 11px;
+      color: var(--text-sub);
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    /* Modal Lịch Âm & Không Khí Lễ Hội */
+    .calendar-date-display {
+      background: rgba(240, 192, 90, 0.1);
+      border: 1px solid rgba(240, 192, 90, 0.3);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+    .calendar-solar {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-bottom: 4px;
+    }
+    .calendar-lunar-big {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--gold-primary);
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.5px;
+    }
+    .calendar-canchi {
+      font-size: 13px;
+      color: #4ade80;
+      margin-top: 4px;
+      font-weight: 600;
+    }
+    .festival-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .festival-card-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(240, 192, 90, 0.25);
+      border-radius: 10px;
+      padding: 10px 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: var(--text-main);
+    }
+    .festival-card-btn:hover, .festival-card-btn.active {
+      background: rgba(240, 192, 90, 0.2);
+      border-color: var(--gold-primary);
+      transform: translateY(-2px);
+    }
+    .festival-card-btn .fest-icon {
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+    .festival-card-btn .fest-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gold-primary);
+    }
+
+    /* Modal Ảnh Kỷ Niệm Nhóm Bạn */
+    #group-photo-preview-wrap {
+      text-align: center;
+      margin: 12px 0;
+    }
+    #group-photo-canvas {
+      max-width: 100%;
+      height: auto;
+      max-height: 52vh;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+      border: 2px solid var(--border-gold);
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* Modal Nghi Thức Tắm Phật */
+    .bath-steps-row {
+      display: flex;
+      justify-content: space-around;
+      gap: 6px;
+      margin: 14px 0;
+    }
+    .bath-step-badge {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(240, 192, 90, 0.3);
+      border-radius: 10px;
+      padding: 8px 4px;
+      font-size: 11px;
+      text-align: center;
+      color: var(--text-sub);
+      transition: all 0.3s;
+    }
+    .bath-step-badge.done {
+      background: rgba(74, 222, 128, 0.2);
+      border-color: #4ade80;
+      color: #4ade80;
+      font-weight: 700;
+    }
+    .bath-step-badge.current {
+      background: rgba(240, 192, 90, 0.25);
+      border-color: var(--gold-primary);
+      color: var(--gold-primary);
+      font-weight: 700;
+    }
+
+    /* Modal Bông Hồng Cài Áo Vu Lan */
+    .rose-cards-selector {
+      display: flex;
+      gap: 8px;
+      margin: 12px 0;
+      justify-content: center;
+    }
+    .rose-card-btn {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(240, 192, 90, 0.3);
+      border-radius: 12px;
+      padding: 10px 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .rose-card-btn:hover, .rose-card-btn.selected {
+      border-color: var(--gold-primary);
+      background: rgba(240, 192, 90, 0.18);
+      transform: translateY(-2px);
+    }
+    .rose-card-btn .rose-icon {
+      font-size: 26px;
+      margin-bottom: 4px;
+    }
+    .rose-card-btn .rose-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--gold-primary);
+    }
+
     /* TỐI ƯU HIỆU NĂNG CHO MỨC LOW & MEDIUM: TẮT BACKDROP-FILTER NẶNG */
     body.perf-mode * {
       backdrop-filter: none !important;
       -webkit-backdrop-filter: none !important;
     }
     body.perf-mode .badge-counter,
+    body.perf-mode .badge-lunar,
     body.perf-mode .icon-btn,
     body.perf-mode #chat-hud-input,
     body.perf-mode #btn-toggle-chat-hud {
@@ -572,6 +805,111 @@
     }
     body.perf-mode .modal-overlay {
       background: rgba(8, 4, 14, 0.92) !important;
+    }
+
+    /* MODAL NHẠC CHÙA TĨNH TÂM VIỆT NAM */
+    .music-track-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin: 14px 0;
+      max-height: 250px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .music-track-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1.5px solid rgba(240, 192, 90, 0.22);
+      border-radius: 12px;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .music-track-item:hover, .music-track-item:active {
+      background: rgba(240, 192, 90, 0.15);
+      border-color: var(--gold-primary);
+    }
+    .music-track-item.playing {
+      background: rgba(240, 192, 90, 0.22);
+      border-color: #f0c05a;
+      box-shadow: 0 0 14px rgba(240, 192, 90, 0.35);
+    }
+    .music-track-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      text-align: left;
+    }
+    .music-track-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .music-track-item.playing .music-track-title {
+      color: var(--gold-primary);
+    }
+    .music-track-desc {
+      font-size: 11.5px;
+      color: var(--text-sub);
+    }
+    .music-play-status {
+      font-size: 18px;
+      color: var(--gold-primary);
+      margin-left: 10px;
+    }
+    .music-player-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(14, 8, 22, 0.85);
+      border: 1px solid var(--border-gold);
+      border-radius: 14px;
+      padding: 12px 16px;
+      margin-bottom: 14px;
+      gap: 10px;
+    }
+    .music-ctrl-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--border-gold);
+      color: var(--gold-primary);
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.15s, background 0.15s;
+    }
+    .music-ctrl-btn:active {
+      transform: scale(0.92);
+      background: rgba(240, 192, 90, 0.25);
+    }
+    .music-ctrl-btn.big {
+      width: 44px;
+      height: 44px;
+      font-size: 20px;
+      background: linear-gradient(135deg, #f0c05a 0%, #b8860b 100%);
+      color: #1a0f00;
+      border: none;
+    }
+    .volume-slider-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+      color: var(--text-sub);
+      margin-top: 8px;
+      padding: 0 4px;
+    }
+    .volume-slider-box input[type="range"] {
+      flex: 1;
+      accent-color: var(--gold-primary);
+      cursor: pointer;
     }
 
     /* MODAL CHUNG */
@@ -1180,14 +1518,28 @@
     <div class="hud-layer">
       <!-- Thanh trên cùng -->
       <div class="hud-top">
-        <!-- Huy hiệu Phòng & Đạo hữu online -->
-        <div class="badge-counter" id="btn-open-room" title="Chạm để đổi phòng hoặc mời bạn">
-          <span class="dot"></span>
-          <span>Phòng: <strong id="hud-room-name">chua-an-lac</strong> (<strong id="online-peer-count">1</strong>)</span>
+        <div class="hud-top-left">
+          <!-- Huy hiệu Phòng & Đạo hữu online -->
+          <div class="badge-counter" id="btn-open-room" title="Chạm để đổi phòng hoặc mời bạn">
+            <span class="dot"></span>
+            <span>Phòng: <strong id="hud-room-name">chua-xuan-toan</strong> (<strong id="online-peer-count">1</strong>)</span>
+          </div>
+          <!-- Thẻ Lịch Âm & Dịp Lễ -->
+          <div class="badge-lunar" id="btn-open-calendar" title="Xem Lịch Âm & Chọn Không Khí Lễ Hội">
+            <span>📅</span>
+            <span id="hud-lunar-text">Lịch Âm</span>
+          </div>
+          <!-- Huy hiệu Nhạc Chùa Tĩnh Tâm -->
+          <div class="badge-counter" id="btn-music-badge" title="Chạm để mở danh sách nhạc chùa tĩnh tâm">
+            <span class="dot" id="music-dot" style="background:#f0c05a; box-shadow:0 0 8px #f0c05a;"></span>
+            <span id="hud-music-title">🎵 Nhạc Chùa Tĩnh Tâm</span>
+          </div>
         </div>
         <div class="hud-top-actions">
+          <button class="icon-btn" id="btn-time-cycle" title="Đổi thời khắc (Bình minh / Nắng ấm / Hoàng hôn / Đêm trăng)">🌅</button>
+          <button class="icon-btn" id="btn-group-photo" title="Chụp ảnh kỷ niệm nhóm bạn">📸</button>
           <button class="icon-btn" id="btn-settings" title="Cài đặt đồ họa">⚙️</button>
-          <button class="icon-btn" id="btn-music" title="Bật / Tắt nhạc thiền (chuông gió)">🎵</button>
+          <button class="icon-btn" id="btn-music" title="Bật / Tắt nhạc chùa tĩnh tâm (phím M)">🎵</button>
           <button class="icon-btn" id="btn-bow" title="Chắp tay vái chào (phím B)">🙏</button>
           <button class="icon-btn" id="btn-chat" title="Gửi lời chúc / Trò chuyện">💬</button>
           <button class="icon-btn" id="btn-journal" title="Sổ Cầu An">📜</button>
@@ -1233,7 +1585,7 @@
 
         <div id="chat-messages-box">
           <div class="chat-msg-line system">
-            <span class="msg-time">[Chùa An Lạc]</span> Chào mừng quý đạo hữu. Nhấn <strong>Enter</strong> hoặc gõ lời nhắn bên dưới để trò chuyện cùng bạn bè trong phòng! 🪷
+            <span class="msg-time">[Chùa Xuân Toàn]</span> Chào mừng quý đạo hữu. Nhấn <strong>Enter</strong> hoặc gõ lời nhắn bên dưới để trò chuyện cùng bạn bè trong phòng! 🪷
           </div>
         </div>
 
@@ -1253,7 +1605,7 @@
 
       <!-- Gợi ý điều khiển máy tính -->
       <div class="pc-controls-hint">
-        🎮 Phím <strong>W, A, S, D</strong> để đi | Nhấn <strong>Enter</strong> để chat realtime | <strong>B</strong> vái chào | <strong>M</strong> nhạc | Kéo chuột xoay camera
+        🎮 Phím <strong>W, A, S, D</strong> để đi | Nhấn <strong>Enter</strong> để chat realtime | <strong>B</strong> vái chào | <strong>M</strong> nhạc (<strong>N</strong> đổi bài) | Kéo chuột xoay camera
       </div>
     </div>
 
@@ -1330,6 +1682,52 @@
 
       <div style="font-size:12px; color:var(--gold-primary); text-align:center; margin-bottom:12px;" id="quality-current-info"></div>
       <button class="btn-gold" id="btn-save-quality">LƯU & ÁP DỤNG ⚙️</button>
+    </div>
+  </div>
+
+  <!-- MODAL: NHẠC CHÙA TĨNH TÂM VIỆT NAM (TEMPLE MUSIC PLAYLIST) -->
+  <div class="modal-overlay" id="modal-music">
+    <div class="modal-card">
+      <button class="modal-close-btn" data-close="modal-music">✕</button>
+      <h2 class="modal-title">🪷 NHẠC CHÙA TĨNH TÂM</h2>
+      <p class="modal-subtitle">Giai điệu thiền định, Chú Đại Bi và niệm Phật thanh tịnh cửa chùa Việt Nam</p>
+
+      <!-- Thanh điều khiển đang phát -->
+      <div class="music-player-bar">
+        <div style="flex: 1; overflow: hidden;">
+          <div style="font-size: 11px; color: var(--gold-primary); text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px;">Đang phát</div>
+          <div id="player-current-title" style="font-size: 13.5px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Chú Đại Bi - Nhạc Thiền Tịnh Tâm</div>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <button class="music-ctrl-btn" id="btn-music-prev" title="Bài trước">⏮️</button>
+          <button class="music-ctrl-btn big" id="btn-music-playpause" title="Phát / Tạm dừng">▶️</button>
+          <button class="music-ctrl-btn" id="btn-music-next" title="Bài kế tiếp">⏭️</button>
+        </div>
+      </div>
+
+      <!-- Thanh trượt âm lượng -->
+      <div class="volume-slider-box">
+        <span>🔉 Âm lượng:</span>
+        <input type="range" id="music-volume-range" min="0" max="100" value="70">
+        <span id="music-volume-val" style="min-width: 35px; text-align: right; font-weight: 700; color: var(--gold-primary);">70%</span>
+      </div>
+
+      <!-- Danh sách bài hát -->
+      <div class="music-track-list" id="music-track-list">
+        <!-- JS render các bài nhạc chùa -->
+      </div>
+
+      <!-- Tùy chọn mở rộng: Tải file từ máy hoặc link online -->
+      <div style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px;">
+        <label class="btn-secondary" style="margin-top: 0; cursor: pointer;">
+          📂 CHỌN FILE NHẠC TỪ MÁY (.MP3, .WAV)
+          <input type="file" id="music-file-input" accept="audio/*" style="display: none;">
+        </label>
+        <div style="display: flex; gap: 6px;">
+          <input type="text" id="music-custom-url" class="custom-input" style="padding: 8px 12px; font-size: 12.5px;" placeholder="Hoặc dán link MP3 online...">
+          <button class="btn-gold" id="btn-apply-custom-music" style="width: auto; padding: 8px 14px; margin-top: 0; font-size: 13px; white-space: nowrap;">Phát 🎵</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1511,6 +1909,28 @@
           <span style="font-size: 22px;">🪷</span>
           <span>Đèn hoa đăng</span>
         </div>
+        <div class="wish-type-btn" data-target="twin_lantern">
+          <span style="font-size: 22px;">🪷🪷</span>
+          <span>Hoa đăng đôi</span>
+        </div>
+      </div>
+
+      <!-- Tùy chọn hoa đăng đôi tri kỷ -->
+      <div id="twin-lantern-options" style="display: none;">
+        <div style="font-size: 12px; font-weight: 700; color: var(--gold-primary); margin-bottom: 6px;">CÙNG THẢ HOA ĐĂNG ĐÔI GẮN KẾT DUYÊN LÀNH:</div>
+        <div class="twin-name-row">
+          <div class="twin-name-col">
+            <label>Tên bạn:</label>
+            <input type="text" id="twin-name-self" class="custom-input" style="padding: 6px 10px; font-size: 13px;" readonly>
+          </div>
+          <div class="twin-name-col">
+            <label>Tri kỷ / Người thân:</label>
+            <select id="twin-partner-select" class="custom-input" style="padding: 6px 10px; font-size: 13px; margin-bottom: 4px;">
+              <option value="custom">Nhập tên tri kỷ / người thân...</option>
+            </select>
+            <input type="text" id="twin-partner-custom" class="custom-input" style="padding: 6px 10px; font-size: 13px;" placeholder="Tên tri kỷ..." maxlength="24">
+          </div>
+        </div>
       </div>
 
       <textarea id="wish-input" class="custom-input" rows="3" maxlength="120" placeholder="Viết ước nguyện của bạn (cho cha mẹ, gia đình, bình an, công việc...)..."></textarea>
@@ -1610,6 +2030,125 @@
       </div>
 
       <button class="btn-gold" id="btn-open-share">TẠO ẢNH KỶ NIỆM & CHIA SẺ 🖼️</button>
+    </div>
+  </div>
+
+  <!-- MODAL: LỊCH ÂM & KHÔNG KHÍ LỄ HỘI -->
+  <div class="modal-overlay" id="modal-calendar">
+    <div class="modal-card">
+      <button class="modal-close-btn" data-close="modal-calendar">✕</button>
+      <h2 class="modal-title">LỊCH ÂM & LỄ HỘI</h2>
+      <p class="modal-subtitle">Thời khắc đất trời giao hòa, gieo duyên lành phước đức</p>
+
+      <div class="calendar-date-display">
+        <div class="calendar-solar" id="cal-solar-text">Thứ Ba, ngày 03/11/2026</div>
+        <div class="calendar-lunar-big" id="cal-lunar-text">MÙNG 25 THÁNG 9</div>
+        <div class="calendar-canchi" id="cal-canchi-text">Năm Bính Ngọ · Tháng Mậu Tuất · Ngày Tân Tỵ</div>
+        <div id="cal-festival-badge" style="display: inline-block; margin-top: 8px; font-size: 12px; padding: 3px 10px; border-radius: 12px; background: rgba(240,192,90,0.2); color: var(--gold-primary); font-weight: 700;">Ngày Lành An Lạc</div>
+      </div>
+
+      <h4 style="font-size: 13px; color: var(--gold-primary); margin-bottom: 6px;">Trải Nghiệm Không Khí Lễ Hội:</h4>
+      <div class="festival-cards-grid">
+        <div class="festival-card-btn active" data-fest="AUTO">
+          <div class="fest-icon">🔄</div>
+          <div class="fest-name">Tự động (Lịch Âm)</div>
+        </div>
+        <div class="festival-card-btn" data-fest="TET">
+          <div class="fest-icon">🎋</div>
+          <div class="fest-name">Tết Cổ Truyền</div>
+        </div>
+        <div class="festival-card-btn" data-fest="PHAT_DAN">
+          <div class="fest-icon">🌸</div>
+          <div class="fest-name">Lễ Phật Đản</div>
+        </div>
+        <div class="festival-card-btn" data-fest="VU_LAN">
+          <div class="fest-icon">🌹</div>
+          <div class="fest-name">Lễ Vu Lan</div>
+        </div>
+        <div class="festival-card-btn" data-fest="NORMAL">
+          <div class="fest-icon">🍃</div>
+          <div class="fest-name">Thường Nhật</div>
+        </div>
+      </div>
+
+      <p id="fest-description-text" style="font-size: 12px; color: var(--text-sub); text-align: center; margin: 10px 0 14px; font-style: italic;">Không khí lễ hội sẽ tự động đổi theo ngày thực tế.</p>
+      <button class="btn-gold" data-close="modal-calendar">ĐÓNG LỊCH 🙏</button>
+    </div>
+  </div>
+
+  <!-- MODAL: CHỤP ẢNH KỶ NIỆM NHÓM BẠN -->
+  <div class="modal-overlay" id="modal-group-photo">
+    <div class="modal-card" style="text-align: center; max-width: 480px;">
+      <button class="modal-close-btn" data-close="modal-group-photo">✕</button>
+      <h2 class="modal-title">ẢNH KỶ NIỆM ĐỒNG TU</h2>
+      <p class="modal-subtitle">Bức tranh lưu giữ khoảnh khắc cùng bạn bè nơi cửa Phật thanh tịnh</p>
+
+      <div id="group-photo-preview-wrap">
+        <canvas id="group-photo-canvas" width="1080" height="1350"></canvas>
+      </div>
+
+      <div style="display: flex; gap: 8px; margin-top: 10px;">
+        <button class="btn-gold" id="btn-download-group-photo" style="flex: 1;">TẢI ẢNH (.PNG) 💾</button>
+        <button class="btn-secondary" id="btn-refresh-group-photo" style="flex: 1;" title="Chụp lại góc máy hiện tại">CHỤP LẠI 📸</button>
+      </div>
+      <button class="btn-secondary" id="btn-copy-group-photo" style="margin-top: 8px;">SAO CHÉP LỜI CHÚC & CHIA SẺ 📤</button>
+    </div>
+  </div>
+
+  <!-- MODAL: NGHI THỨC TẮM PHẬT ĐẢN SINH -->
+  <div class="modal-overlay" id="modal-bath-buddha">
+    <div class="modal-card" style="text-align: center;">
+      <button class="modal-close-btn" data-close="modal-bath-buddha">✕</button>
+      <h2 class="modal-title">NGHI THỨC TẮM PHẬT</h2>
+      <p class="modal-subtitle">Múc 3 gáo nước thơm cam lồ tắm Phật sơ sinh, gột sạch trần tâm</p>
+
+      <div class="bath-steps-row">
+        <div class="bath-step-badge current" id="bath-step-1">1. Dứt trừ điều ác</div>
+        <div class="bath-step-badge" id="bath-step-2">2. Siêng làm điều lành</div>
+        <div class="bath-step-badge" id="bath-step-3">3. Độ khắp chúng sinh</div>
+      </div>
+
+      <div style="font-size: 48px; margin: 12px 0;" id="bath-visual-icon">🚿</div>
+      <p id="bath-verse-text" style="font-size: 14px; color: var(--gold-primary); font-style: italic; min-height: 42px; margin-bottom: 14px;">
+        "Con nay tắm gội Đức Như Lai. Trang nghiêm công đức trí tuệ sáng ngời."
+      </p>
+
+      <button class="btn-gold" id="btn-scoop-water">MÚC NƯỚC TẮM PHẬT (GÁO 1/3) 🚿</button>
+    </div>
+  </div>
+
+  <!-- MODAL: BÔNG HỒNG CÀI ÁO VU LAN -->
+  <div class="modal-overlay" id="modal-vulan">
+    <div class="modal-card" style="text-align: center;">
+      <button class="modal-close-btn" data-close="modal-vulan">✕</button>
+      <h2 class="modal-title">BÔNG HỒNG CÀI ÁO</h2>
+      <p class="modal-subtitle">Đại Lễ Vu Lan Báo Hiếu · Tri ân đấng sinh thành tựa biển trời</p>
+
+      <div class="rose-cards-selector">
+        <div class="rose-card-btn selected" data-rose="red">
+          <div class="rose-icon">🌹</div>
+          <div class="rose-label">Hoa Hồng Đỏ</div>
+          <div style="font-size: 10px; color: var(--text-sub); margin-top: 2px;">Còn đủ Mẹ Cha</div>
+        </div>
+        <div class="rose-card-btn" data-rose="pink">
+          <div class="rose-icon">🌸</div>
+          <div class="rose-label">Hoa Hồng Phấn</div>
+          <div style="font-size: 10px; color: var(--text-sub); margin-top: 2px;">Còn một Cha/Mẹ</div>
+        </div>
+        <div class="rose-card-btn" data-rose="white">
+          <div class="rose-icon">🤍</div>
+          <div class="rose-label">Hoa Hồng Trắng</div>
+          <div style="font-size: 10px; color: var(--text-sub); margin-top: 2px;">Cha Mẹ đã khuất</div>
+        </div>
+      </div>
+
+      <textarea id="vulan-wish-input" class="custom-input" rows="3" maxlength="120" placeholder="Viết đôi lời tri ân gửi đến Cha Mẹ..."></textarea>
+
+      <p id="rose-meaning-text" style="font-size: 12px; color: var(--gold-primary); font-style: italic; margin: 10px 0;">
+        "Hồng đỏ thắm trên ngực áo: Hạnh phúc vô biên khi cha mẹ vẫn còn bên đời."
+      </p>
+
+      <button class="btn-gold" id="btn-attach-rose">CÀI HOA LÊN NGỰC ÁO 🙏</button>
     </div>
   </div>
 
@@ -1745,16 +2284,415 @@
     }
 
     /* =========================================================================
-       2. BỘ TẠO ÂM THANH THUẦN CODE (WEB AUDIO API - 100% PROCEDURAL SYNTHESIS)
+       2. HỆ THỐNG ÂM THANH & NHẠC CHÙA TĨNH TÂM VIỆT NAM (TEMPLE SOUND & MUSIC ENGINE)
        ========================================================================= */
+
+    // DANH SÁCH CÁC BẢN NHẠC CHÙA & NHẠC THIỀN VIỆT NAM TUYỂN CHỌN
+    const TEMPLE_PLAYLIST = [
+      {
+        id: 'chudaibi',
+        title: 'Chú Đại Bi - Nhạc Thiền Sáo Trúc Tịnh Tâm',
+        desc: 'Khúc nhạc Chú Đại Bi thanh tịnh, sáo trúc & chuông mõ ngân nga xua tan muộn phiền',
+        src: 'https://archive.org/download/buddhamantra/-%E5%A4%A7%E6%82%B2%E5%92%92.mp3',
+        fallbackSrc: 'https://archive.org/download/Buddhist-Audios/Relaxation%20From%20The%20Far%20East.mp3',
+        mode: 'audio'
+      },
+      {
+        id: 'nammoadidaphat',
+        title: 'Nam Mô A Di Đà Phật - Niệm Phật Cửa Chùa',
+        desc: 'Điệu niệm 6 chữ hồng danh du dương, an lạc, thanh thoát cõi thiền',
+        src: 'https://archive.org/download/buddhamantra/%28%E7%99%BD%E5%BA%A6%E6%AF%8D%E5%BF%83%E5%92%92%29White%20Tara%20Mantra%28Very%20Relaxing%29.mp3',
+        fallbackSrc: 'https://archive.org/download/Buddhist-Audios/The%20Chant%20of%20Metta%20%28Pali%29.mp3',
+        mode: 'audio'
+      },
+      {
+        id: 'saotructhien',
+        title: 'Sáo Trúc Cửa Thiền - Suối Chảy Mây Bay',
+        desc: 'Tiếng sáo trúc du dương hòa cùng tiếng suối mát bên hồ sen tĩnh lặng',
+        src: 'https://archive.org/download/Buddhist-Audios/Relaxation%20From%20The%20Far%20East.mp3',
+        mode: 'audio'
+      },
+      {
+        id: 'batnhatamkinh',
+        title: 'Bát Nhã Ba La Mật Đa Tâm Kinh',
+        desc: 'Tụng kinh Bát Nhã thanh tịnh, quán chiếu ngũ uẩn giai không',
+        src: 'https://archive.org/download/buddhamantra/Dalai%20Lama%20reciting%20Prajna%20Paramita%20Heart%20Sutra%20Mantra.mp3',
+        mode: 'audio'
+      },
+      {
+        id: 'procedural_zen',
+        title: 'Giai Điệu Sáo Thiền Ngũ Cung Thuần Việt',
+        desc: 'Hòa tấu sáo trúc ngũ cung (Hò Xự Xang Xê Cống) & Đại Hồng Chung thuần code (100% Offline)',
+        src: '',
+        mode: 'synth'
+      }
+    ];
+
+    // BỘ TỔNG HỢP SÁO TRÚC THIỀN ĐỊNH NGŨ CUNG VIỆT NAM (PROCEDURAL ZEN FLUTE & BELLS)
+    class ProceduralZenFlute {
+      constructor(engine) {
+        this.engine = engine;
+        this.isPlaying = false;
+        this.timer = null;
+        this.noteIndex = 0;
+        this.fluteGain = null;
+        this.droneNodes = [];
+        this.woodfishCounter = 0;
+
+        // Giai điệu ngũ cung thiền Việt Nam (Điệu Nam Á Đông: D - F - G - A - C - D)
+        this.melody = [
+          { f: 293.66, d: 2.6 }, // D4 - mở đầu lắng đọng
+          { f: 349.23, d: 2.0 }, // F4
+          { f: 392.00, d: 2.4 }, // G4
+          { f: 440.00, d: 3.6 }, // A4 - ngân dài thanh thoát
+          { f: 392.00, d: 2.0 }, // G4
+          { f: 349.23, d: 2.0 }, // F4
+          { f: 293.66, d: 4.0 }, // D4 - về gốc an yên
+          { f: 261.63, d: 2.2 }, // C4
+          { f: 293.66, d: 2.5 }, // D4
+          { f: 392.00, d: 2.2 }, // G4
+          { f: 440.00, d: 2.4 }, // A4
+          { f: 523.25, d: 4.0 }, // C5 - vút cao sáng trong
+          { f: 587.33, d: 2.6 }, // D5
+          { f: 523.25, d: 2.2 }, // C5
+          { f: 440.00, d: 3.0 }, // A4
+          { f: 392.00, d: 2.2 }, // G4
+          { f: 349.23, d: 2.6 }, // F4
+          { f: 293.66, d: 5.0 }  // D4 - đọng lại hư không
+        ];
+      }
+
+      start() {
+        if (this.isPlaying) return;
+        const ctx = this.engine.ctx;
+        if (!ctx) return;
+        this.isPlaying = true;
+        this.noteIndex = 0;
+        this.woodfishCounter = 0;
+
+        this.fluteGain = ctx.createGain();
+        this.fluteGain.gain.setValueAtTime(0.0001, ctx.currentTime);
+        this.fluteGain.gain.linearRampToValueAtTime(0.35, ctx.currentTime + 1.5);
+        this.fluteGain.connect(this.engine.masterGain);
+
+        // Nền thiền êm đềm: 2 tần số hòa âm ngũ cung thanh tịnh D (146.8Hz) & A (220Hz)
+        this.droneNodes = [];
+        [[146.83, 0.022], [220.00, 0.015]].forEach(([f, v]) => {
+          const osc = ctx.createOscillator();
+          const g = ctx.createGain();
+          const lfo = ctx.createOscillator();
+          const lg = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(f, ctx.currentTime);
+          g.gain.setValueAtTime(v, ctx.currentTime);
+
+          lfo.frequency.setValueAtTime(0.08, ctx.currentTime);
+          lg.gain.setValueAtTime(v * 0.35, ctx.currentTime);
+          lfo.connect(lg);
+          lg.connect(g.gain);
+
+          osc.connect(g);
+          g.connect(this.fluteGain);
+          osc.start();
+          lfo.start();
+          this.droneNodes.push(osc, lfo);
+        });
+
+        this.scheduleNextNote();
+      }
+
+      scheduleNextNote() {
+        if (!this.isPlaying) return;
+        const ctx = this.engine.ctx;
+        if (!ctx) return;
+
+        const note = this.melody[this.noteIndex];
+        this.playFluteNote(note.f, note.d);
+
+        // Cứ mỗi 3 nốt sáo (~7-8s), gõ một tiếng mõ chùa trầm ấm giữ nhịp tĩnh tâm
+        this.woodfishCounter++;
+        if (this.woodfishCounter % 3 === 0) {
+          setTimeout(() => {
+            if (this.isPlaying && !this.engine.isMuted) {
+              this.engine.playWoodfish();
+            }
+          }, 800);
+        }
+
+        // Cứ hết 1 vòng giai điệu (~50s), thỉnh một tiếng Đại Hồng Chung ngân vang
+        if (this.noteIndex === 0 && this.woodfishCounter > 1) {
+          setTimeout(() => {
+            if (this.isPlaying && !this.engine.isMuted) {
+              this.engine.playBell();
+            }
+          }, 400);
+        }
+
+        const waitTime = (note.d * 1000) + 180;
+        this.noteIndex = (this.noteIndex + 1) % this.melody.length;
+        this.timer = setTimeout(() => this.scheduleNextNote(), waitTime);
+      }
+
+      playFluteNote(freq, duration) {
+        const ctx = this.engine.ctx;
+        if (!ctx || this.engine.isMuted) return;
+
+        const now = ctx.currentTime;
+        const osc1 = ctx.createOscillator();
+        const osc2 = ctx.createOscillator();
+        const noteGain = ctx.createGain();
+        const filter = ctx.createBiquadFilter();
+
+        osc1.type = 'triangle';
+        osc1.frequency.setValueAtTime(freq, now);
+
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(freq * 2, now);
+
+        // Rung âm (Vibrato) sau 0.25s
+        const vib = ctx.createOscillator();
+        const vibGain = ctx.createGain();
+        vib.frequency.setValueAtTime(4.6, now);
+        vibGain.gain.setValueAtTime(0.0001, now);
+        vibGain.gain.setValueAtTime(0.0001, now + 0.25);
+        vibGain.gain.linearRampToValueAtTime(freq * 0.012, now + 0.6);
+        vib.connect(vibGain);
+        vibGain.connect(osc1.frequency);
+        vibGain.connect(osc2.frequency);
+        vib.start(now);
+        vib.stop(now + duration + 0.5);
+
+        // Lowpass lọc mềm âm thanh
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(2200, now);
+        filter.Q.setValueAtTime(1.8, now);
+
+        const attack = 0.12;
+        const release = 0.35;
+        noteGain.gain.setValueAtTime(0.0001, now);
+        noteGain.gain.linearRampToValueAtTime(0.28, now + attack);
+        noteGain.gain.setValueAtTime(0.24, now + duration - release);
+        noteGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+        osc1.connect(filter);
+        osc2.connect(filter);
+        filter.connect(noteGain);
+        noteGain.connect(this.fluteGain);
+
+        osc1.start(now);
+        osc2.start(now);
+        osc1.stop(now + duration + 0.1);
+        osc2.stop(now + duration + 0.1);
+      }
+
+      stop() {
+        this.isPlaying = false;
+        clearTimeout(this.timer);
+        if (this.fluteGain && this.engine.ctx) {
+          const g = this.fluteGain;
+          const nodes = this.droneNodes;
+          g.gain.setTargetAtTime(0.0001, this.engine.ctx.currentTime, 0.3);
+          setTimeout(() => {
+            nodes.forEach(n => { try { n.stop(); } catch {} });
+            try { g.disconnect(); } catch {}
+          }, 1200);
+          this.fluteGain = null;
+          this.droneNodes = [];
+        }
+      }
+    }
+
+    // QUẢN LÝ PHÁT NHẠC CHÙA (HTML5 AUDIO & SYNTHESIS HYBRID PLAYER)
+    class TempleMusicManager {
+      constructor(soundEngine) {
+        this.soundEngine = soundEngine;
+        this.playlist = TEMPLE_PLAYLIST;
+        this.currentIndex = 0;
+        this.isPlaying = false;
+        this.volume = 0.7;
+        this.audioEl = new Audio();
+        this.audioEl.loop = true;
+        this.audioEl.crossOrigin = 'anonymous';
+        this.proceduralFlute = new ProceduralZenFlute(this.soundEngine);
+
+        this.initAudioEvents();
+      }
+
+      initAudioEvents() {
+        this.audioEl.addEventListener('error', e => {
+          console.warn('Lỗi tải tệp âm thanh online, chuyển sang chế độ sáo thiền offline:', e);
+          const track = this.playlist[this.currentIndex];
+          if (track && track.fallbackSrc && this.audioEl.src !== track.fallbackSrc) {
+            this.audioEl.src = track.fallbackSrc;
+            if (this.isPlaying) {
+              this.audioEl.play().catch(() => this.fallbackToSynth());
+            }
+          } else {
+            this.fallbackToSynth();
+          }
+        });
+
+        this.audioEl.addEventListener('ended', () => {
+          this.nextTrack();
+        });
+      }
+
+      fallbackToSynth() {
+        if (!this.isPlaying) return;
+        showToast('🍃 Mạng chậm, đã tự động chuyển sang Sáo Thiền Ngũ Cung tịnh tâm offline.');
+        this.audioEl.pause();
+        this.proceduralFlute.start();
+        this.updateUI();
+      }
+
+      getCurrentTrack() {
+        return this.playlist[this.currentIndex] || this.playlist[0];
+      }
+
+      togglePlay() {
+        if (this.isPlaying) {
+          this.pause();
+        } else {
+          this.play();
+        }
+        return this.isPlaying;
+      }
+
+      play(index = null) {
+        if (index !== null && index >= 0 && index < this.playlist.length) {
+          this.currentIndex = index;
+        }
+
+        const track = this.getCurrentTrack();
+        this.isPlaying = true;
+
+        if (track.mode === 'synth') {
+          this.audioEl.pause();
+          this.proceduralFlute.start();
+        } else {
+          this.proceduralFlute.stop();
+          if (this.audioEl.src !== track.src) {
+            this.audioEl.src = track.src;
+          }
+          this.audioEl.volume = this.soundEngine.isMuted ? 0 : this.volume;
+          const p = this.audioEl.play();
+          if (p && p.catch) {
+            p.catch(err => {
+              console.warn('Tự động phát bị chặn hoặc lỗi tệp, chuyển sáo thiền:', err);
+              this.fallbackToSynth();
+            });
+          }
+        }
+
+        this.updateUI();
+        showToast(`🪷 Đang phát: ${track.title}`);
+      }
+
+      pause() {
+        this.isPlaying = false;
+        this.audioEl.pause();
+        this.proceduralFlute.stop();
+        this.updateUI();
+        showToast('🔕 Đã tạm dừng nhạc thiền');
+      }
+
+      nextTrack() {
+        let nextIdx = (this.currentIndex + 1) % this.playlist.length;
+        this.play(nextIdx);
+      }
+
+      prevTrack() {
+        let prevIdx = (this.currentIndex - 1 + this.playlist.length) % this.playlist.length;
+        this.play(prevIdx);
+      }
+
+      setVolume(val) {
+        this.volume = Math.max(0, Math.min(1, val));
+        this.audioEl.volume = this.soundEngine.isMuted ? 0 : this.volume;
+        if (this.proceduralFlute.fluteGain && this.soundEngine.ctx) {
+          this.proceduralFlute.fluteGain.gain.setValueAtTime(this.volume * 0.35, this.soundEngine.ctx.currentTime);
+        }
+        this.updateVolumeUI();
+      }
+
+      loadLocalFile(file) {
+        if (!file) return;
+        const url = URL.createObjectURL(file);
+        const customTrack = {
+          id: 'custom_file_' + Date.now(),
+          title: file.name.replace(/\.[^/.]+$/, ''),
+          desc: 'Tệp nhạc cá nhân tải từ thiết bị',
+          src: url,
+          mode: 'audio'
+        };
+        this.playlist.unshift(customTrack);
+        this.play(0);
+        renderMusicPlaylistUI();
+        showToast(`📂 Đã nạp bài hát: ${customTrack.title}`);
+      }
+
+      loadCustomUrl(url) {
+        url = (url || '').trim();
+        if (!url) return;
+        const customTrack = {
+          id: 'custom_url_' + Date.now(),
+          title: 'Nhạc Chùa Online Tùy Chọn',
+          desc: url,
+          src: url,
+          mode: 'audio'
+        };
+        this.playlist.unshift(customTrack);
+        this.play(0);
+        renderMusicPlaylistUI();
+        showToast(`🔗 Đang mở link nhạc tùy chọn...`);
+      }
+
+      updateUI() {
+        const track = this.getCurrentTrack();
+        const btnMusic = document.getElementById('btn-music');
+        const hudTitle = document.getElementById('hud-music-title');
+        const musicDot = document.getElementById('music-dot');
+        const playPauseBtn = document.getElementById('btn-music-playpause');
+        const playerCurrentTitle = document.getElementById('player-current-title');
+
+        if (btnMusic) {
+          btnMusic.classList.toggle('on', this.isPlaying);
+        }
+        if (musicDot) {
+          musicDot.style.background = this.isPlaying ? '#4ade80' : '#f0c05a';
+          musicDot.style.boxShadow = this.isPlaying ? '0 0 10px #4ade80' : '0 0 8px #f0c05a';
+        }
+        if (hudTitle) {
+          hudTitle.textContent = this.isPlaying ? `🎵 ${track.title.split('-')[0].trim()}` : `🎵 Nhạc Chùa Tĩnh Tâm`;
+        }
+        if (playerCurrentTitle) {
+          playerCurrentTitle.textContent = track.title;
+        }
+        if (playPauseBtn) {
+          playPauseBtn.textContent = this.isPlaying ? '⏸️' : '▶️';
+        }
+
+        renderMusicPlaylistUI();
+      }
+
+      updateVolumeUI() {
+        const volVal = Math.round(this.volume * 100);
+        const rangeEl = document.getElementById('music-volume-range');
+        const valEl = document.getElementById('music-volume-val');
+        if (rangeEl) rangeEl.value = volVal;
+        if (valEl) valEl.textContent = `${volVal}%`;
+      }
+    }
+
+    // BỘ TẠO ÂM THANH HIỆU ỨNG CHÙA (ĐẠI HỒNG CHUNG, MÕ CHÙA, CHUÔNG KHÁNH)
     class TempleSoundEngine {
       constructor() {
         this.ctx = null;
         this.masterGain = null;
         this.ambientGain = null;
-        this.chantGain = null;
         this.isMuted = false;
         this.initialized = false;
+        this.natureAmbientNodes = [];
       }
 
       init() {
@@ -1767,104 +2705,87 @@
         this.masterGain.connect(this.ctx.destination);
 
         this.ambientGain = this.ctx.createGain();
-        this.ambientGain.gain.setValueAtTime(0.25, this.ctx.currentTime);
+        this.ambientGain.gain.setValueAtTime(0.12, this.ctx.currentTime);
         this.ambientGain.connect(this.masterGain);
 
-        this.chantGain = this.ctx.createGain();
-        this.chantGain.gain.setValueAtTime(0.08, this.ctx.currentTime);
-        this.chantGain.connect(this.masterGain);
-
-        this.startAmbientNoise();
-        this.startDistantChant();
+        this.startSereneNatureAmbient();
         this.initialized = true;
       }
 
-      startAmbientNoise() {
+      // Âm thanh thiên nhiên chùa cổ: gió mát qua cội bồ đề êm dịu, không tiếng rè
+      startSereneNatureAmbient() {
         if (!this.ctx) return;
         const bufferSize = 2 * this.ctx.sampleRate;
         const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
         const output = noiseBuffer.getChannelData(0);
+
+        let b0 = 0, b1 = 0, b2 = 0;
         for (let i = 0; i < bufferSize; i++) {
-          output[i] = Math.random() * 2 - 1;
+          const white = Math.random() * 2 - 1;
+          b0 = 0.99886 * b0 + white * 0.0555179;
+          b1 = 0.99332 * b1 + white * 0.0750759;
+          b2 = 0.96900 * b2 + white * 0.1538520;
+          output[i] = (b0 + b1 + b2 + white * 0.5362) * 0.08;
         }
 
-        const whiteNoise = this.ctx.createBufferSource();
-        whiteNoise.buffer = noiseBuffer;
-        whiteNoise.loop = true;
+        const breezeSource = this.ctx.createBufferSource();
+        breezeSource.buffer = noiseBuffer;
+        breezeSource.loop = true;
 
         const filter = this.ctx.createBiquadFilter();
-        filter.type = 'bandpass';
-        filter.frequency.setValueAtTime(320, this.ctx.currentTime);
-        filter.Q.setValueAtTime(3.0, this.ctx.currentTime);
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(220, this.ctx.currentTime);
 
         const lfo = this.ctx.createOscillator();
-        lfo.frequency.setValueAtTime(0.12, this.ctx.currentTime);
+        lfo.frequency.setValueAtTime(0.08, this.ctx.currentTime);
         const lfoGain = this.ctx.createGain();
-        lfoGain.gain.setValueAtTime(140, this.ctx.currentTime);
+        lfoGain.gain.setValueAtTime(60, this.ctx.currentTime);
         lfo.connect(lfoGain);
         lfoGain.connect(filter.frequency);
 
-        whiteNoise.connect(filter);
+        breezeSource.connect(filter);
         filter.connect(this.ambientGain);
 
-        whiteNoise.start();
+        breezeSource.start();
         lfo.start();
+        this.natureAmbientNodes.push(breezeSource, lfo);
 
         setInterval(() => {
-          if (!this.isMuted && Math.random() > 0.4) {
-            this.playCricketChirp();
+          if (!this.isMuted && Math.random() > 0.5) {
+            this.playSoftCricket();
           }
-        }, 3200);
+        }, 4500);
       }
 
-      playCricketChirp() {
+      playSoftCricket() {
         if (!this.ctx || this.isMuted) return;
         const now = this.ctx.currentTime;
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(4600, now);
-        gain.gain.setValueAtTime(0.015, now);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+        osc.frequency.setValueAtTime(4400, now);
+        gain.gain.setValueAtTime(0.008, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
         osc.connect(gain);
         gain.connect(this.ambientGain);
         osc.start(now);
-        osc.stop(now + 0.13);
+        osc.stop(now + 0.16);
       }
 
-      startDistantChant() {
-        if (!this.ctx) return;
-        const baseFreq = 108;
-        const osc1 = this.ctx.createOscillator();
-        const osc2 = this.ctx.createOscillator();
-        osc1.type = 'sawtooth';
-        osc2.type = 'sine';
-        osc1.frequency.setValueAtTime(baseFreq, this.ctx.currentTime);
-        osc2.frequency.setValueAtTime(baseFreq * 1.5, this.ctx.currentTime);
-
-        const formantFilter = this.ctx.createBiquadFilter();
-        formantFilter.type = 'bandpass';
-        formantFilter.frequency.setValueAtTime(650, this.ctx.currentTime);
-        formantFilter.Q.setValueAtTime(4.0, this.ctx.currentTime);
-
-        osc1.connect(formantFilter);
-        osc2.connect(formantFilter);
-        formantFilter.connect(this.chantGain);
-
-        osc1.start();
-        osc2.start();
-      }
-
+      // ĐẠI HỒNG CHUNG CHÙA VIỆT: Âm thanh chuông đồng trầm hùng, phách rung ngân dài 10-12s
       playBell() {
         if (!this.ctx) return;
         const now = this.ctx.currentTime;
+
         const partials = [
-          { f: 142, g: 1.0, d: 8.0 },
-          { f: 284, g: 0.65, d: 7.0 },
-          { f: 426, g: 0.4, d: 5.5 },
-          { f: 572, g: 0.25, d: 4.5 },
-          { f: 855, g: 0.15, d: 3.5 },
-          { f: 1140, g: 0.08, d: 2.5 }
+          { f: 68.0, g: 0.45, d: 8.0 },
+          { f: 136.1, g: 1.0, d: 11.0 },
+          { f: 137.4, g: 0.9, d: 10.5 },
+          { f: 272.2, g: 0.65, d: 9.0 },
+          { f: 408.3, g: 0.42, d: 7.5 },
+          { f: 544.4, g: 0.28, d: 6.0 },
+          { f: 816.6, g: 0.15, d: 4.5 },
+          { f: 1088.8, g: 0.08, d: 3.0 }
         ];
 
         partials.forEach(p => {
@@ -1872,7 +2793,7 @@
           const gain = this.ctx.createGain();
           osc.type = 'sine';
           osc.frequency.setValueAtTime(p.f, now);
-          gain.gain.setValueAtTime(p.g * 0.45, now);
+          gain.gain.setValueAtTime(p.g * 0.42, now);
           gain.gain.exponentialRampToValueAtTime(0.0001, now + p.d);
           osc.connect(gain);
           gain.connect(this.masterGain);
@@ -1881,31 +2802,80 @@
         });
       }
 
+      // MÕ CHÙA GỖ MÍT TỤNG KINH: Tiếng gõ "Cốc" tròn trịa, ấm áp, có độ vang của gỗ tự nhiên
       playWoodfish() {
         if (!this.ctx) return;
         const now = this.ctx.currentTime;
-        const osc = this.ctx.createOscillator();
+
+        const osc1 = this.ctx.createOscillator();
+        const osc2 = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
-
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(720, now);
-        osc.frequency.exponentialRampToValueAtTime(430, now + 0.04);
-        gain.gain.setValueAtTime(0.8, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
-
         const filter = this.ctx.createBiquadFilter();
-        filter.type = 'bandpass';
-        filter.frequency.setValueAtTime(520, now);
-        filter.Q.setValueAtTime(8.0, now);
 
-        osc.connect(filter);
+        osc1.type = 'sine';
+        osc2.type = 'triangle';
+        osc1.frequency.setValueAtTime(490, now);
+        osc1.frequency.exponentialRampToValueAtTime(440, now + 0.035);
+
+        osc2.frequency.setValueAtTime(735, now);
+        osc2.frequency.exponentialRampToValueAtTime(660, now + 0.035);
+
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(510, now);
+        filter.Q.setValueAtTime(7.5, now);
+
+        gain.gain.setValueAtTime(0.9, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.13);
+
+        osc1.connect(filter);
+        osc2.connect(filter);
         filter.connect(gain);
         gain.connect(this.masterGain);
 
-        osc.start(now);
-        osc.stop(now + 0.15);
+        osc1.start(now);
+        osc2.start(now);
+        osc1.stop(now + 0.14);
+        osc2.stop(now + 0.14);
+
+        const clickOsc = this.ctx.createOscillator();
+        const clickGain = this.ctx.createGain();
+        clickOsc.type = 'sine';
+        clickOsc.frequency.setValueAtTime(1400, now);
+        clickGain.gain.setValueAtTime(0.3, now);
+        clickGain.gain.exponentialRampToValueAtTime(0.001, now + 0.012);
+        clickOsc.connect(clickGain);
+        clickGain.connect(this.masterGain);
+        clickOsc.start(now);
+        clickOsc.stop(now + 0.015);
       }
 
+      // CHUÔNG KHÁNH / CHUÔNG ĐỒNG NHỎ THANH TAO
+      playChime() {
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc1 = this.ctx.createOscillator();
+        const osc2 = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(1046.5, now); // C6
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(2093.0, now); // C7
+
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 2.2);
+
+        osc1.connect(gain);
+        osc2.connect(gain);
+        gain.connect(this.masterGain);
+
+        osc1.start(now);
+        osc2.start(now);
+        osc1.stop(now + 2.3);
+        osc2.stop(now + 2.3);
+      }
+
+      // Âm thanh lắc ống xăm trúc
       playBambooShake() {
         if (!this.ctx) return;
         for (let i = 0; i < 4; i++) {
@@ -1914,8 +2884,8 @@
             const osc = this.ctx.createOscillator();
             const gain = this.ctx.createGain();
             osc.type = 'triangle';
-            osc.frequency.setValueAtTime(1400 + Math.random() * 800, now);
-            gain.gain.setValueAtTime(0.15, now);
+            osc.frequency.setValueAtTime(1300 + Math.random() * 600, now);
+            gain.gain.setValueAtTime(0.12, now);
             gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
             osc.connect(gain);
             gain.connect(this.masterGain);
@@ -1925,90 +2895,76 @@
         }
       }
 
-      playChime() {
+      // Âm thanh Đại Hồng Chung hòa âm (khi cùng thỉnh chuông đồng nhịp)
+      playHarmonicBell() {
         if (!this.ctx) return;
         const now = this.ctx.currentTime;
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(880, now);
-        gain.gain.setValueAtTime(0.2, now);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.8);
-        osc.connect(gain);
-        gain.connect(this.masterGain);
-        osc.start(now);
-        osc.stop(now + 1.9);
+        const partials = [
+          { f: 108, g: 1.2, d: 11.0 },
+          { f: 162, g: 0.75, d: 9.5 },
+          { f: 216, g: 0.85, d: 8.5 },
+          { f: 324, g: 0.5, d: 7.0 },
+          { f: 432, g: 0.35, d: 6.0 },
+          { f: 648, g: 0.2, d: 4.5 },
+          { f: 864, g: 0.1, d: 3.5 }
+        ];
+        partials.forEach(p => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(p.f, now);
+          gain.gain.setValueAtTime(p.g * 0.5, now);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + p.d);
+          osc.connect(gain);
+          gain.connect(this.masterGain);
+          osc.start(now);
+          osc.stop(now + p.d + 0.1);
+        });
       }
 
-      // Nhạc thiền: nền trầm + chuông gió ngũ cung ngẫu nhiên
+      // Tiếng nước cam lồ múc tắm Phật sơ sinh róc rách thanh tịnh
+      playWaterScoop() {
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        for (let i = 0; i < 6; i++) {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          const st = now + i * 0.08 + Math.random() * 0.03;
+          osc.type = 'sine';
+          const startFreq = 600 + Math.random() * 400;
+          osc.frequency.setValueAtTime(startFreq, st);
+          osc.frequency.exponentialRampToValueAtTime(startFreq * 1.5, st + 0.06);
+          gain.gain.setValueAtTime(0.0001, st);
+          gain.gain.exponentialRampToValueAtTime(0.18, st + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.001, st + 0.14);
+          osc.connect(gain);
+          gain.connect(this.masterGain);
+          osc.start(st);
+          osc.stop(st + 0.16);
+        }
+      }
+
       toggleMusic() {
         if (!this.ctx) this.init();
         if (this.ctx.state === 'suspended') this.ctx.resume();
-        this.musicOn = !this.musicOn;
-        if (this.musicOn) this.startMusic(); else this.stopMusic();
-        return this.musicOn;
-      }
-
-      startMusic() {
-        const ctx = this.ctx, now = ctx.currentTime;
-        this.musicGain = ctx.createGain();
-        this.musicGain.gain.setValueAtTime(0.0001, now);
-        this.musicGain.gain.exponentialRampToValueAtTime(0.5, now + 2.5);
-        this.musicGain.connect(this.masterGain);
-
-        this.droneNodes = [];
-        [[110, 0.05], [164.8, 0.03], [220.5, 0.015]].forEach(([f, v]) => {
-          const o = ctx.createOscillator(), g = ctx.createGain();
-          const lfo = ctx.createOscillator(), lg = ctx.createGain();
-          o.type = 'sine'; o.frequency.value = f;
-          g.gain.value = v;
-          lfo.frequency.value = 0.07 + Math.random() * 0.06; lg.gain.value = v * 0.6;
-          lfo.connect(lg); lg.connect(g.gain);
-          o.connect(g); g.connect(this.musicGain);
-          o.start(); lfo.start();
-          this.droneNodes.push(o, lfo);
-        });
-
-        const scale = [523.25, 587.33, 659.25, 783.99, 880, 1046.5, 1174.66, 1318.5];
-        const ring = () => {
-          if (!this.musicOn) return;
-          const t = ctx.currentTime;
-          const notes = Math.random() < 0.3 ? 2 : 1;
-          for (let i = 0; i < notes; i++) {
-            const f = scale[Math.floor(Math.random() * scale.length)];
-            const o = ctx.createOscillator(), o2 = ctx.createOscillator(), g = ctx.createGain();
-            o.type = 'sine'; o.frequency.value = f;
-            o2.type = 'sine'; o2.frequency.value = f * 2.76;
-            const st = t + i * 0.18;
-            g.gain.setValueAtTime(0.0001, st);
-            g.gain.exponentialRampToValueAtTime(0.06, st + 0.01);
-            g.gain.exponentialRampToValueAtTime(0.0001, st + 3.5);
-            o.connect(g); o2.connect(g); g.connect(this.musicGain);
-            o.start(st); o2.start(st); o.stop(st + 3.6); o2.stop(st + 3.6);
-          }
-          this.chimeTimer = setTimeout(ring, 1400 + Math.random() * 3200);
-        };
-        ring();
-      }
-
-      stopMusic() {
-        clearTimeout(this.chimeTimer);
-        if (!this.musicGain) return;
-        const g = this.musicGain, nodes = this.droneNodes || [];
-        g.gain.setTargetAtTime(0.0001, this.ctx.currentTime, 0.4);
-        setTimeout(() => { nodes.forEach(n => { try { n.stop(); } catch {} }); g.disconnect(); }, 2500);
-        this.musicGain = null; this.droneNodes = [];
+        return TempleMusic.togglePlay();
       }
 
       toggleMute() {
-        if (!this.ctx) return;
         this.isMuted = !this.isMuted;
-        const targetGain = this.isMuted ? 0.0 : 0.75;
-        this.masterGain.gain.setTargetAtTime(targetGain, this.ctx.currentTime, 0.08);
+        if (this.ctx && this.masterGain) {
+          const targetGain = this.isMuted ? 0.0 : 0.75;
+          this.masterGain.gain.setTargetAtTime(targetGain, this.ctx.currentTime, 0.08);
+        }
+        if (typeof TempleMusic !== 'undefined' && TempleMusic) {
+          TempleMusic.audioEl.volume = this.isMuted ? 0 : TempleMusic.volume;
+        }
         return this.isMuted;
       }
     }
+
     const Sound = new TempleSoundEngine();
+    const TempleMusic = new TempleMusicManager(Sound);
 
     /* =========================================================================
        3. TẠO CÁC TEXTURE THỦ CÔNG (CANVAS PROCEDURAL TEXTURES)
@@ -2550,8 +3506,10 @@
 
     // 7. HỒ SEN (HOTSPOT 4B)
     const lanternDriftMeshes = [];
+    let lotusPondGroup = null;
     function buildLotusPond() {
       const pondGroup = new THREE.Group();
+      lotusPondGroup = pondGroup;
       pondGroup.position.set(18, 0, 12);
 
       const rimGeo = new THREE.TorusGeometry(4.2, 0.4, 8, 24);
@@ -2729,6 +3687,623 @@
       scene.add(petalsPoints);
     }
     buildAtmosphereParticles();
+
+    /* =========================================================================
+       BỘ TÍNH LỊCH ÂM VIỆT NAM (VIETNAMESE LUNAR CALENDAR ENGINE - HỒ NGỌC ĐỨC)
+       ========================================================================= */
+    const VietnameseLunar = {
+      CAN: ['Giáp', 'Ất', 'Bính', 'Đinh', 'Mậu', 'Kỷ', 'Canh', 'Tân', 'Nhâm', 'Quý'],
+      CHI: ['Tý', 'Sửu', 'Dần', 'Mão', 'Thìn', 'Tỵ', 'Ngọ', 'Mùi', 'Thân', 'Dậu', 'Tuất', 'Hợi'],
+      INT(d) { return Math.floor(d); },
+
+      jdFromDate(dd, mm, yy) {
+        let a = this.INT((14 - mm) / 12);
+        let y = yy + 4800 - a;
+        let m = mm + 12 * a - 3;
+        let jd = dd + this.INT((153 * m + 2) / 5) + 365 * y + this.INT(y / 4) - this.INT(y / 100) + this.INT(y / 400) - 32045;
+        if (jd < 2299161) jd = dd + this.INT((153 * m + 2) / 5) + 365 * y + this.INT(y / 4) - 32083;
+        return jd;
+      },
+
+      getNewMoonDay(k, timeZone = 7) {
+        let T = k / 1236.85, T2 = T * T, T3 = T2 * T, dr = Math.PI / 180;
+        let Jd1 = 2415020.75933 + 29.53058868 * k + 0.0001178 * T2 - 0.000000155 * T3;
+        Jd1 = Jd1 + 0.00033 * Math.sin((166.56 + 132.87 * T - 0.009173 * T2) * dr);
+        let M = 359.2242 + 29.10535608 * k - 0.0000333 * T2 - 0.00000347 * T3;
+        let Mpr = 306.0253 + 385.81691806 * k + 0.0107306 * T2 + 0.00001236 * T3;
+        let F = 21.2964 + 390.67050646 * k - 0.0016528 * T2 - 0.00000239 * T3;
+        let C1 = (0.1734 - 0.000393 * T) * Math.sin(M * dr) + 0.0021 * Math.sin(2 * M * dr);
+        C1 = C1 - 0.4068 * Math.sin(Mpr * dr) + 0.0161 * Math.sin(2 * Mpr * dr);
+        C1 = C1 - 0.0004 * Math.sin(3 * Mpr * dr);
+        C1 = C1 + 0.0104 * Math.sin(2 * F * dr) - 0.0051 * Math.sin((M + Mpr) * dr);
+        C1 = C1 - 0.0074 * Math.sin((M - Mpr) * dr) + 0.0004 * Math.sin((2 * F + M) * dr);
+        C1 = C1 - 0.0004 * Math.sin((2 * F - M) * dr) - 0.0006 * Math.sin((2 * F + Mpr) * dr);
+        C1 = C1 + 0.0100 * Math.sin((2 * F - Mpr) * dr) + 0.0005 * Math.sin((2 * Mpr + M) * dr);
+        return this.INT(Jd1 + C1 + 0.5 + timeZone / 24);
+      },
+
+      getSunLongitude(dayNumber, timeZone = 7) {
+        let T = (dayNumber - 0.5 - timeZone / 24 - 2451545.0) / 36525, T2 = T * T, dr = Math.PI / 180;
+        let L0 = 280.46645 + 36000.76983 * T + 0.0003032 * T2;
+        let M = 357.52910 + 35999.05030 * T - 0.0001559 * T2 - 0.00000048 * T * T2;
+        let C = (1.914600 - 0.004817 * T - 0.000014 * T2) * Math.sin(M * dr);
+        C = C + (0.019993 - 0.000101 * T) * Math.sin(2 * M * dr) + 0.000290 * Math.sin(3 * M * dr);
+        let theta = (L0 + C) * dr;
+        theta = theta - Math.PI * 2 * this.INT(theta / (Math.PI * 2));
+        return this.INT(theta / Math.PI * 6);
+      },
+
+      getLunarMonth11(yy, timeZone = 7) {
+        let off = this.jdFromDate(31, 12, yy) - 2415021;
+        let k = this.INT(off / 29.530588853);
+        let nm = this.getNewMoonDay(k, timeZone);
+        let sunLong = this.getSunLongitude(nm, timeZone);
+        if (sunLong >= 9) nm = this.getNewMoonDay(k - 1, timeZone);
+        return nm;
+      },
+
+      getLeapMonthOffset(a11, timeZone = 7) {
+        let k = this.INT((a11 - 2415021.0769986) / 29.530588853);
+        let last = 0, i = 1, arc = this.getSunLongitude(this.getNewMoonDay(k + i, timeZone), timeZone);
+        do {
+          last = arc; i++; arc = this.getSunLongitude(this.getNewMoonDay(k + i, timeZone), timeZone);
+        } while (arc != last && i < 14);
+        return i - 1;
+      },
+
+      convertSolar2Lunar(dd, mm, yy, timeZone = 7) {
+        let dayNumber = this.jdFromDate(dd, mm, yy);
+        let k = this.INT((dayNumber - 2415021.0769986) / 29.530588853);
+        let monthStart = this.getNewMoonDay(k + 1, timeZone);
+        if (monthStart > dayNumber) monthStart = this.getNewMoonDay(k, timeZone);
+        let a11 = this.getLunarMonth11(yy, timeZone), b11 = a11, lunarYear;
+        if (a11 >= monthStart) { lunarYear = yy; a11 = this.getLunarMonth11(yy - 1, timeZone); }
+        else { lunarYear = yy + 1; b11 = this.getLunarMonth11(yy + 1, timeZone); }
+        let lunarDay = dayNumber - monthStart + 1;
+        let diff = this.INT((monthStart - a11) / 29);
+        let lunarLeap = 0, lunarMonth = diff + 11;
+        if (b11 - a11 > 365) {
+          let leapMonthDiff = this.getLeapMonthOffset(a11, timeZone);
+          if (diff >= leapMonthDiff) {
+            lunarMonth = diff + 10;
+            if (diff === leapMonthDiff) lunarLeap = 1;
+          }
+        }
+        if (lunarMonth > 12) lunarMonth = lunarMonth - 12;
+        if (lunarMonth >= 11 && diff < 4) lunarYear -= 1;
+
+        const jd = dayNumber;
+        const canDay = this.CAN[(jd + 9) % 10], chiDay = this.CHI[(jd + 1) % 12];
+        const canYear = this.CAN[(lunarYear + 6) % 10], chiYear = this.CHI[(lunarYear + 8) % 12];
+        const canYearIdx = (lunarYear + 6) % 10;
+        const canMonth = this.CAN[(canYearIdx * 2 + lunarMonth + 1) % 10], chiMonth = this.CHI[(lunarMonth + 1) % 12];
+
+        // Nhận diện Dịp Lễ
+        let festival = 'NORMAL';
+        let festivalName = 'Ngày Lành An Lạc';
+        if (lunarMonth === 1 && lunarDay <= 3) {
+          festival = 'TET';
+          festivalName = 'Tết Nguyên Đán ' + canYear + ' ' + chiYear;
+        } else if (lunarMonth === 1 && lunarDay === 15) {
+          festival = 'NGUYEN_TIEU';
+          festivalName = 'Rằm Tháng Giêng (Tết Nguyên Tiêu)';
+        } else if (lunarMonth === 4 && lunarDay >= 8 && lunarDay <= 15) {
+          festival = 'PHAT_DAN';
+          festivalName = 'Đại Lễ Phật Đản (Vesak)';
+        } else if (lunarMonth === 7) {
+          festival = 'VU_LAN';
+          festivalName = 'Đại Lễ Vu Lan Báo Hiếu';
+        } else if (lunarMonth === 8 && (lunarDay === 14 || lunarDay === 15)) {
+          festival = 'TRUNG_THU';
+          festivalName = 'Tết Trung Thu (Đoàn Viên)';
+        } else if (lunarDay === 1) {
+          festival = 'MUNG_MOT';
+          festivalName = 'Ngày Mùng Một (Sóc Nhật)';
+        } else if (lunarDay === 15) {
+          festival = 'RAM';
+          festivalName = 'Ngày Rằm (Vọng Nhật)';
+        }
+
+        return {
+          day: lunarDay, month: lunarMonth, year: lunarYear, isLeap: lunarLeap === 1,
+          canDay, chiDay, canMonth, chiMonth, canYear, chiYear,
+          canChiDay: canDay + ' ' + chiDay,
+          canChiMonth: canMonth + ' ' + chiMonth,
+          canChiYear: canYear + ' ' + chiYear,
+          festival, festivalName,
+          summary: 'Mùng ' + lunarDay + ' Tháng ' + lunarMonth + (lunarLeap ? ' (Nhuận)' : '') + ' Năm ' + canYear + ' ' + chiYear
+        };
+      },
+
+      getToday() {
+        const now = new Date();
+        return this.convertSolar2Lunar(now.getDate(), now.getMonth() + 1, now.getFullYear(), 7);
+      }
+    };
+
+    /* =========================================================================
+       HỆ THỐNG BẦU TRỜ (DAY / DUSK / NIGHT / DAWN) & 3D MẶT TRĂNG, SAO, MÂY
+       ========================================================================= */
+    let moonGroup = null;
+    let starsPoints = null;
+    let cloudMeshes = [];
+
+    function buildSkyEnvironment() {
+      // 1. Mặt trăng 3D rằm thanh tịnh
+      moonGroup = new THREE.Group();
+      moonGroup.position.set(38, 42, 35);
+
+      const moonGeo = new THREE.SphereGeometry(2.4, 16, 16);
+      const moonMat = new THREE.MeshBasicMaterial({ color: 0xfffee4 });
+      const moonMesh = new THREE.Mesh(moonGeo, moonMat);
+      moonGroup.add(moonMesh);
+
+      // Quầng sáng trăng mềm mại
+      const haloGeo = new THREE.RingGeometry(2.45, 4.5, 24);
+      const haloMat = new THREE.MeshBasicMaterial({
+        color: 0xfffacd,
+        transparent: true,
+        opacity: 0.28,
+        side: THREE.DoubleSide
+      });
+      const haloMesh = new THREE.Mesh(haloGeo, haloMat);
+      moonGroup.add(haloMesh);
+      moonGroup.visible = false;
+      scene.add(moonGroup);
+
+      // 2. Vòm sao lấp lánh (Night Stars)
+      const starCount = (Quality.current === 'low') ? 140 : (Quality.current === 'medium') ? 220 : 320;
+      const starGeo = new THREE.BufferGeometry();
+      const starPos = new Float32Array(starCount * 3);
+      for (let i = 0; i < starCount; i++) {
+        const rad = 85 + Math.random() * 15;
+        const theta = Math.random() * Math.PI * 2;
+        const phi = 0.2 + Math.random() * 1.2;
+        starPos[i * 3] = rad * Math.sin(phi) * Math.cos(theta);
+        starPos[i * 3 + 1] = Math.max(12, rad * Math.cos(phi));
+        starPos[i * 3 + 2] = rad * Math.sin(phi) * Math.sin(theta);
+      }
+      starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+      const starMat = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 1.3,
+        transparent: true,
+        opacity: 0.15
+      });
+      starsPoints = new THREE.Points(starGeo, starMat);
+      scene.add(starsPoints);
+
+      // 3. Mây trôi bồng bềnh low-poly
+      const cloudMat = new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.45
+      });
+      const cloudSphereGeo = new THREE.SphereGeometry(2.0, 8, 6);
+      for (let i = 0; i < 6; i++) {
+        const cGroup = new THREE.Group();
+        const parts = 3 + Math.floor(Math.random() * 3);
+        for (let j = 0; j < parts; j++) {
+          const sp = new THREE.Mesh(cloudSphereGeo, cloudMat);
+          sp.position.set((j - 1.2) * 1.8, (Math.random() - 0.5) * 0.8, (Math.random() - 0.5) * 1.2);
+          sp.scale.set(1.1, 0.6, 1.0);
+          cGroup.add(sp);
+        }
+        cGroup.position.set(-60 + i * 24, 34 + (i % 3) * 3, -40 + (i % 2) * 60);
+        cGroup.userData = { speed: 0.012 + Math.random() * 0.01 };
+        scene.add(cGroup);
+        cloudMeshes.push(cGroup);
+      }
+    }
+    buildSkyEnvironment();
+
+    const TimeOfDayManager = {
+      modes: ['dusk', 'night', 'dawn', 'day'],
+      current: 'dusk',
+
+      configs: {
+        dusk: {
+          bg: 0x180d22, fog: 0x180d22, fogDens: 0.016,
+          amb: 0x4a3258, ambInt: 1.4,
+          hemiSky: 0xf2935c, hemiGrd: 0x24122b, hemiInt: 1.2,
+          sun: 0xfcb86a, sunInt: 2.4, sunPos: [-30, 24, -30],
+          moon: false, stars: 0.15, clouds: 0.45,
+          icon: '🌅', name: 'Hoàng hôn tĩnh mịch'
+        },
+        night: {
+          bg: 0x050814, fog: 0x070c1e, fogDens: 0.015,
+          amb: 0x1e2742, ambInt: 0.9,
+          hemiSky: 0x3b4d7a, hemiGrd: 0x0c101d, hemiInt: 0.7,
+          sun: 0xb8d4ff, sunInt: 1.6, sunPos: [25, 38, 25],
+          moon: true, stars: 0.95, clouds: 0.25,
+          icon: '🌙', name: 'Đêm trăng rằm'
+        },
+        dawn: {
+          bg: 0x2c1a32, fog: 0x422646, fogDens: 0.018,
+          amb: 0x5a3c5a, ambInt: 1.2,
+          hemiSky: 0xfca789, hemiGrd: 0x2d1a33, hemiInt: 1.1,
+          sun: 0xffd194, sunInt: 2.1, sunPos: [-40, 16, -20],
+          moon: false, stars: 0.0, clouds: 0.65,
+          icon: '🌸', name: 'Bình minh sương mai'
+        },
+        day: {
+          bg: 0x76b6e4, fog: 0xa8d8f0, fogDens: 0.012,
+          amb: 0x8297b0, ambInt: 1.4,
+          hemiSky: 0xd9efff, hemiGrd: 0x4a4338, hemiInt: 1.2,
+          sun: 0xfffbee, sunInt: 2.8, sunPos: [-20, 48, -20],
+          moon: false, stars: 0.0, clouds: 0.85,
+          icon: '☀️', name: 'Ban ngày nắng ấm'
+        }
+      },
+
+      setMode(mode) {
+        if (!this.configs[mode]) mode = 'dusk';
+        this.current = mode;
+        const cfg = this.configs[mode];
+
+        scene.background.setHex(cfg.bg);
+        scene.fog.color.setHex(cfg.fog);
+        scene.fog.density = cfg.fogDens;
+
+        ambientLight.color.setHex(cfg.amb);
+        ambientLight.intensity = cfg.ambInt;
+
+        hemiLight.color.setHex(cfg.hemiSky);
+        hemiLight.groundColor.setHex(cfg.hemiGrd);
+        hemiLight.intensity = cfg.hemiInt;
+
+        sunLight.color.setHex(cfg.sun);
+        sunLight.intensity = cfg.sunInt;
+        sunLight.position.set(cfg.sunPos[0], cfg.sunPos[1], cfg.sunPos[2]);
+
+        if (moonGroup) moonGroup.visible = cfg.moon;
+        if (starsPoints) starsPoints.material.opacity = cfg.stars;
+        cloudMeshes.forEach(c => {
+          c.children.forEach(sp => { sp.material.opacity = cfg.clouds; });
+        });
+
+        const btn = document.getElementById('btn-time-cycle');
+        if (btn) btn.textContent = cfg.icon;
+        showToast('✨ Thời khắc chuyển sang: ' + cfg.name);
+      },
+
+      cycleNext() {
+        const idx = this.modes.indexOf(this.current);
+        const next = this.modes[(idx + 1) % this.modes.length];
+        this.setMode(next);
+      }
+    };
+
+    /* =========================================================================
+       TÍNH NĂNG ĐỒNG HÀNH 1: ĐẠI HỒNG CHUNG CỘNG HƯỞNG (BELL HARMONY)
+       ========================================================================= */
+    let lastBellRingTime = 0;
+    let lastBellRinger = '';
+    let bellResonanceRing = null;
+    let bellResonanceProgress = -1;
+
+    function buildBellHarmonyRing() {
+      const ringGeo = new THREE.RingGeometry(0.5, 1.4, 32);
+      const ringMat = new THREE.MeshBasicMaterial({
+        color: 0xffd700,
+        transparent: true,
+        opacity: 0.0,
+        side: THREE.DoubleSide
+      });
+      bellResonanceRing = new THREE.Mesh(ringGeo, ringMat);
+      bellResonanceRing.rotation.x = -Math.PI / 2;
+      bellResonanceRing.position.set(-18, 0.22, -5);
+      bellResonanceRing.visible = false;
+      scene.add(bellResonanceRing);
+    }
+    buildBellHarmonyRing();
+
+    function triggerBellHarmony(name1, name2) {
+      Sound.playHarmonicBell();
+      container.classList.add('shake-heavy');
+      setTimeout(() => container.classList.remove('shake-heavy'), 650);
+
+      if (templeBellMesh) {
+        templeBellMesh.rotation.z = 0.22;
+        setTimeout(() => { templeBellMesh.rotation.z = -0.15; }, 300);
+        setTimeout(() => { templeBellMesh.rotation.z = 0; }, 750);
+      }
+
+      if (bellResonanceRing) {
+        bellResonanceRing.visible = true;
+        bellResonanceRing.scale.set(1, 1, 1);
+        bellResonanceRing.material.opacity = 0.95;
+        bellResonanceProgress = 0;
+      }
+
+      showToast('🔔✨ ĐẠI HỒNG CHUNG CỘNG HƯỞNG! ' + name1 + ' & ' + name2 + ' đồng tâm thỉnh chuông!');
+      addSystemChatMessage('🔔✨ <strong>ĐẠI HỒNG CHUNG CỘNG HƯỞNG:</strong> <strong>' + escapeHtml(name1) + '</strong> & <strong>' + escapeHtml(name2) + '</strong> vừa thỉnh chuông đồng nhịp, âm ba thanh tịnh lan tỏa muôn phương.');
+    }
+
+    /* =========================================================================
+       TÍNH NĂNG ĐỒNG HÀNH 2: THẢ HOA ĐĂNG ĐÔI TRI KỶ (TWIN LOTUS LANTERN)
+       ========================================================================= */
+    function spawnTwinLotusLantern(name1, name2, wishText, isLocal) {
+      const twinGroup = new THREE.Group();
+      const ang = Math.random() * Math.PI * 2;
+      const rad = 1.4 + Math.random() * 1.6;
+
+      // Đóa sen 1 (Hồng phấn thắm)
+      const flower1 = new THREE.Mesh(
+        new THREE.ConeGeometry(0.34, 0.24, 6),
+        new THREE.MeshStandardMaterial({ color: 0xff69b4, roughness: 0.5 })
+      );
+      flower1.rotation.x = Math.PI;
+      flower1.position.x = -0.22;
+      twinGroup.add(flower1);
+
+      const candle1 = new THREE.Mesh(
+        new THREE.SphereGeometry(0.06, 8, 8),
+        new THREE.MeshBasicMaterial({ color: 0xffea78 })
+      );
+      candle1.position.set(-0.22, 0.12, 0);
+      twinGroup.add(candle1);
+
+      // Đóa sen 2 (Vàng kim hoàng gia)
+      const flower2 = new THREE.Mesh(
+        new THREE.ConeGeometry(0.34, 0.24, 6),
+        new THREE.MeshStandardMaterial({ color: 0xfacc15, roughness: 0.5 })
+      );
+      flower2.rotation.x = Math.PI;
+      flower2.position.x = 0.22;
+      twinGroup.add(flower2);
+
+      const candle2 = new THREE.Mesh(
+        new THREE.SphereGeometry(0.06, 8, 8),
+        new THREE.MeshBasicMaterial({ color: 0xffea78 })
+      );
+      candle2.position.set(0.22, 0.12, 0);
+      twinGroup.add(candle2);
+
+      // Nơ đỏ may mắn kết nối ở giữa
+      const knot = new THREE.Mesh(
+        new THREE.SphereGeometry(0.07, 8, 8),
+        new THREE.MeshStandardMaterial({ color: 0xdc2626 })
+      );
+      knot.position.set(0, 0.05, 0);
+      twinGroup.add(knot);
+
+      // Bệ lá sen đôi
+      const baseLeaf = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.55, 0.58, 0.04, 10),
+        new THREE.MeshStandardMaterial({ color: 0x166534 })
+      );
+      baseLeaf.position.y = -0.06;
+      twinGroup.add(baseLeaf);
+
+      if (lotusPondGroup) {
+        lotusPondGroup.add(twinGroup);
+        lanternDriftMeshes.push({ mesh: twinGroup, baseAngle: ang, radius: rad, speed: 0.0035, isTwin: true });
+      } else {
+        twinGroup.position.set(18, 0.18, 12);
+        scene.add(twinGroup);
+      }
+    }
+
+    /* =========================================================================
+       KHÔNG KHÍ & MÔ HÌNH 3D LỄ HỘI (TẾT, PHẬT ĐẢN, VU LAN)
+       ========================================================================= */
+    const tetGroup = new THREE.Group();
+    const vesakGroup = new THREE.Group();
+    const vulanGroup = new THREE.Group();
+
+    // 1. Tết Cổ Truyền (Cây Mai, Cây Đào, Câu Đối, Pháo Hoa Xa)
+    let fireworksPoints = null;
+    function buildTetDecorations() {
+      // Cây Mai Vàng (Bonsai Phương Nam)
+      const apricotTrunk = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.18, 0.28, 2.8, 8),
+        new THREE.MeshStandardMaterial({ color: 0x5c3a21, roughness: 0.9 })
+      );
+      apricotTrunk.position.set(4.8, 1.4, 18.5);
+      tetGroup.add(apricotTrunk);
+
+      const maiClusterGeo = new THREE.SphereGeometry(0.18, 6, 6);
+      const maiClusterMat = new THREE.MeshBasicMaterial({ color: 0xfacc15 });
+      for (let i = 0; i < 28; i++) {
+        const blossom = new THREE.Mesh(maiClusterGeo, maiClusterMat);
+        const ang = Math.random() * Math.PI * 2;
+        const rad = 0.4 + Math.random() * 0.9;
+        blossom.position.set(4.8 + Math.cos(ang) * rad, 1.8 + Math.random() * 1.5, 18.5 + Math.sin(ang) * rad);
+        tetGroup.add(blossom);
+
+        // Bao lì xì đỏ may mắn
+        if (i % 5 === 0) {
+          const lixi = new THREE.Mesh(
+            new THREE.PlaneGeometry(0.12, 0.2),
+            new THREE.MeshBasicMaterial({ color: 0xdc2626, side: THREE.DoubleSide })
+          );
+          lixi.position.set(blossom.position.x, blossom.position.y - 0.16, blossom.position.z);
+          tetGroup.add(lixi);
+        }
+      }
+
+      // Cây Đào Hồng (Hoa Đào Phương Bắc)
+      const peachTrunk = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.18, 0.28, 2.8, 8),
+        new THREE.MeshStandardMaterial({ color: 0x4a2e1b, roughness: 0.9 })
+      );
+      peachTrunk.position.set(-4.8, 1.4, 18.5);
+      tetGroup.add(peachTrunk);
+
+      const daoClusterGeo = new THREE.SphereGeometry(0.18, 6, 6);
+      const daoClusterMat = new THREE.MeshBasicMaterial({ color: 0xf472b6 });
+      for (let i = 0; i < 28; i++) {
+        const blossom = new THREE.Mesh(daoClusterGeo, daoClusterMat);
+        const ang = Math.random() * Math.PI * 2;
+        const rad = 0.4 + Math.random() * 0.9;
+        blossom.position.set(-4.8 + Math.cos(ang) * rad, 1.8 + Math.random() * 1.5, 18.5 + Math.sin(ang) * rad);
+        tetGroup.add(blossom);
+
+        if (i % 5 === 0) {
+          const lixi = new THREE.Mesh(
+            new THREE.PlaneGeometry(0.12, 0.2),
+            new THREE.MeshBasicMaterial({ color: 0xdc2626, side: THREE.DoubleSide })
+          );
+          lixi.position.set(blossom.position.x, blossom.position.y - 0.16, blossom.position.z);
+          tetGroup.add(lixi);
+        }
+      }
+
+      // Cặp Câu Đối Đỏ Tam Quan
+      const bannerGeo = new THREE.PlaneGeometry(0.55, 3.2);
+      const bannerMat = new THREE.MeshBasicMaterial({ color: 0x991b1b, side: THREE.DoubleSide });
+
+      const leftBanner = new THREE.Mesh(bannerGeo, bannerMat);
+      leftBanner.position.set(-3.7, 3.2, 19.8);
+      tetGroup.add(leftBanner);
+
+      const rightBanner = new THREE.Mesh(bannerGeo, bannerMat);
+      rightBanner.position.set(3.7, 3.2, 19.8);
+      tetGroup.add(rightBanner);
+
+      // Pháo hoa xa nhẹ nhàng
+      const fwCount = 50;
+      const fwGeo = new THREE.BufferGeometry();
+      const fwPos = new Float32Array(fwCount * 3);
+      for (let i = 0; i < fwCount; i++) {
+        fwPos[i * 3] = (Math.random() - 0.5) * 60;
+        fwPos[i * 3 + 1] = 28 + Math.random() * 18;
+        fwPos[i * 3 + 2] = -45 + (Math.random() - 0.5) * 20;
+      }
+      fwGeo.setAttribute('position', new THREE.BufferAttribute(fwPos, 3));
+      fireworksPoints = new THREE.Points(fwGeo, new THREE.PointsMaterial({
+        color: 0xfacc15,
+        size: 2.2,
+        transparent: true,
+        opacity: 0.85
+      }));
+      tetGroup.add(fireworksPoints);
+
+      scene.add(tetGroup);
+    }
+    buildTetDecorations();
+
+    // 2. Đại Lễ Phật Đản (Cờ Ngũ Sắc & Bồn Tắm Phật Đản Sinh)
+    function buildVesakDecorations() {
+      // Dây cờ Phật giáo ngũ sắc giăng Tam Quan (Xanh, Vàng, Đỏ, Trắng, Cam)
+      const flagColors = [0x1d4ed8, 0xfacc15, 0xdc2626, 0xffffff, 0xea580c];
+      for (let i = 0; i < 15; i++) {
+        const flag = new THREE.Mesh(
+          new THREE.PlaneGeometry(0.35, 0.45),
+          new THREE.MeshBasicMaterial({ color: flagColors[i % 5], side: THREE.DoubleSide })
+        );
+        const t = (i / 14) * 8 - 4;
+        const sag = Math.sin((i / 14) * Math.PI) * 0.4;
+        flag.position.set(t, 4.4 - sag, 19.8);
+        vesakGroup.add(flag);
+      }
+
+      // Bồn Tắm Phật Đản Sinh tại sân chùa (Hotspot mới)
+      const basinGroup = new THREE.Group();
+      basinGroup.position.set(0, 0, 3.5);
+
+      // Bệ đá bát giác
+      const baseMesh = new THREE.Mesh(
+        new THREE.CylinderGeometry(1.3, 1.5, 0.45, 8),
+        new THREE.MeshStandardMaterial({ color: 0x4a433d, roughness: 0.8 })
+      );
+      baseMesh.position.y = 0.22;
+      basinGroup.add(baseMesh);
+
+      // Bồn đồng
+      const bowlMesh = new THREE.Mesh(
+        new THREE.CylinderGeometry(1.2, 0.8, 0.35, 16),
+        new THREE.MeshStandardMaterial({ color: 0x854d0e, metalness: 0.6, roughness: 0.4 })
+      );
+      bowlMesh.position.y = 0.55;
+      basinGroup.add(bowlMesh);
+
+      // Nước thơm cam lồ
+      const waterMesh = new THREE.Mesh(
+        new THREE.CircleGeometry(1.15, 16),
+        new THREE.MeshStandardMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.85 })
+      );
+      waterMesh.rotation.x = -Math.PI / 2;
+      waterMesh.position.y = 0.65;
+      basinGroup.add(waterMesh);
+
+      // Đài sen nhỏ
+      const lotusStand = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.35, 0.25, 0.18, 8),
+        new THREE.MeshStandardMaterial({ color: 0xf472b6 })
+      );
+      lotusStand.position.y = 0.74;
+      basinGroup.add(lotusStand);
+
+      // Tượng Phật Đản Sinh mạ vàng (một tay chỉ trời, một tay chỉ đất)
+      const buddhaStatue = new THREE.Group();
+      buddhaStatue.position.set(0, 0.83, 0);
+
+      const statBody = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.12, 0.16, 0.5, 8),
+        new THREE.MeshStandardMaterial({ color: 0xf59e0b, metalness: 0.5, roughness: 0.35 })
+      );
+      statBody.position.y = 0.25;
+      buddhaStatue.add(statBody);
+
+      const statHead = new THREE.Mesh(
+        new THREE.SphereGeometry(0.15, 12, 12),
+        new THREE.MeshStandardMaterial({ color: 0xf59e0b, metalness: 0.5, roughness: 0.35 })
+      );
+      statHead.position.y = 0.62;
+      buddhaStatue.add(statHead);
+
+      // Tay phải chỉ trời
+      const rArm = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.04, 0.04, 0.3),
+        new THREE.MeshStandardMaterial({ color: 0xf59e0b })
+      );
+      rArm.position.set(0.16, 0.45, 0);
+      rArm.rotation.z = -0.3;
+      buddhaStatue.add(rArm);
+
+      // Tay trái chỉ đất
+      const lArm = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.04, 0.04, 0.3),
+        new THREE.MeshStandardMaterial({ color: 0xf59e0b })
+      );
+      lArm.position.set(-0.16, 0.22, 0);
+      lArm.rotation.z = 0.3;
+      buddhaStatue.add(lArm);
+
+      basinGroup.add(buddhaStatue);
+      vesakGroup.add(basinGroup);
+      scene.add(vesakGroup);
+    }
+    buildVesakDecorations();
+
+    // 3. Quản lý Không Khí Lễ Hội Toàn Cục
+    const FestivalAtmosphereManager = {
+      mode: 'AUTO', // 'AUTO' | 'TET' | 'PHAT_DAN' | 'VU_LAN' | 'NORMAL'
+
+      setAtmosphere(mode) {
+        this.mode = mode;
+        let effective = mode;
+        if (effective === 'AUTO') {
+          const l = VietnameseLunar.getToday();
+          effective = l.festival;
+        }
+
+        tetGroup.visible = (effective === 'TET' || effective === 'NGUYEN_TIEU');
+        vesakGroup.visible = (effective === 'PHAT_DAN');
+
+        // Bật / tắt Hotspots phù hợp
+        const bathHotspot = Hotspots.find(h => h.id === 'bath_buddha');
+        if (bathHotspot) bathHotspot.active = (effective === 'PHAT_DAN' || effective === 'AUTO');
+
+        const vulanHotspot = Hotspots.find(h => h.id === 'vulan_rose');
+        if (vulanHotspot) vulanHotspot.active = (effective === 'VU_LAN' || effective === 'AUTO');
+      }
+    };
+    FestivalAtmosphereManager.setAtmosphere('AUTO');
+
+
 
     /* =========================================================================
        5. NHÂN VẬT CHIBI NGƯỜI CHƠI & HỆ THỐNG ĐIỀU KHIỂN
@@ -3035,6 +4610,10 @@
 
       if (e.code === 'KeyM' && !e.repeat) {
         toggleMusicUI();
+        return;
+      }
+      if (e.code === 'KeyN' && !e.repeat) {
+        TempleMusic.nextTrack();
         return;
       }
       if (e.code === 'KeyB' && !e.repeat) {
@@ -3607,6 +5186,36 @@
         showSpeechBubbleForPeer(peerId, BOW_TEXT);
         return;
       }
+      if (evt.type === 'bell_harmony') {
+        triggerBellHarmony(evt.ringer1, evt.ringer2);
+        return;
+      }
+      if (evt.type === 'twin_lantern') {
+        Sound.playChime();
+        spawnTwinLotusLantern(evt.sender, evt.partner, evt.text, false);
+        showToast(`🪷🪷 ${evt.sender} & ${evt.partner} vừa thả Hoa Đăng Đôi kết duyên lành!`);
+        addSystemChatMessage(`🪷🪷 Đạo hữu <strong>${escapeHtml(evt.sender)}</strong> và <strong>${escapeHtml(evt.partner)}</strong> vừa cùng thả Hoa Đăng Đôi kết duyên lành xuống Hồ Sen.`);
+        return;
+      }
+      if (evt.type === 'bath_buddha') {
+        Sound.playChime();
+        showToast(`🚿 Đạo hữu ${evt.name} vừa hoàn tất Nghi thức Tắm Phật Sơ Sinh!`);
+        addSystemChatMessage(`🚿 Đạo hữu <strong>${escapeHtml(evt.name)}</strong> vừa hoàn tất Nghi thức Tắm Phật Sơ Sinh thanh tịnh.`);
+        return;
+      }
+      if (evt.type === 'vulan_rose') {
+        const p = RemotePlayers.get(peerId);
+        if (p) {
+          if (p.roseMesh) p.mesh.remove(p.roseMesh);
+          const rCols = { red: 0xe11d48, pink: 0xf472b6, white: 0xf8fafc };
+          p.roseMesh = createRoseMesh(rCols[evt.roseType] || rCols.red);
+          p.roseMesh.position.set(0.14, 1.05, 0.22);
+          p.mesh.add(p.roseMesh);
+        }
+        showToast(`🌹 Đạo hữu ${evt.name} vừa cài Bông Hồng Báo Hiếu lên ngực áo.`);
+        addSystemChatMessage(`🌹 Đạo hữu <strong>${escapeHtml(evt.name)}</strong> vừa cài Bông Hồng Báo Hiếu lên ngực áo.`);
+        return;
+      }
       if (evt.type === 'incense') {
         showToast(`🪔 Đạo hữu ${evt.name} vừa dâng ${evt.sticks} nén tâm hương!`);
         addSystemChatMessage(`🪔 Đạo hữu <strong>${escapeHtml(evt.name)}</strong> vừa dâng ${evt.sticks} nén tâm hương.`);
@@ -3614,11 +5223,19 @@
         if (incenseSmokePoints) incenseSmokePoints.material.opacity = 0.9;
         setTimeout(() => { if (incenseSmokePoints) incenseSmokePoints.material.opacity = 0.45; }, 3000);
       } else if (evt.type === 'bell') {
-        showToast(`🔔 Đạo hữu ${evt.name} vừa thỉnh Đại Hồng Chung!`);
-        addSystemChatMessage(`🔔 Đạo hữu <strong>${escapeHtml(evt.name)}</strong> vừa thỉnh Đại Hồng Chung ngân vang.`);
-        Sound.playBell();
-        container.classList.add('shake');
-        setTimeout(() => container.classList.remove('shake'), 450);
+        const now = Date.now();
+        const isHarmonic = (now - lastBellRingTime < 7000) && lastBellRingTime > 0 && lastBellRinger !== evt.name;
+        if (isHarmonic) {
+          triggerBellHarmony(lastBellRinger, evt.name);
+        } else {
+          showToast(`🔔 Đạo hữu ${evt.name} vừa thỉnh Đại Hồng Chung!`);
+          addSystemChatMessage(`🔔 Đạo hữu <strong>${escapeHtml(evt.name)}</strong> vừa thỉnh Đại Hồng Chung ngân vang.`);
+          Sound.playBell();
+          container.classList.add('shake');
+          setTimeout(() => container.classList.remove('shake'), 450);
+        }
+        lastBellRingTime = now;
+        lastBellRinger = evt.name;
         if (templeBellMesh) {
           templeBellMesh.rotation.z = 0.15;
           setTimeout(() => { templeBellMesh.rotation.z = 0; }, 600);
@@ -3639,12 +5256,19 @@
           showToast(`🪷 Đạo hữu ${evt.name} vừa thả hoa đăng xuống Hồ Sen!`);
           addSystemChatMessage(`🪷 Đạo hữu <strong>${escapeHtml(evt.name)}</strong> vừa thả đèn hoa đăng xuống Hồ Sen.`);
           const lan = new THREE.Group();
-          lan.position.set(18, 0.18, 12);
           const fl = new THREE.Mesh(new THREE.ConeGeometry(0.35, 0.25, 6), new THREE.MeshStandardMaterial({ color: 0xff3366 }));
           fl.rotation.x = Math.PI;
           lan.add(fl);
-          scene.add(lan);
-          lanternDriftMeshes.push({ mesh: lan, baseAngle: 0, radius: 1.5, speed: 0.005 });
+          const cdl = new THREE.Mesh(new THREE.SphereGeometry(0.06, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffea78 }));
+          cdl.position.y = 0.12;
+          lan.add(cdl);
+          if (lotusPondGroup) {
+            lotusPondGroup.add(lan);
+            lanternDriftMeshes.push({ mesh: lan, baseAngle: 0, radius: 1.5, speed: 0.005 });
+          } else {
+            lan.position.set(18, 0.18, 12);
+            scene.add(lan);
+          }
         }
       }
     }
@@ -3853,14 +5477,107 @@
     document.getElementById('btn-start-meditation').addEventListener('click', startMeditation);
     document.getElementById('btn-stop-meditation').addEventListener('click', () => stopMeditation(false));
 
-    // ===== NÚT NHẠC THIỀN =====
+    // ===== HỆ THỐNG GIAO DIỆN & ĐIỀU KHIỂN NHẠC CHÙA TĨNH TÂM =====
     const btnMusic = document.getElementById('btn-music');
-    function toggleMusicUI() {
-      const on = Sound.toggleMusic();
-      btnMusic.classList.toggle('on', on);
-      showToast(on ? '🎵 Đã bật nhạc thiền chuông gió' : '🔕 Đã tắt nhạc thiền');
+    const btnMusicBadge = document.getElementById('btn-music-badge');
+    const trackListEl = document.getElementById('music-track-list');
+    const playPauseBtn = document.getElementById('btn-music-playpause');
+    const prevBtn = document.getElementById('btn-music-prev');
+    const nextBtn = document.getElementById('btn-music-next');
+    const volRange = document.getElementById('music-volume-range');
+    const fileInput = document.getElementById('music-file-input');
+    const customUrlInput = document.getElementById('music-custom-url');
+    const btnApplyCustom = document.getElementById('btn-apply-custom-music');
+
+    function renderMusicPlaylistUI() {
+      if (!trackListEl) return;
+      trackListEl.innerHTML = '';
+
+      TempleMusic.playlist.forEach((track, idx) => {
+        const isCurrent = idx === TempleMusic.currentIndex;
+        const item = document.createElement('div');
+        item.className = `music-track-item ${isCurrent && TempleMusic.isPlaying ? 'playing' : ''}`;
+        item.innerHTML = `
+          <div class="music-track-info">
+            <div class="music-track-title">${idx + 1}. ${escapeHtml(track.title)}</div>
+            <div class="music-track-desc">${escapeHtml(track.desc)}</div>
+          </div>
+          <div class="music-play-status">${isCurrent && TempleMusic.isPlaying ? '🔊' : '▶️'}</div>
+        `;
+        item.addEventListener('click', () => {
+          if (isCurrent && TempleMusic.isPlaying) {
+            TempleMusic.pause();
+          } else {
+            TempleMusic.play(idx);
+          }
+        });
+        trackListEl.appendChild(item);
+      });
     }
-    btnMusic.addEventListener('click', e => { e.currentTarget.blur(); toggleMusicUI(); });
+
+    function toggleMusicUI() {
+      const isPlaying = TempleMusic.togglePlay();
+      if (btnMusic) btnMusic.classList.toggle('on', isPlaying);
+    }
+
+    if (btnMusic) {
+      btnMusic.addEventListener('click', e => {
+        e.currentTarget.blur();
+        toggleMusicUI();
+      });
+    }
+
+    if (btnMusicBadge) {
+      btnMusicBadge.addEventListener('click', () => {
+        renderMusicPlaylistUI();
+        TempleMusic.updateVolumeUI();
+        openModal('modal-music');
+      });
+    }
+
+    if (playPauseBtn) {
+      playPauseBtn.addEventListener('click', () => {
+        TempleMusic.togglePlay();
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        TempleMusic.prevTrack();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        TempleMusic.nextTrack();
+      });
+    }
+
+    if (volRange) {
+      volRange.addEventListener('input', e => {
+        TempleMusic.setVolume(Number(e.target.value) / 100);
+      });
+    }
+
+    if (fileInput) {
+      fileInput.addEventListener('change', e => {
+        if (e.target.files && e.target.files[0]) {
+          TempleMusic.loadLocalFile(e.target.files[0]);
+        }
+      });
+    }
+
+    if (btnApplyCustom) {
+      btnApplyCustom.addEventListener('click', () => {
+        if (customUrlInput && customUrlInput.value.trim()) {
+          TempleMusic.loadCustomUrl(customUrlInput.value.trim());
+          customUrlInput.value = '';
+        }
+      });
+    }
+
+    renderMusicPlaylistUI();
+    TempleMusic.updateUI();
 
     // NGƯỜI CHƠI BẤM VÁI CHÀO
     function doBow() {
@@ -3970,6 +5687,8 @@
       { id: 'woodfish', name: 'Gõ Mõ Tụng Kinh', icon: '🪵', x: 0, z: -17, radius: 4.0, modal: 'modal-woodfish' },
       { id: 'wishtree', name: 'Treo Lụa Bồ Đề', icon: '🎋', x: 18, z: -5, radius: 4.2, modal: 'modal-wish', defaultTarget: 'tree' },
       { id: 'wishlantern', name: 'Thả Đèn Hoa Đăng', icon: '🪷', x: 18, z: 12, radius: 4.5, modal: 'modal-wish', defaultTarget: 'lantern' },
+      { id: 'bath_buddha', name: 'Tắm Phật Sơ Sinh', icon: '🚿', x: 0, z: 3.5, radius: 3.2, modal: 'modal-bath-buddha' },
+      { id: 'vulan_rose', name: 'Cài Hoa Báo Hiếu', icon: '🌹', x: -8, z: 3.5, radius: 3.2, modal: 'modal-vulan' },
       { id: 'fortune', name: 'Xin Quẻ Đầu Năm', icon: '📜', x: -15, z: 10, radius: 3.5, modal: 'modal-fortune' },
       { id: 'quote', name: 'Đọc Lời Phật Dạy', icon: '🪨', x: -9, z: 19, radius: 3.2, modal: 'modal-quote' },
       { id: 'meditation', name: 'Ngồi Thiền', icon: '🧘', x: 9, z: 19, radius: 3.2, modal: 'modal-meditation' }
@@ -3986,6 +5705,7 @@
       let minDist = Infinity;
 
       for (const h of Hotspots) {
+        if (h.active === false) continue;
         const d = Math.hypot(PlayerController.x - h.x, PlayerController.z - h.z);
         if (d <= h.radius && d < minDist) {
           minDist = d;
@@ -4015,9 +5735,12 @@
 
       if (activeHotspot.modal === 'modal-wish') {
         const target = activeHotspot.defaultTarget || 'tree';
+        selectedWishTarget = target;
         document.querySelectorAll('.wish-type-btn').forEach(btn => {
           btn.classList.toggle('selected', btn.dataset.target === target);
         });
+        const twinOpt = document.getElementById('twin-lantern-options');
+        if (twinOpt) twinOpt.style.display = (target === 'twin_lantern') ? 'block' : 'none';
       }
     });
 
@@ -4057,6 +5780,9 @@
       Sound.init();
       Sound.playChime();
       closeModal('welcome-modal');
+      setTimeout(() => {
+        TempleMusic.play();
+      }, 500);
 
       connectP2PRoom(GameState.roomId);
 
@@ -4350,25 +6076,39 @@
     const bellIcon = document.getElementById('bell-icon');
 
     btnDoBell.addEventListener('click', () => {
-      Sound.playBell();
-      container.classList.add('shake');
-      setTimeout(() => container.classList.remove('shake'), 450);
+      const now = Date.now();
+      const isHarmonic = (now - lastBellRingTime < 7000) && lastBellRingTime > 0;
+
+      if (isHarmonic) {
+        triggerBellHarmony(lastBellRinger || 'Đạo hữu', GameState.playerName);
+        if (sendPlayerEvent) {
+          sendPlayerEvent({ type: 'bell_harmony', ringer1: lastBellRinger || 'Đạo hữu', ringer2: GameState.playerName });
+        }
+        bellFeedback.textContent = "🔔✨ ĐẠI HỒNG CHUNG CỘNG HƯỞNG! Phước đức vô lượng!";
+        bellFeedback.style.color = "#facc15";
+      } else {
+        Sound.playBell();
+        container.classList.add('shake');
+        setTimeout(() => container.classList.remove('shake'), 450);
+
+        bellFeedback.textContent = "🔔 Tiếng chuông thanh tịnh, tâm hồn an lạc!";
+        bellFeedback.style.color = "#4ade80";
+
+        if (templeBellMesh) {
+          templeBellMesh.rotation.z = 0.15;
+          setTimeout(() => { templeBellMesh.rotation.z = 0; }, 600);
+        }
+
+        if (sendPlayerEvent) {
+          sendPlayerEvent({ type: 'bell', name: GameState.playerName });
+        }
+      }
+
+      lastBellRingTime = now;
+      lastBellRinger = GameState.playerName;
 
       bellIcon.style.transform = 'scale(1.25) rotate(-12deg)';
       setTimeout(() => { bellIcon.style.transform = 'scale(1) rotate(0deg)'; }, 250);
-
-      bellFeedback.textContent = "🔔 Tiếng chuông thanh tịnh, tâm hồn an lạc!";
-      bellFeedback.style.color = "#4ade80";
-
-      if (templeBellMesh) {
-        templeBellMesh.rotation.z = 0.15;
-        setTimeout(() => { templeBellMesh.rotation.z = 0; }, 600);
-      }
-
-      // Phát sự kiện P2P để chuông đồng ngân vang trên máy bạn bè
-      if (sendPlayerEvent) {
-        sendPlayerEvent({ type: 'bell', name: GameState.playerName });
-      }
 
       setTimeout(() => {
         closeModal('modal-bell');
@@ -4490,8 +6230,34 @@
         document.querySelectorAll('.wish-type-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
         selectedWishTarget = btn.dataset.target;
+
+        const twinOpt = document.getElementById('twin-lantern-options');
+        if (twinOpt) {
+          twinOpt.style.display = (selectedWishTarget === 'twin_lantern') ? 'block' : 'none';
+          if (selectedWishTarget === 'twin_lantern') {
+            document.getElementById('twin-name-self').value = GameState.playerName;
+            const partnerSelect = document.getElementById('twin-partner-select');
+            partnerSelect.innerHTML = '<option value="custom">Nhập tên tri kỷ / người thân...</option>';
+            RemotePlayers.forEach((p, peerId) => {
+              const opt = document.createElement('option');
+              opt.value = p.name;
+              opt.textContent = 'Đạo hữu: ' + p.name;
+              partnerSelect.appendChild(opt);
+            });
+            const partnerCustom = document.getElementById('twin-partner-custom');
+            partnerCustom.style.display = partnerSelect.value === 'custom' ? 'block' : 'none';
+          }
+        }
       });
     });
+
+    const partnerSelectEl = document.getElementById('twin-partner-select');
+    if (partnerSelectEl) {
+      partnerSelectEl.addEventListener('change', () => {
+        const customEl = document.getElementById('twin-partner-custom');
+        if (customEl) customEl.style.display = partnerSelectEl.value === 'custom' ? 'block' : 'none';
+      });
+    }
 
     const wishInput = document.getElementById('wish-input');
     const wishCount = document.getElementById('wish-count');
@@ -4535,19 +6301,49 @@
         newRibbon.position.set(18 + (Math.random() - 0.5) * 2, 3.8, -5 + (Math.random() - 0.5) * 2);
         scene.add(newRibbon);
         ribbonMeshes.push(newRibbon);
+
+        if (sendPlayerEvent) {
+          sendPlayerEvent({ type: 'wish', target: 'tree', text, name: GameState.playerName });
+        }
+      } else if (selectedWishTarget === 'twin_lantern') {
+        const pSelect = document.getElementById('twin-partner-select');
+        const pCustom = document.getElementById('twin-partner-custom');
+        let partnerName = pSelect ? pSelect.value : 'custom';
+        if (partnerName === 'custom' || !partnerName) {
+          partnerName = (pCustom && pCustom.value.trim()) || 'Tri Kỷ';
+        }
+
+        spawnTwinLotusLantern(GameState.playerName, partnerName, text, true);
+
+        if (sendPlayerEvent) {
+          sendPlayerEvent({
+            type: 'twin_lantern',
+            sender: GameState.playerName,
+            partner: partnerName,
+            text
+          });
+        }
+        showToast(`🪷🪷 Bạn và ${partnerName} vừa thả Hoa Đăng Đôi kết duyên lành!`);
+        addSystemChatMessage(`🪷🪷 Đạo hữu <strong>${escapeHtml(GameState.playerName)}</strong> và <strong>${escapeHtml(partnerName)}</strong> vừa cùng thả Hoa Đăng Đôi kết duyên lành xuống Hồ Sen.`);
       } else {
         const lan = new THREE.Group();
-        lan.position.set(18, 0.18, 12);
         const fl = new THREE.Mesh(new THREE.ConeGeometry(0.35, 0.25, 6), new THREE.MeshStandardMaterial({ color: 0xff3366 }));
         fl.rotation.x = Math.PI;
         lan.add(fl);
-        scene.add(lan);
-        lanternDriftMeshes.push({ mesh: lan, baseAngle: 0, radius: 1.5, speed: 0.005 });
-      }
+        const cdl = new THREE.Mesh(new THREE.SphereGeometry(0.06, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffea78 }));
+        cdl.position.y = 0.12;
+        lan.add(cdl);
+        if (lotusPondGroup) {
+          lotusPondGroup.add(lan);
+          lanternDriftMeshes.push({ mesh: lan, baseAngle: 0, radius: 1.5, speed: 0.005 });
+        } else {
+          lan.position.set(18, 0.18, 12);
+          scene.add(lan);
+        }
 
-      // Phát sự kiện P2P để dải lụa hoặc đèn hoa đăng xuất hiện ngay trên máy bạn bè
-      if (sendPlayerEvent) {
-        sendPlayerEvent({ type: 'wish', target: selectedWishTarget, text, name: GameState.playerName });
+        if (sendPlayerEvent) {
+          sendPlayerEvent({ type: 'wish', target: 'lantern', text, name: GameState.playerName });
+        }
       }
 
       alert('Ước nguyện của bạn đã được gửi gắm thành kính nơi cửa chùa An Lạc! 🙏');
@@ -4964,6 +6760,42 @@
         ribbonMeshes[i].rotation.z = Math.sin(time * 2 + i) * 0.14;
       }
 
+      // Cập nhật sóng vàng cộng hưởng Đại Hồng Chung
+      if (bellResonanceProgress >= 0 && bellResonanceRing) {
+        bellResonanceProgress += dt * 0.32;
+        const bScale = 1 + bellResonanceProgress * 26;
+        bellResonanceRing.scale.set(bScale, bScale, bScale);
+        bellResonanceRing.material.opacity = Math.max(0, 0.95 * (1 - bellResonanceProgress));
+        if (bellResonanceProgress >= 1) {
+          bellResonanceProgress = -1;
+          bellResonanceRing.visible = false;
+        }
+      }
+
+      // Mây trôi lững lờ trên bầu trời
+      cloudMeshes.forEach(c => {
+        c.position.x += c.userData.speed;
+        if (c.position.x > 75) c.position.x = -75;
+      });
+
+      // Mặt trăng luôn hướng về camera
+      if (moonGroup && moonGroup.visible) {
+        moonGroup.lookAt(camera.position);
+      }
+
+      // Pháo hoa xa ban đêm dịp Tết
+      if (tetGroup.visible && fireworksPoints && TimeOfDayManager.current === 'night') {
+        const fwPos = fireworksPoints.geometry.attributes.position.array;
+        for (let i = 0; i < fwPos.length / 3; i++) {
+          fwPos[i * 3 + 1] += 0.08;
+          if (fwPos[i * 3 + 1] > 48) {
+            fwPos[i * 3 + 1] = 26 + Math.random() * 4;
+            fwPos[i * 3] = (Math.random() - 0.5) * 60;
+          }
+        }
+        fireworksPoints.geometry.attributes.position.needsUpdate = true;
+      }
+
       // Đèn hoa đăng trôi lững lờ trên hồ sen
       lanternDriftMeshes.forEach(item => {
         item.baseAngle += item.speed;
@@ -5002,6 +6834,361 @@
       renderer.render(scene, camera);
     }
     animate();
+
+    /* =========================================================================
+       GIAO DIỆN & TƯƠNG TÁC: LỊCH ÂM, NGÀY ĐÊM, ẢNH KỶ NIỆM, TẮM PHẬT, VU LAN
+       ========================================================================= */
+    // 1. Nút đổi thời khắc Ngày / Hoàng Hôn / Đêm Trăng / Bình Minh
+    const btnTimeCycle = document.getElementById('btn-time-cycle');
+    if (btnTimeCycle) {
+      btnTimeCycle.addEventListener('click', () => {
+        TimeOfDayManager.cycleNext();
+      });
+    }
+
+    // 2. Lịch Âm & Chọn Không Khí Lễ Hội
+    const btnOpenCalendar = document.getElementById('btn-open-calendar');
+    const hudLunarText = document.getElementById('hud-lunar-text');
+    const calSolarText = document.getElementById('cal-solar-text');
+    const calLunarText = document.getElementById('cal-lunar-text');
+    const calCanChiText = document.getElementById('cal-canchi-text');
+    const calFestivalBadge = document.getElementById('cal-festival-badge');
+
+    function updateLunarCalendarUI() {
+      const lunar = VietnameseLunar.getToday();
+      const now = new Date();
+      if (hudLunarText) {
+        hudLunarText.textContent = lunar.festival !== 'NORMAL' ? lunar.festivalName.split('(')[0].trim() : `Mùng ${lunar.day} Th.${lunar.month}`;
+      }
+      if (calSolarText) {
+        calSolarText.textContent = now.toLocaleDateString('vi-VN', { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' });
+      }
+      if (calLunarText) {
+        calLunarText.textContent = `MÙNG ${lunar.day} THÁNG ${lunar.month}${lunar.isLeap ? ' (NHUẬN)' : ''}`;
+      }
+      if (calCanChiText) {
+        calCanChiText.textContent = `Năm ${lunar.canChiYear} · Tháng ${lunar.canChiMonth} · Ngày ${lunar.canChiDay}`;
+      }
+      if (calFestivalBadge) {
+        calFestivalBadge.textContent = lunar.festivalName;
+      }
+    }
+    updateLunarCalendarUI();
+
+    if (btnOpenCalendar) {
+      btnOpenCalendar.addEventListener('click', () => {
+        updateLunarCalendarUI();
+        openModal('modal-calendar');
+      });
+    }
+
+    document.querySelectorAll('.festival-card-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.festival-card-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const festKey = btn.dataset.fest;
+        FestivalAtmosphereManager.setAtmosphere(festKey);
+        const descEl = document.getElementById('fest-description-text');
+        if (festKey === 'AUTO') descEl.textContent = 'Không khí lễ hội sẽ tự động đổi theo ngày thực tế.';
+        else if (festKey === 'TET') descEl.textContent = 'Đang trải nghiệm: Không khí Tết Cổ Truyền rực rỡ sắc xuân.';
+        else if (festKey === 'PHAT_DAN') descEl.textContent = 'Đang trải nghiệm: Đại Lễ Phật Đản với cờ ngũ sắc & bồn Tắm Phật.';
+        else if (festKey === 'VU_LAN') descEl.textContent = 'Đang trải nghiệm: Đại Lễ Vu Lan Báo Hiếu tri ân Cha Mẹ.';
+        else descEl.textContent = 'Đang trải nghiệm: Không gian chùa cổ thanh tịnh thường nhật.';
+        showToast('✨ Đã đổi không gian sang: ' + btn.textContent.trim());
+      });
+    });
+
+    // 3. Nghi Thức Tắm Phật Đản Sinh
+    let bathScoopStep = 1;
+    const btnScoopWater = document.getElementById('btn-scoop-water');
+    const bathVisualIcon = document.getElementById('bath-visual-icon');
+    const bathVerseText = document.getElementById('bath-verse-text');
+
+    const bathVerses = [
+      '"Gáo 1: Con nguyện dứt bỏ mọi điều ác, giữ thân khẩu ý luôn thanh tịnh."',
+      '"Gáo 2: Con nguyện siêng làm mọi việc lành, đem niềm an vui đến cho đời."',
+      '"Gáo 3: Con nguyện trải lòng từ bi cứu độ khắp muôn loài chúng sinh."'
+    ];
+
+    if (btnScoopWater) {
+      btnScoopWater.addEventListener('click', () => {
+        Sound.playWaterScoop();
+        if (bathVisualIcon) {
+          bathVisualIcon.style.transform = 'scale(1.3) rotate(-15deg)';
+          setTimeout(() => { bathVisualIcon.style.transform = 'scale(1) rotate(0deg)'; }, 350);
+        }
+
+        document.querySelectorAll('.bath-step-badge').forEach((b, idx) => {
+          if (idx < bathScoopStep) b.classList.add('done');
+          if (idx === bathScoopStep) b.classList.add('current');
+          else b.classList.remove('current');
+        });
+
+        if (bathScoopStep < 3) {
+          bathVerseText.textContent = bathVerses[bathScoopStep];
+          bathScoopStep++;
+          btnScoopWater.textContent = `MÚC NƯỚC TẮM PHẬT (GÁO ${bathScoopStep}/3) 🚿`;
+        } else {
+          bathVerseText.textContent = "🙏🙏🙏 Viên mãn công đức Tắm Phật sơ sinh! Nguyện thân tâm thanh lương, phước lành tăng trưởng.";
+          btnScoopWater.textContent = "HOÀN TẤT VIÊN MÃN 🙏";
+          btnScoopWater.disabled = true;
+          Sound.playChime();
+
+          GameState.highestPeaceScore = Math.min(100, GameState.highestPeaceScore + 10);
+          GameState.save();
+
+          if (sendPlayerEvent) {
+            sendPlayerEvent({ type: 'bath_buddha', name: GameState.playerName });
+          }
+
+          setTimeout(() => {
+            closeModal('modal-bath-buddha');
+            bathScoopStep = 1;
+            btnScoopWater.disabled = false;
+            btnScoopWater.textContent = "MÚC NƯỚC TẮM PHẬT (GÁO 1/3) 🚿";
+            bathVerseText.textContent = bathVerses[0];
+            document.querySelectorAll('.bath-step-badge').forEach((b, idx) => {
+              b.classList.remove('done', 'current');
+              if (idx === 0) b.classList.add('current');
+            });
+          }, 2400);
+        }
+      });
+    }
+
+    // 4. Bông Hồng Cài Áo Vu Lan
+    let selectedRoseType = 'red';
+    let localRoseMesh = null;
+    const roseColors = {
+      red: 0xe11d48,
+      pink: 0xf472b6,
+      white: 0xf8fafc
+    };
+
+    function createRoseMesh(colorHex) {
+      const g = new THREE.Group();
+      const flower = new THREE.Mesh(
+        new THREE.SphereGeometry(0.08, 8, 8),
+        new THREE.MeshStandardMaterial({ color: colorHex, roughness: 0.4 })
+      );
+      flower.scale.set(1.1, 0.7, 1.1);
+      g.add(flower);
+
+      const leaf = new THREE.Mesh(
+        new THREE.ConeGeometry(0.05, 0.12, 5),
+        new THREE.MeshStandardMaterial({ color: 0x16a34a, roughness: 0.6 })
+      );
+      leaf.rotation.z = Math.PI / 3;
+      leaf.position.set(-0.06, -0.03, 0);
+      g.add(leaf);
+      return g;
+    }
+
+    document.querySelectorAll('.rose-card-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.rose-card-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedRoseType = btn.dataset.rose;
+        const meaningEl = document.getElementById('rose-meaning-text');
+        if (selectedRoseType === 'red') {
+          meaningEl.textContent = '"Hồng đỏ thắm trên ngực áo: Hạnh phúc vô biên khi cha mẹ vẫn còn bên đời."';
+        } else if (selectedRoseType === 'pink') {
+          meaningEl.textContent = '"Hồng phấn dịu êm: Nguyện một lòng hiếu kính khi còn một đấng sinh thành."';
+        } else {
+          meaningEl.textContent = '"Hồng trắng trinh nguyên: Tưởng nhớ cha mẹ đã khuất bóng, cầu siêu sanh Tịnh Độ."';
+        }
+      });
+    });
+
+    const btnAttachRose = document.getElementById('btn-attach-rose');
+    if (btnAttachRose) {
+      btnAttachRose.addEventListener('click', () => {
+        const wishText = document.getElementById('vulan-wish-input').value.trim();
+        if (localRoseMesh && playerGroup) {
+          playerGroup.remove(localRoseMesh);
+        }
+        localRoseMesh = createRoseMesh(roseColors[selectedRoseType] || roseColors.red);
+        localRoseMesh.position.set(0.14, 1.05, 0.22);
+        playerGroup.add(localRoseMesh);
+
+        GameState.vulanRose = { type: selectedRoseType, wish: wishText };
+        GameState.save();
+
+        Sound.playChime();
+        showToast(`🌹 Bạn đã cài Bông Hồng ${selectedRoseType === 'red' ? 'Đỏ' : selectedRoseType === 'pink' ? 'Phấn' : 'Trắng'} Báo Hiếu Cha Mẹ.`);
+        addSystemChatMessage(`🌹 Đạo hữu <strong>${escapeHtml(GameState.playerName)}</strong> vừa cài Bông Hồng Báo Hiếu lên ngực áo.`);
+
+        if (sendPlayerEvent) {
+          sendPlayerEvent({
+            type: 'vulan_rose',
+            name: GameState.playerName,
+            roseType: selectedRoseType
+          });
+        }
+        closeModal('modal-vulan');
+      });
+    }
+
+    // 5. Chụp Ảnh Kỷ Niệm Nhóm Bạn (Group Photo Card)
+    function renderGroupPhotoCanvas() {
+      const canvas = document.getElementById('group-photo-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      // 1. Chụp ảnh 3D hiện tại từ WebGL renderer
+      try {
+        renderer.render(scene, camera);
+        ctx.drawImage(renderer.domElement, 0, 0, w, 700);
+      } catch (e) {
+        const skyGrad = ctx.createLinearGradient(0, 0, 0, 700);
+        skyGrad.addColorStop(0, '#150a24');
+        skyGrad.addColorStop(1, '#6b2d5c');
+        ctx.fillStyle = skyGrad;
+        ctx.fillRect(0, 0, w, 700);
+      }
+
+      // 2. Lớp phủ gradient phần dưới đậm nét cổ phong
+      const botGrad = ctx.createLinearGradient(0, 580, 0, h);
+      botGrad.addColorStop(0, 'rgba(15, 8, 22, 0.0)');
+      botGrad.addColorStop(0.2, 'rgba(15, 8, 22, 0.88)');
+      botGrad.addColorStop(0.4, 'rgba(12, 6, 18, 0.97)');
+      botGrad.addColorStop(1, 'rgba(8, 4, 12, 1.0)');
+      ctx.fillStyle = botGrad;
+      ctx.fillRect(0, 580, w, h - 580);
+
+      // 3. Khung viền đôi hoàng gia & hoa văn
+      ctx.strokeStyle = '#f0c05a';
+      ctx.lineWidth = 8;
+      ctx.strokeRect(30, 30, w - 60, h - 60);
+      ctx.lineWidth = 2;
+      ctx.strokeRect(44, 44, w - 88, h - 88);
+
+      // 4. Tiêu đề Chùa & Ngày Âm Lịch
+      const lunar = VietnameseLunar.getToday();
+      const now = new Date();
+      const solarStr = now.toLocaleDateString('vi-VN', { weekday: 'long', year: 'numeric', month: '2-digit', day: '2-digit' });
+
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#fce59f';
+      ctx.font = 'bold 30px "Cinzel", serif';
+      ctx.fillText(`CHÙA AN LẠC · PHÒNG [${GameState.roomId}]`, w / 2, 660);
+
+      ctx.fillStyle = '#f0c05a';
+      ctx.font = 'bold 50px "Cinzel", serif';
+      ctx.fillText('KỶ NIỆM LÊN CHÙA CẦU AN', w / 2, 725);
+
+      ctx.fillStyle = '#ffdca8';
+      ctx.font = '24px "Nunito", sans-serif';
+      ctx.fillText(`${solarStr}  •  ${lunar.summary}`, w / 2, 770);
+
+      // 5. Danh sách đạo hữu đồng tu
+      ctx.fillStyle = 'rgba(240, 192, 90, 0.12)';
+      ctx.roundRect(80, 810, w - 160, 290, 20);
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(240, 192, 90, 0.35)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.fillStyle = '#f0c05a';
+      ctx.font = 'bold 26px "Nunito", sans-serif';
+      ctx.fillText('🪷 HỘI ĐỒNG TU TỤ HỘI NƠI CỬA PHẬT 🪷', w / 2, 855);
+
+      const playerList = [GameState.playerName + ' (Bạn)'];
+      RemotePlayers.forEach(p => playerList.push(p.name));
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '24px "Nunito", sans-serif';
+      let line = '';
+      let curY = 905;
+      playerList.forEach((name, i) => {
+        const item = `🪷 ${name}` + (i < playerList.length - 1 ? '    ' : '');
+        if (ctx.measureText(line + item).width > w - 220) {
+          ctx.fillText(line, w / 2, curY);
+          line = item;
+          curY += 36;
+        } else {
+          line += item;
+        }
+      });
+      if (line) ctx.fillText(line, w / 2, curY);
+
+      ctx.fillStyle = '#4ade80';
+      ctx.font = 'italic 20px "Nunito", sans-serif';
+      ctx.fillText(`Tổng cộng ${playerList.length} đạo hữu cùng gieo duyên thanh tịnh`, w / 2, 1060);
+
+      // 6. Lời Phật dạy / Chúc phúc
+      const quote = BUDDHA_QUOTES[Math.floor(Math.random() * BUDDHA_QUOTES.length)];
+      ctx.fillStyle = '#fef08a';
+      ctx.font = 'italic 22px "Nunito", sans-serif';
+      ctx.fillText(`“${quote}”`, w / 2, 1150);
+
+      // 7. Con dấu triện son đỏ
+      ctx.strokeStyle = '#ef4444';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(w / 2, 1240, 42, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(w / 2, 1240, 36, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.fillStyle = '#ef4444';
+      ctx.font = 'bold 15px "Cinzel", serif';
+      ctx.fillText('BÌNH AN', w / 2, 1235);
+      ctx.fillText('PHƯỚC LỘC', w / 2, 1253);
+    }
+
+    const btnGroupPhoto = document.getElementById('btn-group-photo');
+    if (btnGroupPhoto) {
+      btnGroupPhoto.addEventListener('click', () => {
+        renderGroupPhotoCanvas();
+        openModal('modal-group-photo');
+      });
+    }
+
+    const btnRefreshGroupPhoto = document.getElementById('btn-refresh-group-photo');
+    if (btnRefreshGroupPhoto) {
+      btnRefreshGroupPhoto.addEventListener('click', () => {
+        renderGroupPhotoCanvas();
+        showToast('📸 Đã chụp lại khung cảnh hiện tại!');
+      });
+    }
+
+    const btnDownloadGroupPhoto = document.getElementById('btn-download-group-photo');
+    if (btnDownloadGroupPhoto) {
+      btnDownloadGroupPhoto.addEventListener('click', () => {
+        const canvas = document.getElementById('group-photo-canvas');
+        if (!canvas) return;
+        const link = document.createElement('a');
+        link.download = `Len-Chua-Cau-An-Ky-Niem-${Date.now()}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        showToast('💾 Đã lưu ảnh kỷ niệm về máy thành công!');
+      });
+    }
+
+    const btnCopyGroupPhoto = document.getElementById('btn-copy-group-photo');
+    if (btnCopyGroupPhoto) {
+      btnCopyGroupPhoto.addEventListener('click', async () => {
+        const canvas = document.getElementById('group-photo-canvas');
+        if (!canvas) return;
+        try {
+          canvas.toBlob(async blob => {
+            if (navigator.clipboard && window.ClipboardItem) {
+              await navigator.clipboard.write([
+                new ClipboardItem({ 'image/png': blob })
+              ]);
+              showToast('📋 Đã sao chép ảnh kỷ niệm vào bộ nhớ tạm!');
+            } else {
+              showToast('📋 Bạn hãy bấm TẢI ẢNH (.PNG) để lưu về máy nhé!');
+            }
+          }, 'image/png');
+        } catch (e) {
+          showToast('📋 Bạn hãy bấm TẢI ẢNH (.PNG) để lưu về máy nhé!');
+        }
+      });
+    }
 
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
