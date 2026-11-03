@@ -1506,6 +1506,212 @@
       pointer-events: auto; margin-top: 4px; padding: 8px 18px; border-radius: 20px; cursor: pointer;
       background: rgba(20,12,4,0.7); color: #f3d38a; border: 1px solid rgba(229,169,59,0.6); font-weight: 700;
     }
+  
+    /* =========================================================================
+       HỆ THỐNG CHIẾN ĐẤU MINECRAFT (PVP COMBAT, HEARTS & OVERLAYS)
+       ========================================================================= */
+    #mc-damage-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 55;
+      box-shadow: inset 0 0 120px 40px rgba(220, 20, 20, 0.85);
+      opacity: 0;
+      transition: opacity 0.28s ease-out;
+    }
+    #mc-damage-overlay.flash {
+      opacity: 1;
+      transition: none;
+    }
+
+    #mc-death-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(120, 10, 10, 0.72);
+      backdrop-filter: blur(5px);
+      z-index: 120;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      pointer-events: none;
+      animation: mcDeathAnim 0.35s ease-out;
+    }
+    #mc-death-overlay.show {
+      display: flex;
+    }
+    @keyframes mcDeathAnim {
+      0% { opacity: 0; transform: scale(1.08); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .mc-death-title {
+      font-family: 'Cinzel', serif;
+      font-size: 38px;
+      font-weight: 900;
+      color: #ff3333;
+      text-shadow: 0 0 25px rgba(0,0,0,0.95), 0 3px 6px #000;
+      letter-spacing: 2.5px;
+      margin-bottom: 8px;
+    }
+    .mc-death-subtitle {
+      font-size: 16px;
+      color: #ffdfba;
+      text-shadow: 0 2px 4px #000;
+      margin-bottom: 14px;
+    }
+    .mc-death-respawn-badge {
+      font-size: 14px;
+      color: #f0c05a;
+      font-weight: 800;
+      background: rgba(18, 12, 28, 0.92);
+      padding: 8px 24px;
+      border-radius: 24px;
+      border: 1.5px solid var(--gold-primary);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.6);
+      animation: pulse 1.5s infinite;
+    }
+
+    #mc-hud {
+      position: absolute;
+      bottom: max(22px, env(safe-area-inset-bottom));
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      z-index: 24;
+      pointer-events: none;
+      background: rgba(14, 9, 22, 0.78);
+      border: 1.5px solid rgba(240, 192, 90, 0.45);
+      padding: 6px 14px 4px;
+      border-radius: 18px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
+    }
+    #mc-hearts-bar {
+      display: flex;
+      gap: 3px;
+      align-items: center;
+    }
+    #mc-hearts-bar.shaking {
+      animation: mcHeartsShake 0.28s ease-in-out;
+    }
+    @keyframes mcHeartsShake {
+      0%, 100% { transform: translateY(0); }
+      20% { transform: translateY(-4px) rotate(-1deg); }
+      40% { transform: translateY(3px) rotate(1deg); }
+      60% { transform: translateY(-2px); }
+      80% { transform: translateY(2px); }
+    }
+
+    .mc-heart {
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+      flex-shrink: 0;
+      image-rendering: pixelated;
+    }
+    .mc-heart svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.85));
+    }
+    #mc-hp-info {
+      font-size: 11px;
+      font-weight: 800;
+      color: #ffdca8;
+      letter-spacing: 0.5px;
+      display: flex;
+      gap: 8px;
+    }
+    #mc-hp-info .hp-val {
+      color: #4ade80;
+    }
+    #mc-hp-info .pvp-status {
+      color: #f0c05a;
+    }
+
+    #mc-attack-btn {
+      position: absolute;
+      bottom: max(32px, env(safe-area-inset-bottom));
+      right: 98px;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #e63946 0%, #9e2a2b 100%);
+      border: 2.5px solid #fff2b2;
+      box-shadow: 0 4px 20px rgba(230, 57, 70, 0.65), inset 0 2px 3px rgba(255,255,255,0.6);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      pointer-events: auto;
+      z-index: 22;
+      transition: transform 0.1s, box-shadow 0.15s;
+      animation: mcAttackBtnPulse 2.4s infinite alternate;
+    }
+    @keyframes mcAttackBtnPulse {
+      0% { box-shadow: 0 4px 18px rgba(230, 57, 70, 0.5); }
+      100% { box-shadow: 0 6px 26px rgba(240, 192, 90, 0.85); }
+    }
+    #mc-attack-btn:active {
+      transform: scale(0.91);
+      background: radial-gradient(circle, #ff4d4f 0%, #b81414 100%);
+    }
+    #mc-attack-btn .attack-icon {
+      font-size: 24px;
+      line-height: 1;
+    }
+    #mc-attack-btn .attack-txt {
+      font-size: 9px;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 1px 2px #000;
+      margin-top: 1px;
+    }
+
+    .icon-btn.pvp-on {
+      background: linear-gradient(135deg, #e63946 0%, #9e2a2b 100%) !important;
+      border-color: #ffb703 !important;
+      color: #fff !important;
+      box-shadow: 0 0 12px rgba(230, 57, 70, 0.65) !important;
+    }
+
+    .peer-tag-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .peer-tag-top {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .peer-hp-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(0,0,0,0.6);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 1px;
+    }
+    .peer-hp-fill {
+      height: 100%;
+      background: #4ade80;
+      transition: width 0.2s ease, background 0.2s ease;
+    }
+
   </style>
 </head>
 <body>
@@ -1536,6 +1742,7 @@
           </div>
         </div>
         <div class="hud-top-actions">
+          <button class="icon-btn pvp-on" id="btn-pvp-mode" title="Chiến Đấu PvP (Minecraft) [Phím P]">⚔️</button>
           <button class="icon-btn" id="btn-time-cycle" title="Đổi thời khắc (Bình minh / Nắng ấm / Hoàng hôn / Đêm trăng)">🌅</button>
           <button class="icon-btn" id="btn-group-photo" title="Chụp ảnh kỷ niệm nhóm bạn">📸</button>
           <button class="icon-btn" id="btn-settings" title="Cài đặt đồ họa">⚙️</button>
@@ -1549,6 +1756,32 @@
 
       <!-- Chỉ số FPS (khi bật ?fps=1 trên URL) -->
       <div id="fps-badge" style="display:none; position:absolute; top:max(60px, env(safe-area-inset-top)); right:14px; background:rgba(0,0,0,0.75); color:#4ade80; border:1px solid rgba(74,222,128,0.4); font-family:monospace; font-weight:700; font-size:12px; padding:3px 8px; border-radius:8px; z-index:90; pointer-events:none;">FPS: 60</div>
+
+      <!-- Lớp phủ nhấp nháy đỏ khi bị tấn công -->
+      <div id="mc-damage-overlay"></div>
+
+      <!-- Màn hình thông báo bị hạ gục (Minecraft You Died) -->
+      <div id="mc-death-overlay">
+        <div class="mc-death-title">☠️ BẠN ĐÃ BỊ HẠ GỤC!</div>
+        <div class="mc-death-subtitle" id="mc-death-sub">Bạn đã bị đối thủ hạ gục trong trận tỉ thí</div>
+        <div class="mc-death-respawn-badge">Đang lập tức hồi sinh tại Cổng Tam Quan... 🪷</div>
+      </div>
+
+      <!-- Thanh máu 10 trái tim Minecraft -->
+      <div id="mc-hud">
+        <div id="mc-hearts-bar"></div>
+        <div id="mc-hp-info">
+          <span id="mc-hp-val">20/20 HP</span>
+          <span>•</span>
+          <span id="mc-pvp-status" class="pvp-status">⚔️ PvP: BẬT</span>
+        </div>
+      </div>
+
+      <!-- Nút Tấn công nhanh (Mobile & PC) -->
+      <button id="mc-attack-btn" type="button" title="Tấn công đối thủ (Phím F / Chuột trái)">
+        <span class="attack-icon">⚔️</span>
+        <span class="attack-txt">ĐÁNH [F]</span>
+      </button>
 
       <!-- Giao diện khi đang ngồi thiền -->
       <div id="meditation-hud">
@@ -1605,7 +1838,7 @@
 
       <!-- Gợi ý điều khiển máy tính -->
       <div class="pc-controls-hint">
-        🎮 Phím <strong>W, A, S, D</strong> để đi | Nhấn <strong>Enter</strong> để chat realtime | <strong>B</strong> vái chào | <strong>M</strong> nhạc (<strong>N</strong> đổi bài) | Kéo chuột xoay camera
+        🎮 <strong>W, A, S, D</strong> đi lại | <strong>Chuột trái / Phím F</strong>: Đánh (Minecraft) ⚔️ | <strong>P</strong>: Bật/Tắt PvP | <strong>Enter</strong>: Chat | <strong>B</strong>: Vái chào | <strong>M</strong>: Nhạc
       </div>
     </div>
 
@@ -1623,7 +1856,7 @@
     <div class="modal-card">
       <div class="temple-crest">🪷</div>
       <h2 class="modal-title">LÊN CHÙA CẦU AN</h2>
-      <p class="modal-subtitle">Chùa An Lạc • Gặp gỡ bạn bè nơi cửa thiền thanh tịnh (P2P)</p>
+      <p class="modal-subtitle">Chùa Xuân Toàn • Gặp gỡ bạn bè nơi cửa thiền thanh tịnh (P2P)</p>
 
       <div class="welcome-input-group">
         <label for="player-name-input">Tên hoặc Pháp danh của bạn:</label>
@@ -1632,7 +1865,7 @@
 
       <div class="welcome-input-group">
         <label for="room-input-welcome">Mã phòng (cùng phòng để thấy nhau):</label>
-        <input type="text" id="room-input-welcome" class="custom-input" placeholder="chua-an-lac" maxlength="24" value="chua-an-lac">
+        <input type="text" id="room-input-welcome" class="custom-input" placeholder="chua-xuan-toan" maxlength="24" value="chua-xuan-toan">
       </div>
 
       <button class="btn-gold" id="btn-enter-temple">
@@ -1740,7 +1973,7 @@
 
       <div class="welcome-input-group">
         <label for="room-id-change">Mã phòng hiện tại:</label>
-        <input type="text" id="room-id-change" class="custom-input" placeholder="chua-an-lac">
+        <input type="text" id="room-id-change" class="custom-input" placeholder="chua-xuan-toan">
       </div>
 
       <button class="btn-gold" id="btn-switch-room">CHUYỂN ĐẾN PHÒNG NÀY 🚪</button>
@@ -2157,10 +2390,10 @@
     <div class="modal-card" style="text-align: center;">
       <button class="modal-close-btn" data-close="modal-share">✕</button>
       <h2 class="modal-title">ẢNH KỶ NIỆM CẦU AN</h2>
-      <p class="modal-subtitle">Bức tranh hoàng hôn Chùa An Lạc mang theo ước nguyện của bạn</p>
+      <p class="modal-subtitle">Bức tranh hoàng hôn Chùa Xuân Toàn mang theo ước nguyện của bạn</p>
 
       <div id="share-canvas-container">
-        <img id="share-preview-img" alt="Ảnh kỷ niệm chùa An Lạc">
+        <img id="share-preview-img" alt="Ảnh kỷ niệm chùa Xuân Toàn">
       </div>
 
       <button class="btn-gold" id="btn-native-share">CHIA SẺ NGAY 📤</button>
@@ -2180,7 +2413,7 @@
     const STORAGE_KEY = 'LenChuaCauAn_SaveData';
     const GameState = {
       playerName: 'An Nhiên',
-      roomId: 'chua-an-lac',
+      roomId: 'chua-xuan-toan',
       incenseCount: 0,
       highestPeaceScore: 0,
       wishes: [],
@@ -2944,6 +3177,187 @@
         }
       }
 
+      // ===== HỆ THỐNG ÂM THANH CHIẾN ĐẤU MINECRAFT NGUYÊN BẢN (PROCEDURAL SYNTHESIS) =====
+      playMinecraftHit(isCrit = false) {
+        if (!this.ctx || this.isMuted) return;
+        const now = this.ctx.currentTime;
+
+        // 1. Âm va chạm đấm (Punch Impact Crunch/Thud)
+        const bufferSize = Math.floor(this.ctx.sampleRate * 0.08);
+        const noiseBuf = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const data = noiseBuf.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.25));
+        }
+        const noiseNode = this.ctx.createBufferSource();
+        noiseNode.buffer = noiseBuf;
+
+        const punchFilter = this.ctx.createBiquadFilter();
+        punchFilter.type = 'bandpass';
+        punchFilter.frequency.setValueAtTime(isCrit ? 1200 : 750, now);
+        punchFilter.Q.setValueAtTime(isCrit ? 3.0 : 1.8, now);
+
+        const punchGain = this.ctx.createGain();
+        punchGain.gain.setValueAtTime(isCrit ? 0.9 : 0.72, now);
+        punchGain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+
+        noiseNode.connect(punchFilter);
+        punchFilter.connect(punchGain);
+        punchGain.connect(this.masterGain);
+        noiseNode.start(now);
+        noiseNode.stop(now + 0.085);
+
+        // 2. Tiếng Steve "OOF / UH!" huyền thoại trong Minecraft
+        // Cúi tụt tần số từ ~160Hz xuống ~80Hz với bộ lọc vòm họng (vocal formant 680Hz)
+        const osc1 = this.ctx.createOscillator();
+        const osc2 = this.ctx.createOscillator();
+        osc1.type = 'sawtooth';
+        osc2.type = 'triangle';
+
+        const baseFreq = 160 + (Math.random() - 0.5) * 15;
+        osc1.frequency.setValueAtTime(baseFreq, now);
+        osc1.frequency.exponentialRampToValueAtTime(80, now + 0.17);
+        osc2.frequency.setValueAtTime(baseFreq * 0.98, now);
+        osc2.frequency.exponentialRampToValueAtTime(75, now + 0.17);
+
+        const formant1 = this.ctx.createBiquadFilter();
+        formant1.type = 'bandpass';
+        formant1.frequency.setValueAtTime(680, now);
+        formant1.Q.setValueAtTime(3.5, now);
+
+        const hurtGain = this.ctx.createGain();
+        hurtGain.gain.setValueAtTime(0.001, now);
+        hurtGain.gain.linearRampToValueAtTime(0.68, now + 0.015);
+        hurtGain.gain.exponentialRampToValueAtTime(0.001, now + 0.19);
+
+        osc1.connect(formant1);
+        osc2.connect(formant1);
+        formant1.connect(hurtGain);
+        hurtGain.connect(this.masterGain);
+
+        osc1.start(now);
+        osc2.start(now);
+        osc1.stop(now + 0.2);
+        osc2.stop(now + 0.2);
+
+        // 3. Tiếng giòn đòn chí mạng (Critical Hit Sparkle/Ding)
+        if (isCrit) {
+          const critOsc = this.ctx.createOscillator();
+          const critGain = this.ctx.createGain();
+          critOsc.type = 'triangle';
+          critOsc.frequency.setValueAtTime(1400, now);
+          critOsc.frequency.exponentialRampToValueAtTime(450, now + 0.11);
+          critGain.gain.setValueAtTime(0.4, now);
+          critGain.gain.exponentialRampToValueAtTime(0.001, now + 0.11);
+          critOsc.connect(critGain);
+          critGain.connect(this.masterGain);
+          critOsc.start(now);
+          critOsc.stop(now + 0.12);
+        }
+      }
+
+      playMinecraftSwing() {
+        if (!this.ctx || this.isMuted) return;
+        const now = this.ctx.currentTime;
+        const dur = 0.11;
+        const bufferSize = Math.floor(this.ctx.sampleRate * dur);
+        const buf = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const data = buf.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+        const source = this.ctx.createBufferSource();
+        source.buffer = buf;
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(350, now);
+        filter.frequency.exponentialRampToValueAtTime(950, now + 0.05);
+        filter.frequency.exponentialRampToValueAtTime(300, now + dur);
+        filter.Q.setValueAtTime(2.2, now);
+
+        const gain = this.ctx.createGain();
+        gain.gain.setValueAtTime(0.01, now);
+        gain.gain.linearRampToValueAtTime(0.38, now + 0.035);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+
+        source.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.masterGain);
+        source.start(now);
+        source.stop(now + dur + 0.01);
+      }
+
+      playMinecraftDeath() {
+        if (!this.ctx || this.isMuted) return;
+        const now = this.ctx.currentTime;
+
+        const osc = this.ctx.createOscillator();
+        const filter = this.ctx.createBiquadFilter();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(140, now);
+        osc.frequency.exponentialRampToValueAtTime(45, now + 0.38);
+
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(550, now);
+        filter.Q.setValueAtTime(3.0, now);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.75, now + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.masterGain);
+
+        osc.start(now);
+        osc.stop(now + 0.42);
+
+        // Tiếng khói bùm (Death Smoke Poof)
+        setTimeout(() => {
+          if (!this.ctx || this.isMuted) return;
+          const t = this.ctx.currentTime;
+          const bSize = Math.floor(this.ctx.sampleRate * 0.16);
+          const b = this.ctx.createBuffer(1, bSize, this.ctx.sampleRate);
+          const d = b.getChannelData(0);
+          for (let i = 0; i < bSize; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bSize * 0.3));
+          const s = this.ctx.createBufferSource();
+          s.buffer = b;
+          const lf = this.ctx.createBiquadFilter();
+          lf.type = 'lowpass';
+          lf.frequency.setValueAtTime(450, t);
+          const g = this.ctx.createGain();
+          g.gain.setValueAtTime(0.5, t);
+          g.gain.exponentialRampToValueAtTime(0.001, t + 0.16);
+          s.connect(lf);
+          lf.connect(g);
+          g.connect(this.masterGain);
+          s.start(t);
+        }, 120);
+      }
+
+      playMinecraftRespawn() {
+        if (!this.ctx || this.isMuted) return;
+        const now = this.ctx.currentTime;
+        const notes = [523.25, 659.25, 783.99, 1046.5];
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          const st = now + idx * 0.06;
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, st);
+          gain.gain.setValueAtTime(0.001, st);
+          gain.gain.linearRampToValueAtTime(0.25, st + 0.015);
+          gain.gain.exponentialRampToValueAtTime(0.0001, st + 1.2);
+          osc.connect(gain);
+          gain.connect(this.masterGain);
+          osc.start(st);
+          osc.stop(st + 1.3);
+        });
+      }
+
       toggleMusic() {
         if (!this.ctx) this.init();
         if (this.ctx.state === 'suspended') this.ctx.resume();
@@ -3013,14 +3427,14 @@
       ctx.strokeRect(16, 16, 480, 108);
 
       ctx.fillStyle = '#fce59f';
-      ctx.font = 'bold 52px "Cinzel", "Times New Roman", serif';
+      ctx.font = 'bold 46px "Cinzel", "Times New Roman", serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.shadowColor = '#000';
       ctx.shadowBlur = 8;
       ctx.shadowOffsetX = 3;
       ctx.shadowOffsetY = 3;
-      ctx.fillText('CHÙA AN LẠC', 256, 72);
+      ctx.fillText('CHÙA XUÂN TOÀN', 256, 72);
 
       return new THREE.CanvasTexture(canvas);
     }
@@ -4361,6 +4775,226 @@
 
     scene.add(playerGroup);
 
+    // Danh sách mesh bộ phận người chơi để chớp đỏ khi trúng đòn
+    const playerMeshParts = [pHead, pBun, pBody, pLeftArm, pRightArm, pLeftLeg, pRightLeg];
+
+    // =========================================================================
+    // SVG TRÁI TIM MINECRAFT CHUẨN PIXEL-ART (FULL, HALF, EMPTY)
+    // =========================================================================
+    const MC_HEART_FULL = `<svg viewBox="0 0 9 9"><path d="M1,0 h2 v1 h1 v1 h1 v-1 h2 v-1 h2 v3 h-1 v1 h-1 v1 h-1 v1 h-1 v1 h-1 v1 h-1 v-1 h-1 v-1 h-1 v-1 h-1 v-1 h-1 v-3 h2 z" fill="#000"/><path d="M1,1 h2 v2 h-2 z M6,1 h2 v2 h-2 z M1,3 h7 v2 h-7 z M2,5 h5 v1 h-5 z M3,6 h3 v1 h-3 z M4,7 h1 v1 h-1 z" fill="#e71d36"/><path d="M2,2 h1 v1 h-1 z M7,2 h1 v1 h-1 z M6,3 h1 v2 h-1 z M5,5 h1 v1 h-1 z M4,6 h1 v1 h-1 z" fill="#9c0000"/><rect x="2" y="1" width="1" height="1" fill="#fff"/></svg>`;
+    const MC_HEART_HALF = `<svg viewBox="0 0 9 9"><path d="M1,0 h2 v1 h1 v1 h1 v-1 h2 v-1 h2 v3 h-1 v1 h-1 v1 h-1 v1 h-1 v1 h-1 v1 h-1 v-1 h-1 v-1 h-1 v-1 h-1 v-1 h-1 v-3 h2 z" fill="#000"/><path d="M5,1 h3 v2 h-3 z M5,3 h3 v2 h-3 z M5,5 h2 v1 h-2 z M5,6 h1 v1 h-1 z" fill="#251214"/><path d="M1,1 h2 v2 h-2 z M1,3 h4 v2 h-4 z M2,5 h3 v1 h-3 z M3,6 h2 v1 h-2 z M4,7 h1 v1 h-1 z" fill="#e71d36"/><path d="M2,2 h1 v1 h-1 z M4,6 h1 v1 h-1 z" fill="#9c0000"/><rect x="2" y="1" width="1" height="1" fill="#fff"/></svg>`;
+    const MC_HEART_EMPTY = `<svg viewBox="0 0 9 9"><path d="M1,0 h2 v1 h1 v1 h1 v-1 h2 v-1 h2 v3 h-1 v1 h-1 v1 h-1 v1 h-1 v1 h-1 v1 h-1 v-1 h-1 v-1 h-1 v-1 h-1 v-1 h-1 v-3 h2 z" fill="#000"/><path d="M1,1 h2 v2 h-2 z M6,1 h2 v2 h-2 z M1,3 h7 v2 h-7 z M2,5 h5 v1 h-5 z M3,6 h3 v1 h-3 z M4,7 h1 v1 h-1 z" fill="#251214"/><rect x="2" y="2" width="1" height="1" fill="#3d1b1f"/><rect x="6" y="2" width="1" height="1" fill="#3d1b1f"/></svg>`;
+
+    function updateHeartsHUD(wobble = false) {
+      const container = document.getElementById('mc-hearts-bar');
+      const hpValEl = document.getElementById('mc-hp-val');
+      if (!container) return;
+
+      const hp = Math.max(0, Math.min(20, PlayerController.hp));
+      let html = '';
+      for (let i = 0; i < 10; i++) {
+        const val = hp - (i * 2);
+        if (val >= 2) {
+          html += `<span class="mc-heart">${MC_HEART_FULL}</span>`;
+        } else if (val === 1) {
+          html += `<span class="mc-heart">${MC_HEART_HALF}</span>`;
+        } else {
+          html += `<span class="mc-heart">${MC_HEART_EMPTY}</span>`;
+        }
+      }
+      container.innerHTML = html;
+      if (hpValEl) {
+        hpValEl.textContent = `${hp}/20 HP`;
+        hpValEl.style.color = hp <= 6 ? '#ef4444' : hp <= 12 ? '#facc15' : '#4ade80';
+      }
+
+      if (wobble) {
+        container.classList.remove('shaking');
+        void container.offsetWidth;
+        container.classList.add('shaking');
+      }
+    }
+
+    // Hiệu ứng chớp đỏ toàn thân khi bị đánh trúng (Damage Flash Red)
+    function flashModelRed(parts, durationMs = 320) {
+      if (!parts || !parts.length) return;
+      parts.forEach(mesh => {
+        if (!mesh || !mesh.material) return;
+        if (mesh.userData._origEmissive === undefined) {
+          mesh.userData._origEmissive = mesh.material.emissive ? mesh.material.emissive.clone() : new THREE.Color(0x000000);
+          mesh.userData._origEmissiveIntensity = mesh.material.emissiveIntensity !== undefined ? mesh.material.emissiveIntensity : 0;
+        }
+        if (mesh.material.emissive) {
+          mesh.material.emissive.setHex(0xff1818);
+          mesh.material.emissiveIntensity = 1.6;
+        }
+      });
+
+      setTimeout(() => {
+        parts.forEach(mesh => {
+          if (!mesh || !mesh.material) return;
+          if (mesh.material.emissive && mesh.userData._origEmissive) {
+            mesh.material.emissive.copy(mesh.userData._origEmissive);
+            mesh.material.emissiveIntensity = mesh.userData._origEmissiveIntensity;
+          }
+        });
+      }, durationMs);
+    }
+
+    // =========================================================================
+    // HỆ THỐNG HẠT CHIẾN ĐẤU (COMBAT PARTICLES: HIT, CRIT, DEATH SMOKE, RESPAWN)
+    // =========================================================================
+    const CombatParticles = {
+      maxParticles: 350,
+      particles: [],
+      mesh: null,
+      geo: null,
+      positions: null,
+      colors: null,
+
+      init(sceneRef) {
+        this.geo = new THREE.BufferGeometry();
+        this.positions = new Float32Array(this.maxParticles * 3);
+        this.colors = new Float32Array(this.maxParticles * 3);
+
+        for (let i = 0; i < this.maxParticles; i++) {
+          this.positions[i * 3 + 1] = -9999;
+        }
+
+        this.geo.setAttribute('position', new THREE.BufferAttribute(this.positions, 3));
+        this.geo.setAttribute('color', new THREE.BufferAttribute(this.colors, 3));
+
+        const mat = new THREE.PointsMaterial({
+          size: 0.38,
+          vertexColors: true,
+          map: createParticleTexture(),
+          transparent: true,
+          opacity: 0.95,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending
+        });
+
+        this.mesh = new THREE.Points(this.geo, mat);
+        sceneRef.add(this.mesh);
+      },
+
+      spawnHit(x, y, z, isCrit = false) {
+        const count = isCrit ? 22 : 14;
+        for (let i = 0; i < count; i++) {
+          const ang = Math.random() * Math.PI * 2;
+          const speed = isCrit ? (2.5 + Math.random() * 4.5) : (1.8 + Math.random() * 3.0);
+          const vy = 1.5 + Math.random() * (isCrit ? 4.0 : 2.5);
+
+          let r = 1.0, g = isCrit ? (0.7 + Math.random() * 0.3) : (Math.random() * 0.4), b = isCrit ? 0.2 : 0.1;
+          if (isCrit && Math.random() > 0.6) { r = 1; g = 1; b = 1; }
+
+          this.addParticle({
+            x: x + (Math.random() - 0.5) * 0.3,
+            y: y + (Math.random() - 0.5) * 0.3,
+            z: z + (Math.random() - 0.5) * 0.3,
+            vx: Math.cos(ang) * speed,
+            vy: vy,
+            vz: Math.sin(ang) * speed,
+            gravity: -10,
+            r, g, b,
+            life: 0,
+            maxLife: isCrit ? 0.55 : 0.4
+          });
+        }
+      },
+
+      spawnDeathCloud(x, y, z) {
+        const count = 35;
+        for (let i = 0; i < count; i++) {
+          const theta = Math.random() * Math.PI * 2;
+          const phi = (Math.random() - 0.5) * Math.PI;
+          const speed = 1.5 + Math.random() * 3.5;
+          const shade = 0.75 + Math.random() * 0.25;
+
+          this.addParticle({
+            x: x + (Math.random() - 0.5) * 0.4,
+            y: y + (Math.random() - 0.5) * 0.4,
+            z: z + (Math.random() - 0.5) * 0.4,
+            vx: Math.cos(phi) * Math.cos(theta) * speed,
+            vy: Math.sin(phi) * speed * 0.8 + 1.2,
+            vz: Math.cos(phi) * Math.sin(theta) * speed,
+            gravity: -1.5,
+            r: shade, g: shade, b: shade,
+            life: 0,
+            maxLife: 0.85 + Math.random() * 0.35,
+            drag: 0.92
+          });
+        }
+      },
+
+      spawnRespawnAura(x, y, z) {
+        const count = 28;
+        for (let i = 0; i < count; i++) {
+          const ang = (i / count) * Math.PI * 2;
+          const rad = 0.6 + Math.random() * 0.6;
+          this.addParticle({
+            x: x + Math.cos(ang) * rad,
+            y: y + Math.random() * 0.3,
+            z: z + Math.sin(ang) * rad,
+            vx: (Math.random() - 0.5) * 0.3,
+            vy: 2.2 + Math.random() * 1.8,
+            vz: (Math.random() - 0.5) * 0.3,
+            gravity: 0,
+            r: 0.95, g: 0.8, b: 0.3,
+            life: 0,
+            maxLife: 1.2 + Math.random() * 0.4
+          });
+        }
+      },
+
+      addParticle(p) {
+        if (this.particles.length >= this.maxParticles) {
+          this.particles.shift();
+        }
+        this.particles.push(p);
+      },
+
+      update(dt) {
+        let pIdx = 0;
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+          const p = this.particles[i];
+          p.life += dt;
+          if (p.life >= p.maxLife) {
+            this.particles.splice(i, 1);
+            continue;
+          }
+          const progress = p.life / p.maxLife;
+          const drag = p.drag || 0.96;
+          p.vx *= Math.pow(drag, dt * 60);
+          p.vz *= Math.pow(drag, dt * 60);
+          p.vy += (p.gravity || 0) * dt;
+
+          p.x += p.vx * dt;
+          p.y += p.vy * dt;
+          p.z += p.vz * dt;
+
+          const alpha = 1.0 - progress;
+          this.positions[pIdx * 3] = p.x;
+          this.positions[pIdx * 3 + 1] = p.y;
+          this.positions[pIdx * 3 + 2] = p.z;
+
+          this.colors[pIdx * 3] = p.r * alpha;
+          this.colors[pIdx * 3 + 1] = p.g * alpha;
+          this.colors[pIdx * 3 + 2] = p.b * alpha;
+          pIdx++;
+        }
+
+        for (let i = pIdx; i < this.maxParticles; i++) {
+          this.positions[i * 3 + 1] = -9999;
+        }
+
+        this.geo.attributes.position.needsUpdate = true;
+        this.geo.attributes.color.needsUpdate = true;
+      }
+    };
+    CombatParticles.init(scene);
+
+
     // ===== CHẮP TAY VÁI CHÀO (CÚI LƯNG) =====
     const BOW_DURATION = 1800; // ms
     const BOW_MAX_ANGLE = 0.65; // rad (~37 độ)
@@ -4473,7 +5107,66 @@
       _bowed: false,
       isMeditating: false,
 
+      // Trạng thái chiến đấu Minecraft
+      hp: 20,
+      maxHp: 20,
+      isDead: false,
+      isInvulnerable: false,
+      invulnerableTimer: 0,
+      attackCooldown: 0,
+      isSwinging: false,
+      swingProgress: 0,
+      damageTilt: 0,
+      knockbackVelocity: new THREE.Vector3(0, 0, 0),
+
       update(dt) {
+        if (this.isInvulnerable) {
+          this.invulnerableTimer -= dt;
+          if (this.invulnerableTimer <= 0) this.isInvulnerable = false;
+        }
+        if (this.attackCooldown > 0) {
+          this.attackCooldown -= dt;
+        }
+
+        // Hoạt ảnh vung tay đấm Minecraft (Swing Arm)
+        if (this.isSwinging) {
+          this.swingProgress += dt * 8.5;
+          if (this.swingProgress >= 1) {
+            this.isSwinging = false;
+            this.swingProgress = 0;
+            pRightArm.rotation.set(0, 0, 0);
+          } else {
+            const swing = Math.sin(this.swingProgress * Math.PI);
+            pRightArm.rotation.x = -swing * 1.6;
+            pRightArm.rotation.y = -swing * 0.45;
+            pRightArm.rotation.z = 0.2 + swing * 0.35;
+          }
+        }
+
+        // Lực đẩy lùi (Knockback physics)
+        if (this.knockbackVelocity.lengthSq() > 0.001) {
+          let nextX = this.x + this.knockbackVelocity.x * dt;
+          let nextZ = this.z + this.knockbackVelocity.z * dt;
+          const pR = 0.45;
+          let blkX = false, blkZ = false;
+          for (const col of Colliders) {
+            if (col.type === 'circle') {
+              if (Math.hypot(nextX - col.x, this.z - col.z) < col.r + pR) blkX = true;
+              if (Math.hypot(this.x - col.x, nextZ - col.z) < col.r + pR) blkZ = true;
+            } else if (col.type === 'box') {
+              if (nextX > col.minX - pR && nextX < col.maxX + pR && this.z > col.minZ - pR && this.z < col.maxZ + pR) blkX = true;
+              if (this.x > col.minX - pR && this.x < col.maxX + pR && nextZ > col.minZ - pR && nextZ < col.maxZ + pR) blkZ = true;
+            }
+          }
+          if (!blkX) this.x = nextX;
+          if (!blkZ) this.z = nextZ;
+          this.knockbackVelocity.multiplyScalar(Math.pow(0.015, dt));
+        }
+
+        // Độ nghiêng màn hình khi bị thương kiểu Minecraft (Damage Tilt)
+        if (Math.abs(this.damageTilt) > 0.001) {
+          this.damageTilt *= Math.pow(0.02, dt);
+        }
         const bowAngle = bowAngleAt(this.bowStart);
         if (bowAngle > 0) {
           this._bowed = true;
@@ -4579,6 +5272,9 @@
 
         camera.position.set(camX, camY, camZ);
         camera.lookAt(this.x, 1.4, this.z);
+        if (Math.abs(this.damageTilt) > 0.001) {
+          camera.rotation.z += this.damageTilt;
+        }
       }
     };
 
@@ -4608,6 +5304,18 @@
         }
       }
 
+      if (e.code === 'KeyF' && !e.repeat) {
+        performMinecraftAttack();
+        return;
+      }
+      if (e.code === 'KeyP' && !e.repeat) {
+        togglePvPMode();
+        return;
+      }
+      if (e.code === 'Space' && !e.repeat) {
+        performMinecraftAttack();
+        return;
+      }
       if (e.code === 'KeyM' && !e.repeat) {
         toggleMusicUI();
         return;
@@ -4707,23 +5415,38 @@
     let lastLookX = 0;
     let lastLookY = 0;
 
+    let lookDragDistance = 0;
+    let mouseDownTime = 0;
     window.addEventListener('mousedown', e => {
       if (e.target.closest('.hud-layer') || e.target.closest('.modal-overlay')) return;
-      isDraggingLook = true;
-      lastLookX = e.clientX;
-      lastLookY = e.clientY;
+      if (e.button === 0) {
+        isDraggingLook = true;
+        lastLookX = e.clientX;
+        lastLookY = e.clientY;
+        lookDragDistance = 0;
+        mouseDownTime = performance.now();
+      }
     });
     window.addEventListener('mousemove', e => {
       if (!isDraggingLook) return;
       const dx = e.clientX - lastLookX;
       const dy = e.clientY - lastLookY;
+      lookDragDistance += Math.hypot(dx, dy);
       lastLookX = e.clientX;
       lastLookY = e.clientY;
 
       PlayerController.cameraAngleX -= dx * 0.0055;
       PlayerController.cameraAngleY = Math.max(0.12, Math.min(1.1, PlayerController.cameraAngleY - dy * 0.0055));
     });
-    window.addEventListener('mouseup', () => { isDraggingLook = false; });
+    window.addEventListener('mouseup', e => {
+      if (e.button === 0 && isDraggingLook) {
+        isDraggingLook = false;
+        const dur = performance.now() - mouseDownTime;
+        if (lookDragDistance < 8 && dur < 350 && !e.target.closest('.hud-layer') && !e.target.closest('.modal-overlay')) {
+          performMinecraftAttack();
+        }
+      }
+    });
 
     window.addEventListener('touchstart', e => {
       const t = e.touches[0];
@@ -4788,13 +5511,15 @@
 
       const pilgrimData = {
         mesh: p,
+        meshParts: [body, head, arm],
         state,
         homeX: x,
         homeZ: z,
         targetX: x + (Math.random() - 0.5) * 8,
         targetZ: z + (Math.random() - 0.5) * 8,
         speed: 1.2 + Math.random() * 0.8,
-        bobOffset: Math.random() * Math.PI * 2
+        bobOffset: Math.random() * Math.PI * 2,
+        hp: 12
       };
       Pilgrims.push(pilgrimData);
       return pilgrimData;
@@ -4875,14 +5600,23 @@
 
       scene.add(group);
 
-      // Bảng tên bạn bè hiển thị phía trên đầu
+      // Bảng tên bạn bè và thanh máu Minecraft
       const tag = document.createElement('div');
       tag.className = 'peer-tag';
-      tag.innerHTML = `<span class="peer-dot"></span><span>🪷 ${escapeHtml(name || 'Đạo hữu')}</span>`;
+      tag.innerHTML = `
+        <div class="peer-tag-content">
+          <div class="peer-tag-top">
+            <span class="peer-dot"></span>
+            <span class="peer-name-label">🪷 ${escapeHtml(name || 'Đạo hữu')}</span>
+          </div>
+          <div class="peer-hp-bar"><div class="peer-hp-fill" style="width: 100%;"></div></div>
+        </div>
+      `;
       peerTagsContainer.appendChild(tag);
 
       const pData = {
         mesh: group,
+        meshParts: [head, bun, body, leftArm, rightArm, leftLeg, rightLeg],
         bowStart: 0,
         _bowed: false,
         bowParts: makeBowParts([head, bun, body, leftArm, rightArm]),
@@ -4895,13 +5629,20 @@
         leftLeg,
         rightLeg,
         nameTag: tag,
+        tagHpFill: tag.querySelector('.peer-hp-fill'),
         name: name || 'Đạo hữu',
         targetX: 0,
         targetZ: 22,
         targetRot: Math.PI,
         isPraying: false,
         isWalking: false,
-        walkCycle: 0
+        walkCycle: 0,
+        // Trạng thái chiến đấu
+        hp: 20,
+        isDead: false,
+        isSwinging: false,
+        swingProgress: 0,
+        knockbackVelocity: new THREE.Vector3(0, 0, 0)
       };
       RemotePlayers.set(peerId, pData);
       return pData;
@@ -5098,7 +5839,7 @@
 
         p2pRoom.onPeerJoin(peerId => {
           showToast(`🙏 Một đạo hữu vừa bước vào phòng!`);
-          addSystemChatMessage(`👥 <strong>Một đạo hữu</strong> vừa bước vào chùa An Lạc.`);
+          addSystemChatMessage(`👥 <strong>Một đạo hữu</strong> vừa bước vào chùa Xuân Toàn.`);
           // Gửi vị trí & tên của mình cho bạn mới vào
           sendPlayerState({
             name: GameState.playerName,
@@ -5129,7 +5870,8 @@
           }
           if (data.name && p.name !== data.name) {
             p.name = data.name;
-            p.nameTag.innerHTML = `<span class="peer-dot"></span><span>🪷 ${escapeHtml(data.name)}</span>`;
+            const nameLabel = p.nameTag.querySelector('.peer-name-label');
+            if (nameLabel) nameLabel.textContent = `🪷 ${data.name}`;
             updateOnlineCount();
           }
           p.targetX = data.x;
@@ -5170,7 +5912,310 @@
     }
 
     // XỬ LÝ SỰ KIỆN TỪ BẠN BÈ TRONG PHÒNG
+    // =========================================================================
+    // LOGIC HỆ THỐNG TẤN CÔNG & HỒI SINH MINECRAFT TẠI CỔNG CHÙA
+    // =========================================================================
+    let pvpEnabled = true;
+
+    function togglePvPMode() {
+      pvpEnabled = !pvpEnabled;
+      const btn = document.getElementById('btn-pvp-mode');
+      const statusLabel = document.getElementById('mc-pvp-status');
+      if (btn) {
+        btn.classList.toggle('pvp-on', pvpEnabled);
+        btn.innerHTML = pvpEnabled ? '⚔️' : '🛡️';
+        btn.title = pvpEnabled ? 'Chế độ Tấn Công (Minecraft PvP): ĐANG BẬT [Phím P]' : 'Chế độ Tấn Công: ĐANG TẮT (Hòa bình) [Phím P]';
+      }
+      if (statusLabel) {
+        statusLabel.textContent = pvpEnabled ? '⚔️ PvP: BẬT' : '🛡️ Hòa bình';
+        statusLabel.style.color = pvpEnabled ? '#e63946' : '#4ade80';
+      }
+      showToast(pvpEnabled ? '⚔️ Đã BẬT chế độ chiến đấu Minecraft (Nhấp chuột / Phím F để đấm)' : '🛡️ Đã TẮT chiến đấu (Chế độ hòa bình)');
+    }
+
+    function performMinecraftAttack() {
+      if (PlayerController.isDead) return;
+      if (PlayerController.attackCooldown > 0) return;
+
+      if (PlayerController.isMeditating) {
+        stopMeditation(false);
+      }
+
+      PlayerController.attackCooldown = 0.35;
+      PlayerController.isSwinging = true;
+      PlayerController.swingProgress = 0;
+
+      Sound.playMinecraftSwing();
+
+      if (sendPlayerEvent) {
+        try {
+          sendPlayerEvent({ type: 'pvp_swing', name: GameState.playerName });
+        } catch (e) {}
+      }
+
+      if (!pvpEnabled) return;
+
+      const maxReach = 3.8;
+      const pX = PlayerController.x;
+      const pZ = PlayerController.z;
+
+      const fwdX = -Math.sin(PlayerController.cameraAngleX);
+      const fwdZ = -Math.cos(PlayerController.cameraAngleX);
+
+      let hitTarget = null;
+      let hitDist = Infinity;
+      let isAiTarget = false;
+
+      // 1. Kiểm tra bạn bè người chơi khác
+      RemotePlayers.forEach((p, peerId) => {
+        if (p.isDead) return;
+        const dx = p.mesh.position.x - pX;
+        const dz = p.mesh.position.z - pZ;
+        const dist = Math.hypot(dx, dz);
+        if (dist <= maxReach && dist < hitDist) {
+          const nx = dx / dist;
+          const nz = dz / dist;
+          const dot = nx * fwdX + nz * fwdZ;
+          if (dot > 0.2) {
+            hitDist = dist;
+            hitTarget = { peerId, player: p, x: p.mesh.position.x, z: p.mesh.position.z, dx, dz, dist, nx, nz };
+            isAiTarget = false;
+          }
+        }
+      });
+
+      // 2. Nếu không có người chơi gần, kiểm tra khách AI để thử đấm vui
+      if (!hitTarget) {
+        Pilgrims.forEach(ai => {
+          const dx = ai.mesh.position.x - pX;
+          const dz = ai.mesh.position.z - pZ;
+          const dist = Math.hypot(dx, dz);
+          if (dist <= maxReach && dist < hitDist) {
+            const nx = dx / dist;
+            const nz = dz / dist;
+            const dot = nx * fwdX + nz * fwdZ;
+            if (dot > 0.2) {
+              hitDist = dist;
+              hitTarget = { ai, x: ai.mesh.position.x, z: ai.mesh.position.z, dx, dz, dist, nx, nz };
+              isAiTarget = true;
+            }
+          }
+        });
+      }
+
+      if (!hitTarget) return;
+
+      const isCrit = PlayerController.isMoving && Math.random() < 0.45;
+      const damage = isCrit ? 6 : 4; // 4 HP = 2 tim, 6 HP = 3 tim
+
+      Sound.playMinecraftHit(isCrit);
+      CombatParticles.spawnHit(hitTarget.x, 1.2, hitTarget.z, isCrit);
+
+      if (!isAiTarget) {
+        const peer = hitTarget.player;
+        if (peer.meshParts) flashModelRed(peer.meshParts);
+        peer.knockbackVelocity.x = hitTarget.nx * (isCrit ? 14 : 9);
+        peer.knockbackVelocity.z = hitTarget.nz * (isCrit ? 14 : 9);
+
+        if (sendPlayerEvent) {
+          try {
+            sendPlayerEvent({
+              type: 'pvp_hit',
+              targetId: hitTarget.peerId,
+              targetName: peer.name,
+              attackerName: GameState.playerName,
+              damage: damage,
+              isCrit: isCrit,
+              kx: hitTarget.nx,
+              kz: hitTarget.nz
+            });
+          } catch (e) {}
+        }
+      } else {
+        const ai = hitTarget.ai;
+        if (ai.meshParts) flashModelRed(ai.meshParts);
+        ai.mesh.position.x += hitTarget.nx * 1.6;
+        ai.mesh.position.z += hitTarget.nz * 1.6;
+        ai.state = 'walk';
+        ai.targetX = ai.mesh.position.x + hitTarget.nx * 12;
+        ai.targetZ = ai.mesh.position.z + hitTarget.nz * 12;
+        ai.speed = 4.2;
+
+        const pilgrimReactions = [
+          "A Di Đà Phật! Đau quá thí chủ ơi! 😱",
+          "Bần tăng chỉ đến vãn cảnh chùa thôi mà! 🏃",
+          "Úi chà! Cú đấm uy lực quá! 💥",
+          "Thiện tai thiện tai! Chạy thôi! 💨"
+        ];
+        showToast(`💥 Bạn đã đấm trúng một khách hành hương (-${damage} HP)!`);
+        const reaction = pilgrimReactions[Math.floor(Math.random() * pilgrimReactions.length)];
+        showSpeechBubbleForPeer('ai_' + ai.homeX, reaction, ai.mesh);
+      }
+    }
+
+    function applyLocalDamage(damage, attackerName, isCrit, kx, kz) {
+      if (PlayerController.isDead) return;
+      if (PlayerController.isInvulnerable) return;
+
+      PlayerController.isInvulnerable = true;
+      PlayerController.invulnerableTimer = 0.5;
+
+      PlayerController.hp = Math.max(0, PlayerController.hp - damage);
+      updateHeartsHUD(true);
+
+      Sound.playMinecraftHit(isCrit);
+
+      if (playerMeshParts) flashModelRed(playerMeshParts);
+
+      const overlay = document.getElementById('mc-damage-overlay');
+      if (overlay) {
+        overlay.classList.add('flash');
+        setTimeout(() => overlay.classList.remove('flash'), 50);
+      }
+
+      PlayerController.damageTilt = (Math.random() > 0.5 ? 1 : -1) * 0.16;
+
+      const kbPower = isCrit ? 14 : 9;
+      PlayerController.knockbackVelocity.x = (kx || 0) * kbPower;
+      PlayerController.knockbackVelocity.z = (kz || 0) * kbPower;
+
+      if (PlayerController.hp <= 0) {
+        killAndRespawnLocalPlayer(attackerName);
+      }
+    }
+
+    function killAndRespawnLocalPlayer(attackerName) {
+      if (PlayerController.isDead) return;
+      PlayerController.isDead = true;
+
+      Sound.playMinecraftDeath();
+      CombatParticles.spawnDeathCloud(PlayerController.x, 0.9, PlayerController.z);
+
+      playerGroup.rotation.z = Math.PI / 2;
+      playerGroup.position.y = 0.22;
+
+      const deathOverlay = document.getElementById('mc-death-overlay');
+      const deathSubtitle = document.getElementById('mc-death-sub');
+      if (deathOverlay) {
+        if (deathSubtitle) {
+          deathSubtitle.innerHTML = `Bạn đã bị <strong>${escapeHtml(attackerName || 'đối thủ')}</strong> hạ gục!`;
+        }
+        deathOverlay.classList.add('show');
+      }
+
+      const killer = attackerName || 'Kẻ địch';
+      addSystemChatMessage(`⚔️ ☠️ <strong>${escapeHtml(GameState.playerName)}</strong> đã bị <strong>${escapeHtml(killer)}</strong> tiễn về nơi chín suối!`);
+
+      if (sendPlayerEvent) {
+        try {
+          sendPlayerEvent({
+            type: 'pvp_death',
+            victimName: GameState.playerName,
+            attackerName: killer
+          });
+        } catch (e) {}
+      }
+
+      // HỒI SINH NGAY TẠI CỔNG CHÙA (CỔNG TAM QUAN: x=0, z=24)
+      setTimeout(() => {
+        PlayerController.x = 0;
+        PlayerController.z = 24;
+        PlayerController.rotationY = Math.PI;
+        PlayerController.cameraAngleX = Math.PI;
+        PlayerController.cameraAngleY = 0.32;
+        PlayerController.knockbackVelocity.set(0, 0, 0);
+
+        playerGroup.position.set(0, 0, 24);
+        playerGroup.rotation.set(0, Math.PI, 0);
+
+        PlayerController.hp = 20;
+        PlayerController.isDead = false;
+        updateHeartsHUD();
+
+        PlayerController.isInvulnerable = true;
+        PlayerController.invulnerableTimer = 2.5;
+
+        CombatParticles.spawnRespawnAura(0, 0.4, 24);
+        Sound.playMinecraftRespawn();
+
+        showToast('🪷 Bạn đã hồi sinh an lành tại Cổng Chùa!');
+        addSystemChatMessage(`🪷 <strong>${escapeHtml(GameState.playerName)}</strong> đã hồi sinh tại Cổng Tam Quan.`);
+
+        if (deathOverlay) deathOverlay.classList.remove('show');
+
+        if (sendPlayerEvent) {
+          try {
+            sendPlayerEvent({
+              type: 'pvp_respawn',
+              victimName: GameState.playerName,
+              x: 0,
+              z: 24
+            });
+          } catch (e) {}
+        }
+      }, 950);
+    }
+
     function handleRemoteEvent(evt, peerId) {
+      if (evt.type === 'pvp_swing') {
+        const p = RemotePlayers.get(peerId);
+        if (p) {
+          p.isSwinging = true;
+          p.swingProgress = 0;
+          Sound.playMinecraftSwing();
+        }
+        return;
+      }
+      if (evt.type === 'pvp_hit') {
+        if (evt.targetId === (p2pRoom ? p2pRoom.selfId : null) || evt.targetName === GameState.playerName) {
+          applyLocalDamage(evt.damage, evt.attackerName, evt.isCrit, evt.kx, evt.kz);
+        } else {
+          const p = RemotePlayers.get(evt.targetId);
+          if (p) {
+            p.hp = Math.max(0, (p.hp || 20) - evt.damage);
+            if (p.meshParts) flashModelRed(p.meshParts);
+            Sound.playMinecraftHit(evt.isCrit);
+            CombatParticles.spawnHit(p.mesh.position.x, 1.2, p.mesh.position.z, evt.isCrit);
+            p.knockbackVelocity.x = (evt.kx || 0) * (evt.isCrit ? 14 : 9);
+            p.knockbackVelocity.z = (evt.kz || 0) * (evt.isCrit ? 14 : 9);
+            if (p.tagHpFill) {
+              p.tagHpFill.style.width = Math.max(0, (p.hp / 20) * 100) + '%';
+            }
+          }
+        }
+        return;
+      }
+      if (evt.type === 'pvp_death') {
+        showToast(`⚔️ ${evt.victimName} đã bị ${evt.attackerName} hạ gục!`);
+        addSystemChatMessage(`⚔️ ☠️ <strong>${escapeHtml(evt.victimName)}</strong> đã bị <strong>${escapeHtml(evt.attackerName)}</strong> hạ gục.`);
+        const p = RemotePlayers.get(peerId);
+        if (p) {
+          p.isDead = true;
+          p.mesh.rotation.z = Math.PI / 2;
+          p.mesh.position.y = 0.22;
+          CombatParticles.spawnDeathCloud(p.mesh.position.x, 0.9, p.mesh.position.z);
+          Sound.playMinecraftDeath();
+          if (p.tagHpFill) p.tagHpFill.style.width = '0%';
+        }
+        return;
+      }
+      if (evt.type === 'pvp_respawn') {
+        const p = RemotePlayers.get(peerId);
+        if (p) {
+          p.isDead = false;
+          p.hp = 20;
+          p.mesh.rotation.z = 0;
+          p.mesh.position.set(evt.x || 0, 0, evt.z || 24);
+          p.targetX = evt.x || 0;
+          p.targetZ = evt.z || 24;
+          CombatParticles.spawnRespawnAura(evt.x || 0, 0.4, evt.z || 24);
+          if (p.tagHpFill) {
+            p.tagHpFill.style.width = '100%';
+            p.tagHpFill.style.background = '#4ade80';
+          }
+        }
+        return;
+      }
       if (evt.type === 'meditate') {
         const p = RemotePlayers.get(peerId);
         if (p) p.isMeditating = !!evt.on;
@@ -5981,6 +7026,27 @@
       });
     });
 
+    // Nút Tấn công nhanh (Minecraft Attack)
+    const btnAttack = document.getElementById('mc-attack-btn');
+    if (btnAttack) {
+      btnAttack.addEventListener('click', e => {
+        e.stopPropagation();
+        performMinecraftAttack();
+      });
+    }
+
+    // Nút Bật / Tắt chế độ Chiến Đấu PvP
+    const btnPvPToggle = document.getElementById('btn-pvp-mode');
+    if (btnPvPToggle) {
+      btnPvPToggle.addEventListener('click', e => {
+        e.currentTarget.blur();
+        togglePvPMode();
+      });
+    }
+
+    // Khởi tạo thanh 10 trái tim
+    updateHeartsHUD();
+
     // Đóng/mở khung chat trên mobile
     if (btnToggleChatHud) {
       btnToggleChatHud.addEventListener('click', () => {
@@ -6346,7 +7412,7 @@
         }
       }
 
-      alert('Ước nguyện của bạn đã được gửi gắm thành kính nơi cửa chùa An Lạc! 🙏');
+      alert('Ước nguyện của bạn đã được gửi gắm thành kính nơi cửa chùa Xuân Toàn! 🙏');
       wishInput.value = '';
       wishCount.textContent = '0';
       closeModal('modal-wish');
@@ -6449,9 +7515,9 @@
       ctx.strokeRect(60, 60, 960, 1230);
 
       ctx.fillStyle = '#fce59f';
-      ctx.font = 'bold 56px "Cinzel", serif';
+      ctx.font = 'bold 54px "Cinzel", serif';
       ctx.textAlign = 'center';
-      ctx.fillText('CHÙA AN LẠC', 540, 150);
+      ctx.fillText('CHÙA XUÂN TOÀN', 540, 150);
 
       ctx.font = '32px "Nunito", sans-serif';
       ctx.fillStyle = '#ffdca8';
@@ -6533,8 +7599,8 @@
       if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
         try {
           await navigator.share({
-            title: 'Lên Chùa Cầu An - Chùa An Lạc',
-            text: `Phật tử ${GameState.playerName} gửi lời cầu an từ Chùa An Lạc 3D.`,
+            title: 'Lên Chùa Cầu An - Chùa Xuân Toàn',
+            text: `Phật tử ${GameState.playerName} gửi lời cầu an từ Chùa Xuân Toàn 3D.`,
             files: [file]
           });
         } catch (e) {
@@ -6661,6 +7727,28 @@
         }
         p.mesh.position.y += ((p.isMeditating ? -0.32 : 0) - p.mesh.position.y) * 0.2;
         updateHalo(p.halo, p.isMeditating, time, meditatorsCount() >= 2);
+
+        // Hoạt ảnh vung đấm bạn bè
+        if (p.isSwinging) {
+          p.swingProgress += dt * 8.5;
+          if (p.swingProgress >= 1) {
+            p.isSwinging = false;
+            p.swingProgress = 0;
+            p.rightArm.rotation.set(0, 0, 0);
+          } else {
+            const swing = Math.sin(p.swingProgress * Math.PI);
+            p.rightArm.rotation.x = -swing * 1.6;
+            p.rightArm.rotation.y = -swing * 0.45;
+            p.rightArm.rotation.z = 0.2 + swing * 0.35;
+          }
+        }
+
+        // Đẩy lùi bạn bè khi trúng đòn
+        if (p.knockbackVelocity && p.knockbackVelocity.lengthSq() > 0.001) {
+          p.mesh.position.x += p.knockbackVelocity.x * dt;
+          p.mesh.position.z += p.knockbackVelocity.z * dt;
+          p.knockbackVelocity.multiplyScalar(Math.pow(0.015, dt));
+        }
 
         // Dáng vái chào / hành lễ / bước đi
         const pBowAngle = bowAngleAt(p.bowStart);
@@ -6831,6 +7919,7 @@
         }
       });
 
+      CombatParticles.update(dt);
       renderer.render(scene, camera);
     }
     animate();
@@ -7073,7 +8162,7 @@
       ctx.textAlign = 'center';
       ctx.fillStyle = '#fce59f';
       ctx.font = 'bold 30px "Cinzel", serif';
-      ctx.fillText(`CHÙA AN LẠC · PHÒNG [${GameState.roomId}]`, w / 2, 660);
+      ctx.fillText(`CHÙA XUÂN TOÀN · PHÒNG [${GameState.roomId}]`, w / 2, 660);
 
       ctx.fillStyle = '#f0c05a';
       ctx.font = 'bold 50px "Cinzel", serif';
