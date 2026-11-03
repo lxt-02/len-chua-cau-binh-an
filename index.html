@@ -219,6 +219,206 @@
       box-shadow: 0 0 6px #4ade80;
     }
 
+    /* =========================================================================
+       KHUNG CHAT REALTIME TRỰC TIẾP (LIVE IN-GAME CHAT HUD)
+       ========================================================================= */
+    #realtime-chat-hud {
+      position: absolute;
+      bottom: max(22px, env(safe-area-inset-bottom));
+      left: 18px;
+      width: 380px;
+      max-width: calc(100vw - 36px);
+      z-index: 26;
+      pointer-events: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    #chat-messages-box {
+      background: rgba(15, 10, 24, 0.78);
+      border: 1px solid rgba(240, 192, 90, 0.32);
+      border-radius: 14px;
+      padding: 10px 12px;
+      max-height: 190px;
+      overflow-y: auto;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.55);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(240, 192, 90, 0.35) transparent;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    #chat-messages-box::-webkit-scrollbar {
+      width: 4px;
+    }
+    #chat-messages-box::-webkit-scrollbar-thumb {
+      background: rgba(240, 192, 90, 0.4);
+      border-radius: 4px;
+    }
+
+    .chat-msg-line {
+      font-size: 13px;
+      line-height: 1.42;
+      word-break: break-word;
+      animation: chatFadeIn 0.22s ease-out;
+    }
+
+    @keyframes chatFadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .chat-msg-line .msg-time {
+      font-size: 11px;
+      color: rgba(211, 199, 182, 0.55);
+      margin-right: 5px;
+      font-family: monospace;
+    }
+
+    .chat-msg-line .msg-sender {
+      font-weight: 700;
+      color: var(--gold-primary);
+      margin-right: 5px;
+    }
+
+    .chat-msg-line.self .msg-sender {
+      color: #72efdd;
+    }
+
+    .chat-msg-line.system {
+      color: #fce79a;
+      font-size: 12px;
+      background: rgba(240, 192, 90, 0.12);
+      border-left: 2.5px solid var(--gold-primary);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .chat-msg-line .msg-text {
+      color: #fbf6ec;
+    }
+
+    /* Thanh nhập chat */
+    #chat-input-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    #chat-hud-input {
+      flex: 1;
+      background: rgba(18, 12, 28, 0.9);
+      border: 1.5px solid rgba(240, 192, 90, 0.4);
+      border-radius: 12px;
+      padding: 8px 14px;
+      color: #fff;
+      font-size: 13.5px;
+      font-family: inherit;
+      outline: none;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    #chat-hud-input:focus {
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 12px rgba(240, 192, 90, 0.45);
+      background: rgba(25, 16, 38, 0.96);
+    }
+
+    #chat-hud-send-btn {
+      width: 38px;
+      height: 38px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #f0c05a 0%, #b8860b 100%);
+      border: none;
+      border-radius: 12px;
+      color: #1a0f00;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(240, 192, 90, 0.35);
+      transition: transform 0.15s;
+    }
+
+    #chat-hud-send-btn:active {
+      transform: scale(0.92);
+    }
+
+    /* Khay chúc nhanh */
+    .chat-quick-tray {
+      display: flex;
+      gap: 5px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: none;
+    }
+    .chat-quick-tray::-webkit-scrollbar { display: none; }
+
+    .quick-pill {
+      background: rgba(30, 20, 42, 0.82);
+      border: 1px solid rgba(240, 192, 90, 0.3);
+      border-radius: 14px;
+      padding: 4px 10px;
+      font-size: 11.5px;
+      color: var(--text-sub);
+      white-space: nowrap;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .quick-pill:hover, .quick-pill:active {
+      background: rgba(240, 192, 90, 0.2);
+      color: #fff;
+      border-color: var(--gold-primary);
+    }
+
+    #btn-toggle-chat-hud {
+      display: none;
+      align-self: flex-start;
+      background: rgba(18, 12, 28, 0.92);
+      border: 1px solid var(--border-gold);
+      color: var(--gold-primary);
+      border-radius: 16px;
+      padding: 5px 12px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.45);
+    }
+
+    /* Tối ưu riêng trên màn hình di động */
+    @media (max-width: 768px) {
+      #realtime-chat-hud {
+        top: 66px;
+        bottom: auto;
+        left: 14px;
+        width: 320px;
+        max-width: calc(100vw - 28px);
+      }
+      #btn-toggle-chat-hud {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+      #realtime-chat-hud.collapsed-mobile #chat-messages-box,
+      #realtime-chat-hud.collapsed-mobile .chat-quick-tray,
+      #realtime-chat-hud.collapsed-mobile #chat-input-row {
+        display: none !important;
+      }
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      #joystick-zone { display: none !important; }
+    }
+
     /* NÚT HÀNH ĐỘNG KHI TỚI GẦN HOTSPOT */
     #action-prompt {
       position: absolute;
@@ -939,9 +1139,36 @@
         </div>
       </div>
 
+      <!-- KHUNG CHAT REALTIME TRỰC TIẾP (LIVE P2P CHAT HUD) -->
+      <div id="realtime-chat-hud" class="collapsed-mobile">
+        <button id="btn-toggle-chat-hud" type="button" title="Đóng / Mở trò chuyện trực tiếp">
+          <span>💬 Trò chuyện</span>
+          <span id="chat-unread-badge" style="display:none; background:#ff4d4f; color:#fff; font-size:10px; border-radius:10px; padding:1px 6px; margin-left:3px;">1</span>
+        </button>
+
+        <div id="chat-messages-box">
+          <div class="chat-msg-line system">
+            <span class="msg-time">[Chùa An Lạc]</span> Chào mừng quý đạo hữu. Nhấn <strong>Enter</strong> hoặc gõ lời nhắn bên dưới để trò chuyện cùng bạn bè trong phòng! 🪷
+          </div>
+        </div>
+
+        <div class="chat-quick-tray">
+          <span class="quick-pill" data-msg="Nam mô A Di Đà Phật 🪷">🪷 Nam mô A Di Đà Phật</span>
+          <span class="quick-pill" data-msg="Chúc bạn luôn an lạc, vạn sự cát tường ✨">✨ Chúc an lạc</span>
+          <span class="quick-pill" data-msg="Cùng lại gác chuông thỉnh chuông nhé! 🔔">🔔 Thỉnh chuông</span>
+          <span class="quick-pill" data-msg="Cùng ra hồ sen thả đèn hoa đăng nào! 🪷">🪷 Thả hoa đăng</span>
+          <span class="quick-pill" data-msg="Khói hương thơm ngát, thanh tịnh quá... 🪔">🪔 Thanh tịnh quá</span>
+        </div>
+
+        <div id="chat-input-row">
+          <input type="text" id="chat-hud-input" placeholder="Gõ lời nhắn (Nhấn Enter để gửi)..." maxlength="60" autocomplete="off">
+          <button id="chat-hud-send-btn" type="button" title="Gửi lời chúc">➤</button>
+        </div>
+      </div>
+
       <!-- Gợi ý điều khiển máy tính -->
       <div class="pc-controls-hint">
-        🎮 Phím <strong>W, A, S, D</strong> hoặc <strong>Mũi tên</strong> để đi | Kéo chuột để ngắm cảnh
+        🎮 Phím <strong>W, A, S, D</strong> để đi | Nhấn <strong>Enter</strong> để chat realtime | Kéo chuột xoay camera
       </div>
     </div>
 
@@ -2329,6 +2556,29 @@
     // BÀN PHÍM
     const Keys = {};
     window.addEventListener('keydown', e => {
+      // Khi đang nhập trong ô chat hoặc form khác
+      if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
+        if (e.key === 'Enter' && document.activeElement.id === 'chat-hud-input') {
+          e.preventDefault();
+          submitLiveChatInput();
+        } else if (e.key === 'Escape') {
+          document.activeElement.blur();
+        }
+        return;
+      }
+
+      // Nhấn Enter trên màn hình chính để mở/focus ngay ô chat realtime
+      if (e.key === 'Enter') {
+        const chatInp = document.getElementById('chat-hud-input');
+        if (chatInp) {
+          e.preventDefault();
+          const hud = document.getElementById('realtime-chat-hud');
+          if (hud) hud.classList.remove('collapsed-mobile');
+          chatInp.focus();
+          return;
+        }
+      }
+
       Keys[e.code] = true;
       updateKeyboardInput();
     });
@@ -2338,6 +2588,12 @@
     });
 
     function updateKeyboardInput() {
+      if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
+        PlayerController.inputX = 0;
+        PlayerController.inputZ = 0;
+        return;
+      }
+
       let x = 0;
       let z = 0;
       if (Keys['KeyW'] || Keys['ArrowUp']) z += 1;
@@ -2650,6 +2906,7 @@
 
         p2pRoom.onPeerJoin(peerId => {
           showToast(`🙏 Một đạo hữu vừa bước vào phòng!`);
+          addSystemChatMessage(`👥 <strong>Một đạo hữu</strong> vừa bước vào chùa An Lạc.`);
           // Gửi vị trí & tên của mình cho bạn mới vào
           sendPlayerState({
             name: GameState.playerName,
@@ -2666,6 +2923,7 @@
           const p = RemotePlayers.get(peerId);
           const name = p ? p.name : 'Một đạo hữu';
           showToast(`Đạo hữu ${name} đã rời chùa.`);
+          addSystemChatMessage(`🚪 Đạo hữu <strong>${escapeHtml(name)}</strong> đã rời chùa.`);
           removeRemotePlayer(peerId);
           updateOnlineCount();
         });
@@ -2693,14 +2951,27 @@
         });
 
         getMsg((data, peerId) => {
+          let name = data.name;
+          if (!name) {
+            const p = RemotePlayers.get(peerId);
+            name = p ? p.name : 'Đạo hữu';
+          }
+          addChatMessageToHud({
+            sender: name,
+            text: data.text,
+            time: data.time,
+            isSelf: false
+          });
           showSpeechBubbleForPeer(peerId, data.text);
         });
 
         showToast(`Đã tham gia phòng [${roomId}] thành công!`);
+        addSystemChatMessage(`✨ Đã kết nối phòng <strong>[${escapeHtml(roomId)}]</strong> thành công.`);
         updateOnlineCount();
       } catch (err) {
         console.warn('P2P WebTorrent không khả dụng hoặc đang ngoại tuyến:', err);
         showToast(`Đang ở chế độ viếng chùa thanh tịnh cá nhân.`);
+        addSystemChatMessage(`🪷 Đang ở chế độ vãn cảnh chùa thanh tịnh.`);
       }
     }
 
@@ -2708,11 +2979,13 @@
     function handleRemoteEvent(evt) {
       if (evt.type === 'incense') {
         showToast(`🪔 Đạo hữu ${evt.name} vừa dâng ${evt.sticks} nén tâm hương!`);
+        addSystemChatMessage(`🪔 Đạo hữu <strong>${escapeHtml(evt.name)}</strong> vừa dâng ${evt.sticks} nén tâm hương.`);
         Sound.playChime();
         if (incenseSmokePoints) incenseSmokePoints.material.opacity = 0.9;
         setTimeout(() => { if (incenseSmokePoints) incenseSmokePoints.material.opacity = 0.45; }, 3000);
       } else if (evt.type === 'bell') {
         showToast(`🔔 Đạo hữu ${evt.name} vừa thỉnh Đại Hồng Chung!`);
+        addSystemChatMessage(`🔔 Đạo hữu <strong>${escapeHtml(evt.name)}</strong> vừa thỉnh Đại Hồng Chung ngân vang.`);
         Sound.playBell();
         container.classList.add('shake');
         setTimeout(() => container.classList.remove('shake'), 450);
@@ -2724,6 +2997,7 @@
         Sound.playChime();
         if (evt.target === 'tree') {
           showToast(`🎋 Đạo hữu ${evt.name} vừa treo dải lụa đỏ cầu an lên Cây Bồ Đề!`);
+          addSystemChatMessage(`🎋 Đạo hữu <strong>${escapeHtml(evt.name)}</strong> vừa treo dải lụa đỏ cầu an lên Cội Bồ Đề.`);
           const newRibbon = new THREE.Mesh(
             new THREE.PlaneGeometry(0.18, 1.6),
             new THREE.MeshStandardMaterial({ color: 0xff2222, side: THREE.DoubleSide })
@@ -2733,6 +3007,7 @@
           ribbonMeshes.push(newRibbon);
         } else {
           showToast(`🪷 Đạo hữu ${evt.name} vừa thả hoa đăng xuống Hồ Sen!`);
+          addSystemChatMessage(`🪷 Đạo hữu <strong>${escapeHtml(evt.name)}</strong> vừa thả đèn hoa đăng xuống Hồ Sen.`);
           const lan = new THREE.Group();
           lan.position.set(18, 0.18, 12);
           const fl = new THREE.Mesh(new THREE.ConeGeometry(0.35, 0.25, 6), new THREE.MeshStandardMaterial({ color: 0xff3366 }));
@@ -2947,37 +3222,168 @@
       }
     });
 
-    // GỬI LỜI CHÚC & CHAT P2P
-    document.getElementById('btn-chat').addEventListener('click', () => {
-      openModal('modal-chat');
+    // =========================================================================
+    // HỆ THỐNG TRÒ CHUYỆN THỜI GIAN THỰC (REALTIME CHAT CONTROLLER)
+    // =========================================================================
+    const chatHud = document.getElementById('realtime-chat-hud');
+    const chatMessagesBox = document.getElementById('chat-messages-box');
+    const chatHudInput = document.getElementById('chat-hud-input');
+    const chatHudSendBtn = document.getElementById('chat-hud-send-btn');
+    const btnToggleChatHud = document.getElementById('btn-toggle-chat-hud');
+    const chatUnreadBadge = document.getElementById('chat-unread-badge');
+    let unreadChatCount = 0;
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/[&<>'"]/g, tag => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        "'": '&#39;',
+        '"': '&quot;'
+      }[tag] || tag));
+    }
+
+    function getTimeString() {
+      const d = new Date();
+      return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+    }
+
+    function addChatMessageToHud({ sender, text, time, isSelf }) {
+      if (!chatMessagesBox) return;
+      const t = time || getTimeString();
+
+      const line = document.createElement('div');
+      line.className = `chat-msg-line ${isSelf ? 'self' : 'peer'}`;
+      line.innerHTML = `<span class="msg-time">[${t}]</span><strong class="msg-sender">${isSelf ? '🪷 Bạn' : '🪷 ' + escapeHtml(sender)}:</strong><span class="msg-text">${escapeHtml(text)}</span>`;
+      chatMessagesBox.appendChild(line);
+      chatMessagesBox.scrollTop = chatMessagesBox.scrollHeight;
+
+      while (chatMessagesBox.children.length > 60) {
+        chatMessagesBox.removeChild(chatMessagesBox.firstChild);
+      }
+
+      Sound.playChime();
+
+      // Nếu chat đang bị thu gọn trên mobile và tin nhắn từ bạn bè
+      if (!isSelf && chatHud && chatHud.classList.contains('collapsed-mobile')) {
+        unreadChatCount++;
+        if (chatUnreadBadge) {
+          chatUnreadBadge.textContent = unreadChatCount;
+          chatUnreadBadge.style.display = 'inline-block';
+        }
+      }
+    }
+
+    function addSystemChatMessage(htmlText) {
+      if (!chatMessagesBox) return;
+      const line = document.createElement('div');
+      line.className = 'chat-msg-line system';
+      line.innerHTML = `<span class="msg-time">[${getTimeString()}]</span> ${htmlText}`;
+      chatMessagesBox.appendChild(line);
+      chatMessagesBox.scrollTop = chatMessagesBox.scrollHeight;
+
+      while (chatMessagesBox.children.length > 60) {
+        chatMessagesBox.removeChild(chatMessagesBox.firstChild);
+      }
+    }
+
+    function submitLiveChatInput() {
+      if (!chatHudInput) return;
+      const text = chatHudInput.value.trim();
+      if (!text) return;
+
+      sendLiveChatMessage(text);
+      chatHudInput.value = '';
+      chatHudInput.blur();
+    }
+
+    function sendLiveChatMessage(text) {
+      if (!text) return;
+      text = text.trim();
+      if (!text) return;
+
+      if (BAD_WORDS_REGEX.test(text)) {
+        showToast('Nơi cửa chùa thanh tịnh, xin dùng lời thiện lành từ tốn nhé! 🪷');
+        return;
+      }
+
+      const t = getTimeString();
+
+      // Thêm ngay vào khung chat của mình
+      addChatMessageToHud({
+        sender: GameState.playerName,
+        text: text,
+        time: t,
+        isSelf: true
+      });
+
+      // Hiển thị bong bóng nổi 3D trên đầu nhân vật
+      showSpeechBubbleForPeer('self', text);
+
+      // Gửi qua P2P WebRTC cho toàn bộ bạn bè trong phòng
+      if (sendPlayerChat) {
+        sendPlayerChat({
+          name: GameState.playerName,
+          text: text,
+          time: t
+        });
+      }
+
+      closeModal('modal-chat');
+    }
+
+    // Nút gửi trong HUD
+    if (chatHudSendBtn) {
+      chatHudSendBtn.addEventListener('click', submitLiveChatInput);
+    }
+
+    // Các lời chúc nhanh trong khay HUD
+    document.querySelectorAll('.quick-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        const msg = pill.dataset.msg;
+        if (msg) sendLiveChatMessage(msg);
+      });
     });
 
+    // Đóng/mở khung chat trên mobile
+    if (btnToggleChatHud) {
+      btnToggleChatHud.addEventListener('click', () => {
+        if (!chatHud) return;
+        const isCollapsed = chatHud.classList.toggle('collapsed-mobile');
+        if (!isCollapsed) {
+          unreadChatCount = 0;
+          if (chatUnreadBadge) chatUnreadBadge.style.display = 'none';
+          if (chatHudInput) chatHudInput.focus();
+        }
+      });
+    }
+
+    // Nút chat trên thanh top HUD
+    document.getElementById('btn-chat').addEventListener('click', () => {
+      if (chatHud) {
+        chatHud.classList.remove('collapsed-mobile');
+        unreadChatCount = 0;
+        if (chatUnreadBadge) chatUnreadBadge.style.display = 'none';
+        if (chatHudInput) chatHudInput.focus();
+      }
+    });
+
+    // Vẫn hỗ trợ modal chat cũ nếu người chơi mở
     document.querySelectorAll('.chat-chip').forEach(chip => {
       chip.addEventListener('click', () => {
         const text = chip.dataset.chat;
-        sendChatText(text);
+        sendLiveChatMessage(text);
       });
     });
 
     document.getElementById('btn-send-chat').addEventListener('click', () => {
       const text = document.getElementById('chat-custom-input').value.trim();
       if (text) {
-        sendChatText(text);
+        sendLiveChatMessage(text);
         document.getElementById('chat-custom-input').value = '';
       }
     });
-
-    function sendChatText(text) {
-      if (BAD_WORDS_REGEX.test(text)) {
-        alert('Nơi cửa chùa thanh tịnh, xin dùng lời thiện lành từ tốn nhé! 🙏');
-        return;
-      }
-      showSpeechBubbleForPeer('self', text);
-      if (sendPlayerChat) {
-        sendPlayerChat({ text, name: GameState.playerName });
-      }
-      closeModal('modal-chat');
-    }
 
     // TẮT / BẬT ÂM THANH
     const btnAudio = document.getElementById('btn-audio');
