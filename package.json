@@ -1,0 +1,9 @@
+{
+  "name": "len-chua-cau-binh-an",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Game web 3D Lên Chùa Cầu An - Chùa An Lạc (P2P Multiplayer)",
+  "scripts": {
+    "start": "npx serve ."
+  }
+}
