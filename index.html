@@ -2832,7 +2832,7 @@
       // Bảng tên bạn bè hiển thị phía trên đầu
       const tag = document.createElement('div');
       tag.className = 'peer-tag';
-      tag.innerHTML = `<span class="peer-dot"></span><span>🪷 ${name || 'Đạo hữu'}</span>`;
+      tag.innerHTML = `<span class="peer-dot"></span><span>🪷 ${escapeHtml(name || 'Đạo hữu')}</span>`;
       peerTagsContainer.appendChild(tag);
 
       const pData = {
@@ -2870,9 +2870,9 @@
 
       // Cập nhật danh sách trong modal phòng
       const list = document.getElementById('room-peer-list');
-      let html = `<div>• <strong>${GameState.playerName}</strong> (Bạn)</div>`;
+      let html = `<div>• <strong>${escapeHtml(GameState.playerName)}</strong> (Bạn)</div>`;
       RemotePlayers.forEach(p => {
-        html += `<div>• <strong>${p.name}</strong></div>`;
+        html += `<div>• <strong>${escapeHtml(p.name)}</strong></div>`;
       });
       list.innerHTML = html;
     }
@@ -2892,8 +2892,29 @@
 
       try {
         // Nạp Trystero WebTorrent ES module
-        const trystero = await import('https://cdn.jsdelivr.net/npm/trystero@0.20.1/dist/trystero-torrent.min.js');
-        const config = { appId: 'len-chua-cau-an-3d-vietnam' };
+        // Gói npm trystero không có thư mục /dist nên link cũ bị 404.
+        // Dùng bản ESM đóng gói sẵn của jsDelivr (esm.run). Ưu tiên Nostr (nhiều relay, ổn định hơn tracker torrent).
+        let trystero;
+        const sources = [
+          'https://esm.run/trystero@0.20.1/nostr',
+          'https://esm.sh/trystero@0.20.1/nostr',
+          'https://esm.run/trystero@0.20.1/torrent'
+        ];
+        let lastErr;
+        for (const src of sources) {
+          try { trystero = await import(src); break; } catch (e) { lastErr = e; console.warn('Không tải được', src, e); }
+        }
+        if (!trystero) throw lastErr;
+        const config = {
+          appId: 'len-chua-cau-an-3d-vietnam',
+          rtcConfig: {
+            iceServers: [
+              { urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302', 'stun:stun.cloudflare.com:3478'] }
+              // Nếu 2 máy ở mạng khác nhau (4G, wifi công ty) vẫn không thấy nhau, thêm TURN server tại đây, ví dụ:
+              // { urls: 'turn:YOUR_TURN_HOST:3478', username: 'USER', credential: 'PASS' }
+            ]
+          }
+        };
         p2pRoom = trystero.joinRoom(config, roomId);
 
         const [sendState, getState] = p2pRoom.makeAction('state');
@@ -2936,7 +2957,7 @@
           }
           if (data.name && p.name !== data.name) {
             p.name = data.name;
-            p.nameTag.innerHTML = `<span class="peer-dot"></span><span>🪷 ${data.name}</span>`;
+            p.nameTag.innerHTML = `<span class="peer-dot"></span><span>🪷 ${escapeHtml(data.name)}</span>`;
             updateOnlineCount();
           }
           p.targetX = data.x;
@@ -2969,9 +2990,9 @@
         addSystemChatMessage(`✨ Đã kết nối phòng <strong>[${escapeHtml(roomId)}]</strong> thành công.`);
         updateOnlineCount();
       } catch (err) {
-        console.warn('P2P WebTorrent không khả dụng hoặc đang ngoại tuyến:', err);
-        showToast(`Đang ở chế độ viếng chùa thanh tịnh cá nhân.`);
-        addSystemChatMessage(`🪷 Đang ở chế độ vãn cảnh chùa thanh tịnh.`);
+        console.warn('P2P không khả dụng hoặc đang ngoại tuyến:', err);
+        showToast(`⚠️ Không kết nối được phòng nhiều người – đang chơi một mình.`);
+        addSystemChatMessage(`⚠️ Không tải được thư viện kết nối (${escapeHtml(err && err.message || err)}). Kiểm tra mạng rồi tải lại trang.`);
       }
     }
 
