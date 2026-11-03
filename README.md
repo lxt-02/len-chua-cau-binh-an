@@ -25,12 +25,17 @@
 
 ---
 
-## 👥 Đa Người Chơi Real-Time (P2P WebRTC)
+## 👥 Đa Người Chơi Real-Time & Chat Trực Tiếp (P2P WebRTC)
 
 Game tích hợp kết nối mạng ngang hàng P2P không cần máy chủ trung gian:
 - **Nhìn thấy bạn bè:** Mỗi người chơi xuất hiện dưới dạng nhân vật chibi 3D cùng bảng tên mạ vàng nổi trên đầu.
+- **Khung Chat Realtime trực tiếp (In-game Live Chat HUD):**
+  - Nhấn phím **`Enter`** trên máy tính để chat ngay lập tức (không che màn hình).
+  - Khay chat thông minh trên điện thoại có nút thu gọn tiện lợi, không che khuất cần gạt ảo.
+  - Đồng bộ dòng sự kiện: ai thỉnh chuông, dâng hương, thả hoa đăng đều hiển thị trực tiếp.
+  - Khay chúc nhanh: `🪷 Nam mô A Di Đà Phật`, `✨ Chúc bình an`, `🔔 Thỉnh chuông nhé`...
+- **Bong bóng thoại 3D:** Lời nhắn nổi trực tiếp trên đầu nhân vật trong sân chùa kèm tiếng chuông gió leng keng.
 - **Đồng bộ hành động:** Khi một người thỉnh chuông, thắp hương hay thả hoa đăng, toàn bộ bạn bè trong phòng đều nghe thấy tiếng chuông và nhìn thấy hoa đăng trôi trên hồ.
-- **Chat bong bóng:** Khung chat nhanh và tự do, lời thoại hiện thành bong bóng 3D ngay trên đầu nhân vật.
 - **Phòng chơi tự do:** Mặc định vào phòng `chua-an-lac`. Bạn có thể đổi mã phòng hoặc gửi link kèm hashtag: `index.html#ten-phong-cua-ban`.
 
 ---
@@ -42,23 +47,27 @@ Game tích hợp kết nối mạng ngang hàng P2P không cần máy chủ trun
 | **Tiến lên** | Phím **W** hoặc **Mũi tên lên (↑)** | Đẩy cần gạt ảo lên |
 | **Đi lùi** | Phím **S** hoặc **Mũi tên xuống (↓)** | Kéo cần gạt ảo xuống |
 | **Sang trái / phải** | Phím **A / D** hoặc **Mũi tên ← / →** | Gạt cần sang trái / phải |
+| **Mở Chat Realtime** | Nhấn phím **Enter** | Chạm nút **💬 Trò chuyện** |
 | **Xoay góc nhìn** | Nhấp giữ chuột trái và kéo | Chạm vuốt nửa phải màn hình |
 | **Tương tác** | Bấm nút hành động to khi đến gần | Chạm nút hành động nổi trên màn hình |
 
 ---
 
-## 🚀 Cách Chạy & Đưa Lên GitHub Pages
+## 🚀 Cách Triển Khai & Đưa Lên Online (0đ)
 
-### Chạy trực tiếp trên máy
-Chỉ cần nhấp đúp vào file `index.html` hoặc mở bằng trình duyệt (Chrome, Edge, Firefox, Safari).
+### 1. Triển khai lên Vercel (Khuyên dùng - Cực nhanh)
+1. Đăng nhập [https://vercel.com/new](https://vercel.com/new) bằng GitHub.
+2. Tìm repository **`len-chua-cau-binh-an`** ➔ Bấm **Import**.
+3. Bấm **Deploy**. Vercel sẽ tự động cấp tên miền miễn phí như: `https://len-chua-cau-binh-an.vercel.app`
 
-### Đưa lên GitHub Pages (để bạn bè mở chơi qua link)
-1. Bật **GitHub Pages** trong mục: **Settings** ➔ **Pages** của kho mã nguồn này.
-2. Chọn nguồn: **Deploy from a branch** ➔ Branch: `main` ➔ Thư mục: `/ (root)`.
-3. Nhấn **Save**. Sau 1 phút, trang web sẽ online tại:
-   ```
-   https://lxt-02.github.io/len-chua-cau-binh-an/
-   ```
+### 2. Triển khai lên GitHub Pages
+1. Vào mục: **Settings** ➔ **Pages** của repository này trên GitHub.
+2. Ở mục **Build and deployment** ➔ **Source**: Chọn **Deploy from a branch**.
+3. Nhánh: `main` ➔ Thư mục: `/(root)` ➔ Bấm **Save**.
+4. Website sẽ online tại: `https://lxt-02.github.io/len-chua-cau-binh-an/`
+
+### 3. Mở trực tiếp trên máy không cần mạng
+Chỉ cần nhấp đúp vào file `index.html` để chơi ngoại tuyến cùng 40+ khách hành hương AI.
 
 ---
 
