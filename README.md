@@ -51,6 +51,7 @@ Game tích hợp kết nối mạng ngang hàng P2P không cần máy chủ trun
 | **Đi lùi** | Phím **S** hoặc **Mũi tên xuống (↓)** | Kéo cần gạt ảo xuống |
 | **Sang trái / phải** | Phím **A / D** hoặc **Mũi tên ← / →** | Gạt cần sang trái / phải |
 | **Chắp tay vái chào** | Phím **B** | Chạm nút **🙏** trên thanh công cụ |
+| **Cài đặt đồ họa** | Chạm nút **⚙️** trên thanh công cụ | Đổi chế độ Tự động / Thấp / Trung bình / Cao |
 | **Mở Chat Realtime** | Nhấn phím **Enter** | Chạm nút **💬 Trò chuyện** |
 | **Xoay góc nhìn** | Nhấp giữ chuột trái và kéo | Chạm vuốt nửa phải màn hình |
 | **Tương tác** | Bấm nút hành động to khi đến gần | Chạm nút hành động nổi trên màn hình |

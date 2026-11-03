@@ -194,7 +194,10 @@
     /* BẢNG TÊN BẠN BÈ ONLINE TRONG 3D */
     .peer-tag {
       position: absolute;
-      transform: translate(-50%, -100%);
+      top: 0;
+      left: 0;
+      transform: translate3d(-9999px, -9999px, 0);
+      will-change: transform;
       background: rgba(18, 11, 28, 0.92);
       border: 1.5px solid var(--gold-primary);
       border-radius: 14px;
@@ -513,6 +516,8 @@
     /* BONG BÓNG THOẠI KHÁCH AI & BẠN BÈ */
     .ai-bubble {
       position: absolute;
+      top: 0;
+      left: 0;
       background: rgba(253, 248, 237, 0.95);
       color: #3b2210;
       border: 1.5px solid #d4a036;
@@ -523,9 +528,10 @@
       white-space: nowrap;
       pointer-events: none;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-      transform: translate(-50%, -100%);
+      transform: translate3d(-9999px, -9999px, 0);
+      will-change: transform;
       opacity: 0;
-      transition: opacity 0.3s, transform 0.3s;
+      transition: opacity 0.25s;
       z-index: 28;
     }
     .ai-bubble::after {
@@ -542,7 +548,30 @@
     }
     .ai-bubble.show {
       opacity: 1;
-      transform: translate(-50%, -115%);
+    }
+
+    /* TỐI ƯU HIỆU NĂNG CHO MỨC LOW & MEDIUM: TẮT BACKDROP-FILTER NẶNG */
+    body.perf-mode * {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+    body.perf-mode .badge-counter,
+    body.perf-mode .icon-btn,
+    body.perf-mode #chat-hud-input,
+    body.perf-mode #btn-toggle-chat-hud {
+      background: rgba(18, 12, 28, 0.96) !important;
+    }
+    body.perf-mode .toast-msg {
+      background: rgba(18, 12, 28, 0.98) !important;
+    }
+    body.perf-mode #chat-messages-box {
+      background: rgba(14, 9, 22, 0.95) !important;
+    }
+    body.perf-mode .quick-pill {
+      background: rgba(32, 22, 44, 0.95) !important;
+    }
+    body.perf-mode .modal-overlay {
+      background: rgba(8, 4, 14, 0.92) !important;
     }
 
     /* MODAL CHUNG */
@@ -1157,6 +1186,7 @@
           <span>Phòng: <strong id="hud-room-name">chua-an-lac</strong> (<strong id="online-peer-count">1</strong>)</span>
         </div>
         <div class="hud-top-actions">
+          <button class="icon-btn" id="btn-settings" title="Cài đặt đồ họa">⚙️</button>
           <button class="icon-btn" id="btn-music" title="Bật / Tắt nhạc thiền (chuông gió)">🎵</button>
           <button class="icon-btn" id="btn-bow" title="Chắp tay vái chào (phím B)">🙏</button>
           <button class="icon-btn" id="btn-chat" title="Gửi lời chúc / Trò chuyện">💬</button>
@@ -1164,6 +1194,9 @@
           <button class="icon-btn" id="btn-audio" title="Tắt / Bật Âm Thanh">🔊</button>
         </div>
       </div>
+
+      <!-- Chỉ số FPS (khi bật ?fps=1 trên URL) -->
+      <div id="fps-badge" style="display:none; position:absolute; top:max(60px, env(safe-area-inset-top)); right:14px; background:rgba(0,0,0,0.75); color:#4ade80; border:1px solid rgba(74,222,128,0.4); font-family:monospace; font-weight:700; font-size:12px; padding:3px 8px; border-radius:8px; z-index:90; pointer-events:none;">FPS: 60</div>
 
       <!-- Giao diện khi đang ngồi thiền -->
       <div id="meditation-hud">
@@ -1254,6 +1287,49 @@
         <span>VÀO CHÙA CẦU AN</span> 🙏
       </button>
       <p style="font-size: 11px; color: var(--text-sub); margin-top: 10px;">Chạm để kết nối P2P bạn bè và bật không gian âm thanh thiền định</p>
+    </div>
+  </div>
+
+  <!-- MODAL: CÀI ĐẶT ĐỒ HỌA (PERFORMANCE / QUALITY) -->
+  <div class="modal-overlay" id="modal-settings">
+    <div class="modal-card">
+      <button class="modal-close-btn" data-close="modal-settings">✕</button>
+      <h2 class="modal-title">CÀI ĐẶT ĐỒ HỌA</h2>
+      <p class="modal-subtitle">Tối ưu hiệu năng mượt mà cho điện thoại và máy cấu hình nhẹ</p>
+
+      <div class="quality-choices" style="display:flex; flex-direction:column; gap:10px; margin:16px 0;">
+        <label class="quality-option" style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.05); padding:12px 14px; border-radius:12px; border:1px solid rgba(240,192,90,0.3); cursor:pointer;">
+          <input type="radio" name="quality-preset" value="auto" style="accent-color:var(--gold-primary);">
+          <div>
+            <div style="font-weight:700; color:#fff;">🚀 Tự động (Đề xuất)</div>
+            <div style="font-size:12px; color:var(--text-sub);">Tự nhận diện theo thiết bị & tự hạ tải khi tụt FPS</div>
+          </div>
+        </label>
+        <label class="quality-option" style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.05); padding:12px 14px; border-radius:12px; border:1px solid rgba(240,192,90,0.3); cursor:pointer;">
+          <input type="radio" name="quality-preset" value="low" style="accent-color:var(--gold-primary);">
+          <div>
+            <div style="font-weight:700; color:#fff;">⚡ Mượt / Tiết kiệm pin (Thấp)</div>
+            <div style="font-size:12px; color:var(--text-sub);">DPR 1.25, tắt bóng, tắt đèn lồng PointLight, ~8 khách AI</div>
+          </div>
+        </label>
+        <label class="quality-option" style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.05); padding:12px 14px; border-radius:12px; border:1px solid rgba(240,192,90,0.3); cursor:pointer;">
+          <input type="radio" name="quality-preset" value="medium" style="accent-color:var(--gold-primary);">
+          <div>
+            <div style="font-weight:700; color:#fff;">⚖️ Cân bằng (Trung bình)</div>
+            <div style="font-size:12px; color:var(--text-sub);">DPR 1.5, bóng nhẹ 512, 4 đèn lồng PointLight, ~16 khách AI</div>
+          </div>
+        </label>
+        <label class="quality-option" style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.05); padding:12px 14px; border-radius:12px; border:1px solid rgba(240,192,90,0.3); cursor:pointer;">
+          <input type="radio" name="quality-preset" value="high" style="accent-color:var(--gold-primary);">
+          <div>
+            <div style="font-weight:700; color:#fff;">✨ Đồ họa cao (Máy tính / Mạnh)</div>
+            <div style="font-size:12px; color:var(--text-sub);">DPR 2.0, bóng đổ mềm 1024, 12 đèn lồng, đông đủ khách</div>
+          </div>
+        </label>
+      </div>
+
+      <div style="font-size:12px; color:var(--gold-primary); text-align:center; margin-bottom:12px;" id="quality-current-info"></div>
+      <button class="btn-gold" id="btn-save-quality">LƯU & ÁP DỤNG ⚙️</button>
     </div>
   </div>
 
@@ -2021,6 +2097,82 @@
       return new THREE.CanvasTexture(canvas);
     }
 
+    function createBlobShadowTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 64;
+      canvas.height = 64;
+      const ctx = canvas.getContext('2d');
+      const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+      grad.addColorStop(0, 'rgba(0, 0, 0, 0.55)');
+      grad.addColorStop(0.5, 'rgba(0, 0, 0, 0.25)');
+      grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 64, 64);
+      return new THREE.CanvasTexture(canvas);
+    }
+
+    /* =========================================================================
+       3.5. HỆ THỐNG CẤU HÌNH ĐỒ HỌA TỰ ĐỘNG (QUALITY & PERFORMANCE CONTROLLER)
+       ========================================================================= */
+    const QUALITY_STORAGE_KEY = 'LenChuaCauAn_Quality';
+
+    function detectOptimalQuality() {
+      const isMobile = (window.matchMedia && window.matchMedia('(pointer: coarse)').matches && Math.min(window.innerWidth, window.innerHeight) < 900);
+      const isLowSpec = (navigator.deviceMemory && navigator.deviceMemory <= 4) || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
+      if (isMobile || isLowSpec) return 'low';
+
+      const isTablet = (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || Math.min(window.innerWidth, window.innerHeight) < 1100;
+      if (isTablet) return 'medium';
+
+      return 'high';
+    }
+
+    const savedQualitySetting = localStorage.getItem(QUALITY_STORAGE_KEY) || 'auto';
+    const effectiveQuality = (savedQualitySetting === 'auto') ? detectOptimalQuality() : savedQualitySetting;
+
+    const Quality = {
+      setting: savedQualitySetting, // 'auto' | 'low' | 'medium' | 'high'
+      current: effectiveQuality,    // 'low' | 'medium' | 'high'
+
+      low: {
+        pixelRatio: Math.min(window.devicePixelRatio || 1, 1.25),
+        antialias: false,
+        shadows: false,
+        lanternLightsCount: 0,
+        pilgrimCount: { pray: 2, meditate: 2, pond: 1, tree: 1, walk: 2 }, // ~8
+        particleScale: 0.5
+      },
+      medium: {
+        pixelRatio: Math.min(window.devicePixelRatio || 1, 1.5),
+        antialias: false,
+        shadows: true,
+        shadowMapType: THREE.PCFShadowMap,
+        shadowMapSize: 512,
+        lanternLightsCount: 4,
+        pilgrimCount: { pray: 5, meditate: 3, pond: 2, tree: 2, walk: 4 }, // ~16
+        particleScale: 0.75
+      },
+      high: {
+        pixelRatio: Math.min(window.devicePixelRatio || 1, 2.0),
+        antialias: true,
+        shadows: true,
+        shadowMapType: THREE.PCFSoftShadowMap,
+        shadowMapSize: 1024,
+        lanternLightsCount: 12,
+        pilgrimCount: { pray: 10, meditate: 6, pond: 5, tree: 5, walk: 10 }, // ~36
+        particleScale: 1.0
+      },
+
+      get config() {
+        return this[this.current] || this.low;
+      }
+    };
+
+    // Khi ở mức low hoặc medium: áp dụng giao diện nhẹ (tắt backdrop-filter)
+    if (Quality.current !== 'high') {
+      document.body.classList.add('perf-mode');
+    }
+
     /* =========================================================================
        4. KHỞI TẠO BỐI CẢNH 3D THREE.JS (CHÙA CỔ LÚC HOÀNG HÔN SANG ĐÊM)
        ========================================================================= */
@@ -2031,12 +2183,18 @@
     scene.background = new THREE.Color(0x180d22);
     scene.fog = new THREE.FogExp2(0x180d22, 0.016);
 
+    const qCfg = Quality.config;
     const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 150);
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: qCfg.antialias, powerPreference: 'high-performance' });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.setPixelRatio(qCfg.pixelRatio);
+
+    if (qCfg.shadows) {
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = qCfg.shadowMapType;
+    } else {
+      renderer.shadowMap.enabled = false;
+    }
 
     const ambientLight = new THREE.AmbientLight(0x4a3258, 1.4);
     scene.add(ambientLight);
@@ -2046,15 +2204,17 @@
 
     const sunLight = new THREE.DirectionalLight(0xfcb86a, 2.4);
     sunLight.position.set(-30, 24, -30);
-    sunLight.castShadow = true;
-    sunLight.shadow.mapSize.width = 1024;
-    sunLight.shadow.mapSize.height = 1024;
-    sunLight.shadow.camera.near = 10;
-    sunLight.shadow.camera.far = 100;
-    sunLight.shadow.camera.left = -35;
-    sunLight.shadow.camera.right = 35;
-    sunLight.shadow.camera.top = 35;
-    sunLight.shadow.camera.bottom = -35;
+    if (qCfg.shadows) {
+      sunLight.castShadow = true;
+      sunLight.shadow.mapSize.width = qCfg.shadowMapSize;
+      sunLight.shadow.mapSize.height = qCfg.shadowMapSize;
+      sunLight.shadow.camera.near = 10;
+      sunLight.shadow.camera.far = 100;
+      sunLight.shadow.camera.left = -35;
+      sunLight.shadow.camera.right = 35;
+      sunLight.shadow.camera.top = 35;
+      sunLight.shadow.camera.bottom = -35;
+    }
     scene.add(sunLight);
 
     const Colliders = [];
@@ -2261,7 +2421,7 @@
         burnerGroup.add(st);
       }
 
-      const smokeCount = 75;
+      const smokeCount = Math.round(75 * Quality.config.particleScale);
       const smokeGeo = new THREE.BufferGeometry();
       const posArray = new Float32Array(smokeCount * 3);
       for (let i = 0; i < smokeCount; i++) {
@@ -2494,7 +2654,7 @@
         [-6, 4.2, -16], [6, 4.2, -16]
       ];
 
-      lanternPositions.forEach(([x, y, z]) => {
+      lanternPositions.forEach(([x, y, z], idx) => {
         const lanGroup = new THREE.Group();
         lanGroup.position.set(x, y, z);
 
@@ -2512,10 +2672,13 @@
         btmCap.position.y = -0.5;
         lanGroup.add(btmCap);
 
-        const pLight = new THREE.PointLight(0xff6a28, 1.4, 7);
-        pLight.position.y = 0;
-        lanGroup.add(pLight);
-        lanternLights.push(pLight);
+        // Chỉ thêm PointLight theo số lượng của mức đồ họa hiện tại (Low: 0, Medium: 4, High: 12)
+        if (idx < Quality.config.lanternLightsCount) {
+          const pLight = new THREE.PointLight(0xff6a28, 1.4, 7);
+          pLight.position.y = 0;
+          lanGroup.add(pLight);
+          lanternLights.push(pLight);
+        }
 
         scene.add(lanGroup);
       });
@@ -2526,7 +2689,8 @@
     let firefliesPoints;
     let petalsPoints;
     function buildAtmosphereParticles() {
-      const ffCount = 65;
+      const pScale = Quality.config.particleScale;
+      const ffCount = Math.round(65 * pScale);
       const ffGeo = new THREE.BufferGeometry();
       const ffPos = new Float32Array(ffCount * 3);
       for (let i = 0; i < ffCount; i++) {
@@ -2546,7 +2710,7 @@
       firefliesPoints = new THREE.Points(ffGeo, ffMat);
       scene.add(firefliesPoints);
 
-      const ptCount = 50;
+      const ptCount = Math.round(50 * pScale);
       const ptGeo = new THREE.BufferGeometry();
       const ptPos = new Float32Array(ptCount * 3);
       for (let i = 0; i < ptCount; i++) {
@@ -2578,7 +2742,7 @@
 
     const pHead = new THREE.Mesh(new THREE.SphereGeometry(0.38, 16, 16), skinMat);
     pHead.position.y = 1.45;
-    pHead.castShadow = true;
+    if (Quality.config.shadows) pHead.castShadow = true;
     playerGroup.add(pHead);
 
     const pBun = new THREE.Mesh(new THREE.SphereGeometry(0.14, 12, 12), hairMat);
@@ -2587,7 +2751,7 @@
 
     const pBody = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.42, 0.8, 12), robeMat);
     pBody.position.y = 0.85;
-    pBody.castShadow = true;
+    if (Quality.config.shadows) pBody.castShadow = true;
     playerGroup.add(pBody);
 
     const pLeftArm = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.1, 0.45), robeMat);
@@ -2605,6 +2769,20 @@
     const pRightLeg = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.45), robeMat);
     pRightLeg.position.set(0.16, 0.25, 0);
     playerGroup.add(pRightLeg);
+
+    // Bóng tròn mờ giả lập dưới chân nhân vật (giúp nhân vật bám nền tự nhiên khi tắt shadowMap ở mức low)
+    const blobShadowTex = createBlobShadowTexture();
+    const blobShadowMat = new THREE.MeshBasicMaterial({
+      map: blobShadowTex,
+      transparent: true,
+      opacity: 0.55,
+      depthWrite: false
+    });
+    const playerBlobShadow = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 1.2), blobShadowMat);
+    playerBlobShadow.rotation.x = -Math.PI / 2;
+    playerBlobShadow.position.y = 0.02;
+    playerBlobShadow.visible = !Quality.config.shadows;
+    playerGroup.add(playerBlobShadow);
 
     scene.add(playerGroup);
 
@@ -3044,26 +3222,27 @@
     }
 
     function initAICrowd() {
-      for (let i = 0; i < 10; i++) {
+      const counts = Quality.config.pilgrimCount;
+      for (let i = 0; i < counts.pray; i++) {
         const x = (Math.random() - 0.5) * 14;
         const z = -12 + (Math.random() - 0.5) * 4;
         const p = createPilgrim(x, z, 'pray');
         p.mesh.rotation.y = 0;
       }
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < counts.meditate; i++) {
         const x = (Math.random() - 0.5) * 10;
         const z = -20 + (Math.random() - 0.5) * 3;
         const p = createPilgrim(x, z, 'meditate');
         p.mesh.scale.set(0.9, 0.75, 0.9);
         p.mesh.rotation.y = 0;
       }
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < counts.pond; i++) {
         createPilgrim(17 + (Math.random() - 0.5) * 5, 12 + (Math.random() - 0.5) * 5, 'pond');
       }
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < counts.tree; i++) {
         createPilgrim(17 + (Math.random() - 0.5) * 5, -5 + (Math.random() - 0.5) * 5, 'tree');
       }
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < counts.walk; i++) {
         createPilgrim((Math.random() - 0.5) * 26, (Math.random() - 0.5) * 20, 'walk');
       }
     }
@@ -3733,10 +3912,9 @@
         pos.project(camera);
 
         if (pos.z < 1) {
-          const screenX = (pos.x * 0.5 + 0.5) * window.innerWidth;
-          const screenY = (-pos.y * 0.5 + 0.5) * window.innerHeight;
-          bubble.style.left = `${screenX}px`;
-          bubble.style.top = `${screenY}px`;
+          const screenX = Math.round((pos.x * 0.5 + 0.5) * window.innerWidth);
+          const screenY = Math.round((-pos.y * 0.5 + 0.5) * window.innerHeight);
+          bubble.style.transform = `translate3d(${screenX}px, ${screenY}px, 0) translate(-50%, -115%)`;
           if (!bubble.classList.contains('show')) bubble.classList.add('show');
         } else {
           bubble.classList.remove('show');
@@ -3917,6 +4095,41 @@
         alert(`Liên kết của bạn:\n${url}`);
       }
     });
+
+    // CÀI ĐẶT ĐỒ HỌA (QUALITY SETTINGS)
+    const btnSettings = document.getElementById('btn-settings');
+    const qualityCurrentInfo = document.getElementById('quality-current-info');
+    const qualityRadios = document.querySelectorAll('input[name="quality-preset"]');
+    const btnSaveQuality = document.getElementById('btn-save-quality');
+
+    if (btnSettings) {
+      btnSettings.addEventListener('click', () => {
+        const saved = localStorage.getItem(QUALITY_STORAGE_KEY) || 'auto';
+        qualityRadios.forEach(r => {
+          r.checked = (r.value === saved);
+        });
+        const nameMap = { low: 'Mượt / Tiết kiệm pin (Thấp)', medium: 'Cân bằng (Trung bình)', high: 'Sắc nét (Cao)', auto: 'Tự động' };
+        if (qualityCurrentInfo) {
+          qualityCurrentInfo.textContent = `(Mức đang chạy: ${nameMap[Quality.current] || Quality.current})`;
+        }
+        openModal('modal-settings');
+      });
+    }
+
+    if (btnSaveQuality) {
+      btnSaveQuality.addEventListener('click', () => {
+        let selected = 'auto';
+        qualityRadios.forEach(r => {
+          if (r.checked) selected = r.value;
+        });
+        localStorage.setItem(QUALITY_STORAGE_KEY, selected);
+        closeModal('modal-settings');
+        showToast('⚙️ Đang áp dụng thiết lập đồ họa mới...');
+        setTimeout(() => {
+          window.location.reload();
+        }, 300);
+      });
+    }
 
     // =========================================================================
     // HỆ THỐNG TRÒ CHUYỆN THỜI GIAN THỰC (REALTIME CHAT CONTROLLER)
@@ -4551,8 +4764,80 @@
     const clock = new THREE.Clock();
     const tempProjVec = new THREE.Vector3();
 
+    // FPS MONITOR & DYNAMIC AUTO-DOWNGRADE
+    const showFpsBadge = new URLSearchParams(window.location.search).get('fps') === '1';
+    const fpsBadgeEl = document.getElementById('fps-badge');
+    if (showFpsBadge && fpsBadgeEl) {
+      fpsBadgeEl.style.display = 'block';
+    }
+
+    let fpsFrames = 0;
+    let fpsLastTime = performance.now();
+    let lowFpsStrikes = 0;
+    let hasAutoDowngraded = false;
+
+    // TẠM DỪNG RENDER KHI ẨN TAB (TIẾT KIỆM PIN & TRÁNH GIẬT LAG)
+    let isPageHidden = false;
+    document.addEventListener('visibilitychange', () => {
+      isPageHidden = document.hidden;
+      if (!isPageHidden) {
+        clock.getDelta();
+        fpsLastTime = performance.now();
+        fpsFrames = 0;
+        requestAnimationFrame(animate);
+      }
+    });
+
+    function applyDynamicDowngrade() {
+      if (hasAutoDowngraded) return;
+      hasAutoDowngraded = true;
+      Quality.current = 'low';
+      document.body.classList.add('perf-mode');
+
+      // Giảm ngay pixelRatio xuống 1.0 và tắt bóng tức thời mà không cần reload
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.0));
+      renderer.shadowMap.enabled = false;
+      sunLight.castShadow = false;
+      scene.traverse(obj => {
+        if (obj.castShadow) obj.castShadow = false;
+      });
+      if (playerBlobShadow) playerBlobShadow.visible = true;
+
+      // Tắt bớt PointLight đèn lồng
+      lanternLights.forEach(pl => { pl.intensity = 0; pl.visible = false; });
+
+      showToast('⚡ FPS < 28: đã tự động giảm tải đồ họa để chơi mượt hơn.');
+    }
+
     function animate() {
+      if (isPageHidden) return;
       requestAnimationFrame(animate);
+
+      // Đo FPS trung bình mỗi 3 giây
+      fpsFrames++;
+      const fpsNow = performance.now();
+      if (fpsNow - fpsLastTime >= 3000) {
+        const curFps = Math.round((fpsFrames * 1000) / (fpsNow - fpsLastTime));
+        fpsFrames = 0;
+        fpsLastTime = fpsNow;
+
+        if (fpsBadgeEl && showFpsBadge) {
+          fpsBadgeEl.textContent = `FPS: ${curFps}`;
+          fpsBadgeEl.style.color = curFps >= 30 ? '#4ade80' : curFps >= 20 ? '#facc15' : '#ef4444';
+        }
+
+        // Nếu FPS < 28 trong 2 lần liên tiếp (6 giây) -> Tự động hạ mức
+        if (!hasAutoDowngraded && Quality.current !== 'low') {
+          if (curFps < 28) {
+            lowFpsStrikes++;
+            if (lowFpsStrikes >= 2) {
+              applyDynamicDowngrade();
+            }
+          } else {
+            lowFpsStrikes = 0;
+          }
+        }
+      }
 
       const dt = Math.min(clock.getDelta(), 0.1);
       const time = clock.getElapsedTime();
@@ -4624,10 +4909,9 @@
           tempProjVec.set(p.mesh.position.x, 2.05, p.mesh.position.z);
           tempProjVec.project(camera);
           if (tempProjVec.z < 1) {
-            const sx = (tempProjVec.x * 0.5 + 0.5) * window.innerWidth;
-            const sy = (-tempProjVec.y * 0.5 + 0.5) * window.innerHeight;
-            p.nameTag.style.left = `${sx}px`;
-            p.nameTag.style.top = `${sy}px`;
+            const sx = Math.round((tempProjVec.x * 0.5 + 0.5) * window.innerWidth);
+            const sy = Math.round((-tempProjVec.y * 0.5 + 0.5) * window.innerHeight);
+            p.nameTag.style.transform = `translate3d(${sx}px, ${sy}px, 0) translate(-50%, -100%)`;
             p.nameTag.style.display = 'flex';
           } else {
             p.nameTag.style.display = 'none';
@@ -4688,10 +4972,14 @@
         item.mesh.position.y = 0.18 + Math.sin(time * 2 + item.baseAngle) * 0.02;
       });
 
-      // Đèn lồng đỏ lập lòe ánh lửa nhẹ
-      lanternLights.forEach((l, idx) => {
-        l.intensity = 1.2 + Math.sin(time * 3 + idx) * 0.25;
-      });
+      // Đèn lồng đỏ lập lòe ánh lửa nhẹ (nếu có PointLight và chưa bị tắt)
+      if (lanternLights.length > 0 && !hasAutoDowngraded) {
+        lanternLights.forEach((l, idx) => {
+          if (l.visible !== false) {
+            l.intensity = 1.2 + Math.sin(time * 3 + idx) * 0.25;
+          }
+        });
+      }
 
       // Khách hành hương AI đi lại tự nhiên
       Pilgrims.forEach(p => {
@@ -4719,6 +5007,7 @@
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Quality.config.pixelRatio);
     });
   </script>
 </body>
