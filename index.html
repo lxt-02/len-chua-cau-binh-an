@@ -1115,6 +1115,7 @@
           <span>Phòng: <strong id="hud-room-name">chua-an-lac</strong> (<strong id="online-peer-count">1</strong>)</span>
         </div>
         <div class="hud-top-actions">
+          <button class="icon-btn" id="btn-bow" title="Chắp tay vái chào (phím B)">🙏</button>
           <button class="icon-btn" id="btn-chat" title="Gửi lời chúc / Trò chuyện">💬</button>
           <button class="icon-btn" id="btn-journal" title="Sổ Cầu An">📜</button>
           <button class="icon-btn" id="btn-audio" title="Tắt / Bật Âm Thanh">🔊</button>
@@ -1168,7 +1169,7 @@
 
       <!-- Gợi ý điều khiển máy tính -->
       <div class="pc-controls-hint">
-        🎮 Phím <strong>W, A, S, D</strong> để đi | Nhấn <strong>Enter</strong> để chat realtime | Kéo chuột xoay camera
+        🎮 Phím <strong>W, A, S, D</strong> để đi | Nhấn <strong>Enter</strong> để chat realtime | <strong>B</strong> vái chào | Kéo chuột xoay camera
       </div>
     </div>
 
@@ -2462,6 +2463,55 @@
 
     scene.add(playerGroup);
 
+    // ===== CHẮP TAY VÁI CHÀO (CÚI LƯNG) =====
+    const BOW_DURATION = 1800; // ms
+    const BOW_MAX_ANGLE = 0.65; // rad (~37 độ)
+    const BOW_PIVOT_Y = 0.5;   // cúi từ hông
+    const BOW_TEXT = '🙏 A Di Đà Phật, chào thí chủ!';
+
+    // Góc cúi theo thời gian: cúi xuống - giữ - đứng lên
+    function bowAngleAt(startTime) {
+      if (!startTime) return 0;
+      const t = (performance.now() - startTime) / BOW_DURATION;
+      if (t <= 0 || t >= 1) return 0;
+      let k;
+      if (t < 0.3) k = t / 0.3;
+      else if (t < 0.65) k = 1;
+      else k = 1 - (t - 0.65) / 0.35;
+      k = k * k * (3 - 2 * k); // smoothstep cho mượt
+      return BOW_MAX_ANGLE * k;
+    }
+
+    // Xoay phần thân trên quanh hông. parts = [{mesh, base:{y,z}}...]
+    function applyBowPose(parts, angle) {
+      const c = Math.cos(angle), sn = Math.sin(angle);
+      for (const part of parts) {
+        const dy = part.base.y - BOW_PIVOT_Y;
+        const dz = part.base.z;
+        part.mesh.position.y = BOW_PIVOT_Y + dy * c - dz * sn;
+        part.mesh.position.z = dy * sn + dz * c;
+        part.mesh.rotation.x = (part.baseRotX || 0) + angle;
+      }
+    }
+    function makeBowParts(meshes) {
+      return meshes.map(m => ({ mesh: m, base: { y: m.position.y, z: m.position.z }, baseRotX: 0 }));
+    }
+    function setPrayArms(leftArm, rightArm, bowParts) {
+      // Hai tay chắp trước ngực
+      leftArm.rotation.z = -0.7;
+      rightArm.rotation.z = 0.7;
+      for (const part of bowParts) {
+        if (part.mesh === leftArm || part.mesh === rightArm) part.baseRotX = -0.8;
+      }
+    }
+    function clearPrayArms(leftArm, rightArm, bowParts) {
+      leftArm.rotation.z = 0;
+      rightArm.rotation.z = 0;
+      for (const part of bowParts) part.baseRotX = 0;
+    }
+
+    const playerBowParts = makeBowParts([pHead, pBun, pBody, pLeftArm, pRightArm]);
+
     const PlayerController = {
       x: 0,
       z: 22,
@@ -2478,7 +2528,28 @@
       inputX: 0,
       inputZ: 0,
 
+      bowStart: 0,
+      _bowed: false,
+
       update(dt) {
+        const bowAngle = bowAngleAt(this.bowStart);
+        if (bowAngle > 0) {
+          this._bowed = true;
+          this.isMoving = false;
+          pLeftLeg.rotation.x = 0;
+          pRightLeg.rotation.x = 0;
+          setPrayArms(pLeftArm, pRightArm, playerBowParts);
+          applyBowPose(playerBowParts, bowAngle);
+          this.updateCamera();
+          return;
+        }
+        if (this._bowed) {
+          this._bowed = false;
+          this.bowStart = 0;
+          clearPrayArms(pLeftArm, pRightArm, playerBowParts);
+          applyBowPose(playerBowParts, 0);
+        }
+
         if (this.isPraying) {
           pLeftArm.rotation.z = -0.7;
           pLeftArm.rotation.x = -0.8;
@@ -2541,6 +2612,10 @@
           pHead.position.y = 1.45;
         }
 
+        this.updateCamera();
+      },
+
+      updateCamera() {
         playerGroup.position.set(this.x, 0, this.z);
         playerGroup.rotation.y = this.rotationY;
 
@@ -2577,6 +2652,11 @@
           chatInp.focus();
           return;
         }
+      }
+
+      if (e.code === 'KeyB' && !e.repeat) {
+        doBow();
+        return;
       }
 
       Keys[e.code] = true;
@@ -2837,6 +2917,9 @@
 
       const pData = {
         mesh: group,
+        bowStart: 0,
+        _bowed: false,
+        bowParts: makeBowParts([head, bun, body, leftArm, rightArm]),
         head,
         leftArm,
         rightArm,
@@ -2968,7 +3051,7 @@
         });
 
         getEvt((data, peerId) => {
-          handleRemoteEvent(data);
+          handleRemoteEvent(data, peerId);
         });
 
         getMsg((data, peerId) => {
@@ -2997,7 +3080,13 @@
     }
 
     // XỬ LÝ SỰ KIỆN TỪ BẠN BÈ TRONG PHÒNG
-    function handleRemoteEvent(evt) {
+    function handleRemoteEvent(evt, peerId) {
+      if (evt.type === 'bow') {
+        const p = RemotePlayers.get(peerId);
+        if (p) p.bowStart = performance.now();
+        showSpeechBubbleForPeer(peerId, BOW_TEXT);
+        return;
+      }
       if (evt.type === 'incense') {
         showToast(`🪔 Đạo hữu ${evt.name} vừa dâng ${evt.sticks} nén tâm hương!`);
         addSystemChatMessage(`🪔 Đạo hữu <strong>${escapeHtml(evt.name)}</strong> vừa dâng ${evt.sticks} nén tâm hương.`);
@@ -3039,6 +3128,21 @@
         }
       }
     }
+
+    // NGƯỜI CHƠI BẤM VÁI CHÀO
+    function doBow() {
+      if (bowAngleAt(PlayerController.bowStart) > 0) return; // đang cúi thì bỏ qua
+      if (PlayerController.isPraying) return; // đang mở bảng hành lễ
+      PlayerController.bowStart = performance.now();
+      showSpeechBubbleForPeer('self', BOW_TEXT);
+      if (sendPlayerEvent) {
+        try { sendPlayerEvent({ type: 'bow', name: GameState.playerName }); } catch (e) { console.warn(e); }
+      }
+    }
+    document.getElementById('btn-bow').addEventListener('click', e => {
+      e.currentTarget.blur();
+      doBow();
+    });
 
     // HIỂN THỊ BONG BÓNG THOẠI CHO BẠN BÈ HOẶC CHÍNH MÌNH
     function showSpeechBubbleForPeer(peerId, text) {
@@ -3897,8 +4001,20 @@
         while (diff > Math.PI) diff -= Math.PI * 2;
         p.mesh.rotation.y += diff * 0.25;
 
-        // Dáng hành lễ / bước đi
-        if (p.isPraying) {
+        // Dáng vái chào / hành lễ / bước đi
+        const pBowAngle = bowAngleAt(p.bowStart);
+        if (pBowAngle > 0) {
+          p._bowed = true;
+          p.leftLeg.rotation.x = 0;
+          p.rightLeg.rotation.x = 0;
+          setPrayArms(p.leftArm, p.rightArm, p.bowParts);
+          applyBowPose(p.bowParts, pBowAngle);
+        } else if (p._bowed) {
+          p._bowed = false;
+          p.bowStart = 0;
+          clearPrayArms(p.leftArm, p.rightArm, p.bowParts);
+          applyBowPose(p.bowParts, 0);
+        } else if (p.isPraying) {
           p.leftArm.rotation.z = -0.7;
           p.leftArm.rotation.x = -0.8;
           p.rightArm.rotation.z = 0.7;
