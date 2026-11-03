@@ -1738,7 +1738,7 @@
           <!-- Huy hiệu Nhạc Chùa Tĩnh Tâm -->
           <div class="badge-counter" id="btn-music-badge" title="Chạm để mở danh sách nhạc chùa tĩnh tâm">
             <span class="dot" id="music-dot" style="background:#f0c05a; box-shadow:0 0 8px #f0c05a;"></span>
-            <span id="hud-music-title">🎵 Nhạc Chùa Tĩnh Tâm</span>
+            <span id="hud-music-title">🎵 Dưới Tòa Sen Vàng (Không Lời)</span>
           </div>
         </div>
         <div class="hud-top-actions">
@@ -1922,19 +1922,19 @@
   <div class="modal-overlay" id="modal-music">
     <div class="modal-card">
       <button class="modal-close-btn" data-close="modal-music">✕</button>
-      <h2 class="modal-title">🪷 NHẠC CHÙA TĨNH TÂM</h2>
-      <p class="modal-subtitle">Giai điệu thiền định, Chú Đại Bi và niệm Phật thanh tịnh cửa chùa Việt Nam</p>
+      <h2 class="modal-title">🪷 DƯỚI TÒA SEN VÀNG</h2>
+      <p class="modal-subtitle">Khúc hòa tấu sáo trúc & đàn tranh thanh tịnh (Lạy Phật Quan Âm - Không lời)</p>
 
       <!-- Thanh điều khiển đang phát -->
       <div class="music-player-bar">
         <div style="flex: 1; overflow: hidden;">
           <div style="font-size: 11px; color: var(--gold-primary); text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px;">Đang phát</div>
-          <div id="player-current-title" style="font-size: 13.5px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Chú Đại Bi - Nhạc Thiền Tịnh Tâm</div>
+          <div id="player-current-title" style="font-size: 13.5px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Dưới Tòa Sen Vàng - Hòa Tấu Không Lời</div>
         </div>
         <div style="display: flex; gap: 8px; align-items: center;">
-          <button class="music-ctrl-btn" id="btn-music-prev" title="Bài trước">⏮️</button>
+          <button class="music-ctrl-btn" id="btn-music-prev" title="Phát lại từ đầu">⏮️</button>
           <button class="music-ctrl-btn big" id="btn-music-playpause" title="Phát / Tạm dừng">▶️</button>
-          <button class="music-ctrl-btn" id="btn-music-next" title="Bài kế tiếp">⏭️</button>
+          <button class="music-ctrl-btn" id="btn-music-next" title="Phát lại từ đầu">⏭️</button>
         </div>
       </div>
 
@@ -2520,48 +2520,18 @@
        2. HỆ THỐNG ÂM THANH & NHẠC CHÙA TĨNH TÂM VIỆT NAM (TEMPLE SOUND & MUSIC ENGINE)
        ========================================================================= */
 
-    // DANH SÁCH CÁC BẢN NHẠC CHÙA & NHẠC THIỀN VIỆT NAM TUYỂN CHỌN
+    // DANH SÁCH BẢN NHẠC CHÙA DUY NHẤT: DƯỚI TÒA SEN VÀNG (HÒA TẤU KHÔNG LỜI)
     const TEMPLE_PLAYLIST = [
       {
-        id: 'chudaibi',
-        title: 'Chú Đại Bi - Nhạc Thiền Sáo Trúc Tịnh Tâm',
-        desc: 'Khúc nhạc Chú Đại Bi thanh tịnh, sáo trúc & chuông mõ ngân nga xua tan muộn phiền',
-        src: 'https://archive.org/download/buddhamantra/-%E5%A4%A7%E6%82%B2%E5%92%92.mp3',
-        fallbackSrc: 'https://archive.org/download/Buddhist-Audios/Relaxation%20From%20The%20Far%20East.mp3',
-        mode: 'audio'
-      },
-      {
-        id: 'nammoadidaphat',
-        title: 'Nam Mô A Di Đà Phật - Niệm Phật Cửa Chùa',
-        desc: 'Điệu niệm 6 chữ hồng danh du dương, an lạc, thanh thoát cõi thiền',
-        src: 'https://archive.org/download/buddhamantra/%28%E7%99%BD%E5%BA%A6%E6%AF%8D%E5%BF%83%E5%92%92%29White%20Tara%20Mantra%28Very%20Relaxing%29.mp3',
-        fallbackSrc: 'https://archive.org/download/Buddhist-Audios/The%20Chant%20of%20Metta%20%28Pali%29.mp3',
-        mode: 'audio'
-      },
-      {
-        id: 'saotructhien',
-        title: 'Sáo Trúc Cửa Thiền - Suối Chảy Mây Bay',
-        desc: 'Tiếng sáo trúc du dương hòa cùng tiếng suối mát bên hồ sen tĩnh lặng',
-        src: 'https://archive.org/download/Buddhist-Audios/Relaxation%20From%20The%20Far%20East.mp3',
-        mode: 'audio'
-      },
-      {
-        id: 'batnhatamkinh',
-        title: 'Bát Nhã Ba La Mật Đa Tâm Kinh',
-        desc: 'Tụng kinh Bát Nhã thanh tịnh, quán chiếu ngũ uẩn giai không',
-        src: 'https://archive.org/download/buddhamantra/Dalai%20Lama%20reciting%20Prajna%20Paramita%20Heart%20Sutra%20Mantra.mp3',
-        mode: 'audio'
-      },
-      {
-        id: 'procedural_zen',
-        title: 'Giai Điệu Sáo Thiền Ngũ Cung Thuần Việt',
-        desc: 'Hòa tấu sáo trúc ngũ cung (Hò Xự Xang Xê Cống) & Đại Hồng Chung thuần code (100% Offline)',
+        id: 'duoi_toa_sen_vang',
+        title: 'Dưới Tòa Sen Vàng - Hòa Tấu Không Lời',
+        desc: 'Khúc hòa tấu sáo trúc & đàn tranh thanh tịnh: Dưới tòa sen vàng con quỳ lạy Bồ Tát Quan Âm',
         src: '',
         mode: 'synth'
       }
     ];
 
-    // BỘ TỔNG HỢP SÁO TRÚC THIỀN ĐỊNH NGŨ CUNG VIỆT NAM (PROCEDURAL ZEN FLUTE & BELLS)
+    // BỘ TỔNG HỢP SÁO TRÚC & ĐÀN TRANH THIỀN ĐỊNH: DƯỚI TÒA SEN VÀNG (LẠY PHẬT QUAN ÂM)
     class ProceduralZenFlute {
       constructor(engine) {
         this.engine = engine;
@@ -2572,26 +2542,191 @@
         this.droneNodes = [];
         this.woodfishCounter = 0;
 
-        // Giai điệu ngũ cung thiền Việt Nam (Điệu Nam Á Đông: D - F - G - A - C - D)
+        // Giai điệu trọn vẹn bài "Dưới Tòa Sen Vàng" (Lạy Phật Quan Âm - Nhạc sĩ Hàn Châu)
+        // Điệu Nam / Ngũ cung Rê thứ (Dm): D4, F4, G4, A4, C5, D5, E5, F5
         this.melody = [
-          { f: 293.66, d: 2.6 }, // D4 - mở đầu lắng đọng
-          { f: 349.23, d: 2.0 }, // F4
-          { f: 392.00, d: 2.4 }, // G4
-          { f: 440.00, d: 3.6 }, // A4 - ngân dài thanh thoát
-          { f: 392.00, d: 2.0 }, // G4
-          { f: 349.23, d: 2.0 }, // F4
-          { f: 293.66, d: 4.0 }, // D4 - về gốc an yên
-          { f: 261.63, d: 2.2 }, // C4
-          { f: 293.66, d: 2.5 }, // D4
-          { f: 392.00, d: 2.2 }, // G4
-          { f: 440.00, d: 2.4 }, // A4
-          { f: 523.25, d: 4.0 }, // C5 - vút cao sáng trong
-          { f: 587.33, d: 2.6 }, // D5
-          { f: 523.25, d: 2.2 }, // C5
-          { f: 440.00, d: 3.0 }, // A4
-          { f: 392.00, d: 2.2 }, // G4
-          { f: 349.23, d: 2.6 }, // F4
-          { f: 293.66, d: 5.0 }  // D4 - đọng lại hư không
+          // === LỜI 1 ===
+          // "Dưới tòa sen vàng..." (D4 - F4 - G4 - A4)
+          { f: 293.66, d: 1.0, pluck: true },  // Dưới (D4)
+          { f: 349.23, d: 1.0 },               // tòa (F4)
+          { f: 392.00, d: 1.0 },               // sen (G4)
+          { f: 440.00, d: 2.2, pluck: true },  // vàng (A4) ngân
+
+          // "...con quỳ lạy Bồ Tát Quan Âm" (A4 - C5 - A4 - G4 - A4 - C5 - D5)
+          { f: 440.00, d: 0.8 },               // con (A4)
+          { f: 523.25, d: 0.8 },               // quỳ (C5)
+          { f: 440.00, d: 0.8 },               // lạy (A4)
+          { f: 392.00, d: 0.8 },               // Bồ (G4)
+          { f: 440.00, d: 1.0 },               // Tát (A4)
+          { f: 523.25, d: 0.9 },               // Quan (C5)
+          { f: 587.33, d: 2.6, pluck: true },  // Âm (D5) ngân an lạc
+
+          // "Người đã cho con..." (D5 - F5 - D5 - C5)
+          { f: 587.33, d: 0.9, pluck: true },  // Người (D5)
+          { f: 698.46, d: 0.9 },               // đã (F5)
+          { f: 587.33, d: 0.8 },               // cho (D5)
+          { f: 523.25, d: 1.2 },               // con (C5)
+
+          // "...niềm tin yêu giữa cuộc đời" (A4 - C5 - D5 - C5 - A4 - G4)
+          { f: 440.00, d: 0.8 },               // niềm (A4)
+          { f: 523.25, d: 0.8 },               // tin (C5)
+          { f: 587.33, d: 1.0 },               // yêu (D5)
+          { f: 523.25, d: 0.8 },               // giữa (C5)
+          { f: 440.00, d: 0.8 },               // cuộc (A4)
+          { f: 392.00, d: 2.4, pluck: true },  // đời (G4) ngân
+
+          // "Quan Âm Bồ Tát hiệu viên thông..." (G4 - A4 - C5 - D5 - C5 - A4 - A4)
+          { f: 392.00, d: 0.8, pluck: true },  // Quan (G4)
+          { f: 440.00, d: 0.8 },               // Âm (A4)
+          { f: 523.25, d: 0.8 },               // Bồ (C5)
+          { f: 587.33, d: 1.0 },               // Tát (D5)
+          { f: 523.25, d: 0.8 },               // hiệu (C5)
+          { f: 440.00, d: 0.8 },               // viên (A4)
+          { f: 440.00, d: 1.8, pluck: true },  // thông (A4)
+
+          // "...mười hai nguyện lớn rộng mênh mông" (A4 - C5 - D5 - F5 - D5 - C5 - A4)
+          { f: 440.00, d: 0.8 },               // mười (A4)
+          { f: 523.25, d: 0.8 },               // hai (C5)
+          { f: 587.33, d: 1.0 },               // nguyện (D5)
+          { f: 698.46, d: 0.9 },               // lớn (F5)
+          { f: 587.33, d: 0.8 },               // rộng (D5)
+          { f: 523.25, d: 0.8 },               // mênh (C5)
+          { f: 440.00, d: 2.4, pluck: true },  // mông (A4)
+
+          // "Cứu giúp bao người qua cơn khổ nạn..." (G4 - A4 - C5 - D5 - C5 - A4 - G4 - F4)
+          { f: 392.00, d: 0.8, pluck: true },  // Cứu (G4)
+          { f: 440.00, d: 0.8 },               // giúp (A4)
+          { f: 523.25, d: 0.8 },               // bao (C5)
+          { f: 587.33, d: 1.0 },               // người (D5)
+          { f: 523.25, d: 0.8 },               // qua (C5)
+          { f: 440.00, d: 0.8 },               // cơn (A4)
+          { f: 392.00, d: 0.8 },               // khổ (G4)
+          { f: 349.23, d: 1.4 },               // nạn (F4)
+
+          // "...từ bi độ đời" (G4 - A4 - F4 - D4)
+          { f: 392.00, d: 0.8 },               // từ (G4)
+          { f: 440.00, d: 1.0 },               // bi (A4)
+          { f: 349.23, d: 0.9 },               // độ (F4)
+          { f: 293.66, d: 3.4, pluck: true },  // đời (D4) lắng sâu
+
+          // === ĐIỆP KHÚC (CHORUS) ===
+          // "Quan Âm!..." (F5 - D5)
+          { f: 698.46, d: 1.2, pluck: true },  // Quan (F5)
+          { f: 587.33, d: 1.8 },               // Âm (D5)
+          // "...Trái tim sáng ngời" (D5 - C5 - D5 - F5)
+          { f: 587.33, d: 0.8, pluck: true },  // Trái (D5)
+          { f: 523.25, d: 0.8 },               // tim (C5)
+          { f: 587.33, d: 1.0 },               // sáng (D5)
+          { f: 698.46, d: 2.2, pluck: true },  // ngời (F5)
+
+          // "Cứu người hoạn nạn qua cơn khó khăn" (F5 - D5 - C5 - A4 - C5 - D5 - C5 - A4)
+          { f: 698.46, d: 0.8 },               // Cứu (F5)
+          { f: 587.33, d: 0.8 },               // người (D5)
+          { f: 523.25, d: 0.8 },               // hoạn (C5)
+          { f: 440.00, d: 1.0 },               // nạn (A4)
+          { f: 523.25, d: 0.8 },               // qua (C5)
+          { f: 587.33, d: 0.8 },               // cơn (D5)
+          { f: 523.25, d: 0.8 },               // khó (C5)
+          { f: 440.00, d: 2.2, pluck: true },  // khăn (A4)
+
+          // "Quan Âm tay cầm bình nước Cam Lồ" (G4 - A4 - C5 - D5 - C5 - A4 - C5 - D5)
+          { f: 392.00, d: 0.8, pluck: true },  // Quan (G4)
+          { f: 440.00, d: 0.8 },               // Âm (A4)
+          { f: 523.25, d: 0.8 },               // tay (C5)
+          { f: 587.33, d: 1.0 },               // cầm (D5)
+          { f: 523.25, d: 0.8 },               // bình (C5)
+          { f: 440.00, d: 0.8 },               // nước (A4)
+          { f: 523.25, d: 1.0 },               // Cam (C5)
+          { f: 587.33, d: 2.0, pluck: true },  // Lồ (D5)
+
+          // "Tay cầm nhành liễu thanh nhàn..." (D5 - F5 - D5 - C5 - A4 - G4)
+          { f: 587.33, d: 0.8, pluck: true },  // Tay (D5)
+          { f: 698.46, d: 0.9 },               // cầm (F5)
+          { f: 587.33, d: 0.8 },               // nhành (D5)
+          { f: 523.25, d: 0.8 },               // liễu (C5)
+          { f: 440.00, d: 0.8 },               // thanh (A4)
+          { f: 392.00, d: 1.6, pluck: true },  // nhàn (G4)
+
+          // "...rưới khắp thế gian" (A4 - C5 - D5 - C5)
+          { f: 440.00, d: 0.8 },               // rưới (A4)
+          { f: 523.25, d: 0.8 },               // khắp (C5)
+          { f: 587.33, d: 1.0 },               // thế (D5)
+          { f: 523.25, d: 2.0, pluck: true },  // gian (C5)
+
+          // "Tốt tươi mát mẻ mười phương thanh nhàn" (A4 - C5 - D5 - C5 - A4 - G4 - F4 - D4)
+          { f: 440.00, d: 0.8 },               // Tốt (A4)
+          { f: 523.25, d: 0.8 },               // tươi (C5)
+          { f: 587.33, d: 0.8 },               // mát (D5)
+          { f: 523.25, d: 0.8 },               // mẻ (C5)
+          { f: 440.00, d: 0.8 },               // mười (A4)
+          { f: 392.00, d: 0.8 },               // phương (G4)
+          { f: 349.23, d: 1.2 },               // thanh (F4)
+          { f: 293.66, d: 3.4, pluck: true },  // nhàn (D4)
+
+          // === LỜI 2 ===
+          // "Dưới tòa sen vàng..." (D4 - F4 - G4 - A4)
+          { f: 293.66, d: 1.0, pluck: true },  // Dưới (D4)
+          { f: 349.23, d: 1.0 },               // tòa (F4)
+          { f: 392.00, d: 1.0 },               // sen (G4)
+          { f: 440.00, d: 2.2, pluck: true },  // vàng (A4)
+
+          // "...hương trầm tỏa ngát nhân gian" (A4 - C5 - A4 - G4 - A4 - D5)
+          { f: 440.00, d: 0.8 },               // hương (A4)
+          { f: 523.25, d: 0.8 },               // trầm (C5)
+          { f: 440.00, d: 0.8 },               // tỏa (A4)
+          { f: 392.00, d: 0.8 },               // ngát (G4)
+          { f: 440.00, d: 1.0 },               // nhân (A4)
+          { f: 587.33, d: 2.6, pluck: true },  // gian (D5)
+
+          // "Lạy Phật Quan Âm..." (D5 - F5 - D5 - C5)
+          { f: 587.33, d: 0.9, pluck: true },  // Lạy (D5)
+          { f: 698.46, d: 0.9 },               // Phật (F5)
+          { f: 587.33, d: 0.8 },               // Quan (D5)
+          { f: 523.25, d: 1.2 },               // Âm (C5)
+
+          // "...dìu con qua bến mê đời" (A4 - C5 - D5 - C5 - A4 - G4)
+          { f: 440.00, d: 0.8 },               // dìu (A4)
+          { f: 523.25, d: 0.8 },               // con (C5)
+          { f: 587.33, d: 1.0 },               // qua (D5)
+          { f: 523.25, d: 0.8 },               // bến (C5)
+          { f: 440.00, d: 0.8 },               // mê (A4)
+          { f: 392.00, d: 2.4, pluck: true },  // đời (G4)
+
+          // "Cho con được sống đời an vui..." (G4 - A4 - C5 - D5 - C5 - A4 - A4)
+          { f: 392.00, d: 0.8, pluck: true },  // Cho (G4)
+          { f: 440.00, d: 0.8 },               // con (A4)
+          { f: 523.25, d: 0.8 },               // được (C5)
+          { f: 587.33, d: 1.0 },               // sống (D5)
+          { f: 523.25, d: 0.8 },               // đời (C5)
+          { f: 440.00, d: 0.8 },               // an (A4)
+          { f: 440.00, d: 1.8, pluck: true },  // vui (A4)
+
+          // "...cho con được sống đời xinh tươi" (A4 - C5 - D5 - F5 - D5 - C5 - A4)
+          { f: 440.00, d: 0.8 },               // cho (A4)
+          { f: 523.25, d: 0.8 },               // con (C5)
+          { f: 587.33, d: 1.0 },               // được (D5)
+          { f: 698.46, d: 0.9 },               // sống (F5)
+          { f: 587.33, d: 0.8 },               // đời (D5)
+          { f: 523.25, d: 0.8 },               // xinh (C5)
+          { f: 440.00, d: 2.2, pluck: true },  // tươi (A4)
+
+          // "Quan Âm cứu khổ..." (G4 - A4 - C5 - D5)
+          { f: 392.00, d: 0.8, pluck: true },  // Quan (G4)
+          { f: 440.00, d: 0.8 },               // Âm (A4)
+          { f: 523.25, d: 0.8 },               // cứu (C5)
+          { f: 587.33, d: 1.2 },               // khổ (D5)
+
+          // "...Quan Âm cứu nạn..." (C5 - A4 - G4 - F4)
+          { f: 523.25, d: 0.8 },               // Quan (C5)
+          { f: 440.00, d: 0.8 },               // Âm (A4)
+          { f: 392.00, d: 0.8 },               // cứu (G4)
+          { f: 349.23, d: 1.4 },               // nạn (F4)
+
+          // "...đời con rạng ngời" (G4 - A4 - F4 - D4)
+          { f: 392.00, d: 0.8 },               // đời (G4)
+          { f: 440.00, d: 1.0 },               // con (A4)
+          { f: 349.23, d: 0.9 },               // rạng (F4)
+          { f: 293.66, d: 4.2, pluck: true }   // ngời (D4) ngân dài tĩnh lặng hư không
         ];
       }
 
@@ -2631,6 +2766,13 @@
           this.droneNodes.push(osc, lfo);
         });
 
+        // Tiếng chuông chùa ngân vang lúc bắt đầu giai điệu
+        if (!this.engine.isMuted) {
+          setTimeout(() => {
+            if (this.isPlaying) this.engine.playBell();
+          }, 300);
+        }
+
         this.scheduleNextNote();
       }
 
@@ -2641,18 +2783,21 @@
 
         const note = this.melody[this.noteIndex];
         this.playFluteNote(note.f, note.d);
+        if (note.pluck) {
+          this.playZitherPluck(note.f);
+        }
 
-        // Cứ mỗi 3 nốt sáo (~7-8s), gõ một tiếng mõ chùa trầm ấm giữ nhịp tĩnh tâm
+        // Cứ mỗi 3-4 nốt sáo (~6-8s), gõ một tiếng mõ chùa trầm ấm giữ nhịp tĩnh tâm
         this.woodfishCounter++;
         if (this.woodfishCounter % 3 === 0) {
           setTimeout(() => {
             if (this.isPlaying && !this.engine.isMuted) {
               this.engine.playWoodfish();
             }
-          }, 800);
+          }, 600);
         }
 
-        // Cứ hết 1 vòng giai điệu (~50s), thỉnh một tiếng Đại Hồng Chung ngân vang
+        // Cứ hết 1 vòng giai điệu trọn vẹn, thỉnh một tiếng Đại Hồng Chung ngân vang an lạc
         if (this.noteIndex === 0 && this.woodfishCounter > 1) {
           setTimeout(() => {
             if (this.isPlaying && !this.engine.isMuted) {
@@ -2661,7 +2806,7 @@
           }, 400);
         }
 
-        const waitTime = (note.d * 1000) + 180;
+        const waitTime = (note.d * 1000) + 120;
         this.noteIndex = (this.noteIndex + 1) % this.melody.length;
         this.timer = setTimeout(() => this.scheduleNextNote(), waitTime);
       }
@@ -2682,7 +2827,7 @@
         osc2.type = 'sine';
         osc2.frequency.setValueAtTime(freq * 2, now);
 
-        // Rung âm (Vibrato) sau 0.25s
+        // Rung âm sáo trúc (Vibrato) sau 0.25s
         const vib = ctx.createOscillator();
         const vibGain = ctx.createGain();
         vib.frequency.setValueAtTime(4.6, now);
@@ -2695,7 +2840,7 @@
         vib.start(now);
         vib.stop(now + duration + 0.5);
 
-        // Lowpass lọc mềm âm thanh
+        // Lowpass lọc mềm âm sắc sáo trúc Việt Nam
         filter.type = 'lowpass';
         filter.frequency.setValueAtTime(2200, now);
         filter.Q.setValueAtTime(1.8, now);
@@ -2716,6 +2861,35 @@
         osc2.start(now);
         osc1.stop(now + duration + 0.1);
         osc2.stop(now + duration + 0.1);
+      }
+
+      // Điểm xuyết âm sắc Đàn Tranh trong trẻo trên các phách chính
+      playZitherPluck(freq) {
+        const ctx = this.engine.ctx;
+        if (!ctx || this.engine.isMuted) return;
+
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const pluckGain = ctx.createGain();
+        const filter = ctx.createBiquadFilter();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq * 2, now);
+
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(freq * 2, now);
+        filter.Q.setValueAtTime(5.5, now);
+
+        pluckGain.gain.setValueAtTime(0.0001, now);
+        pluckGain.gain.linearRampToValueAtTime(0.16, now + 0.006);
+        pluckGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.2);
+
+        osc.connect(filter);
+        filter.connect(pluckGain);
+        pluckGain.connect(this.fluteGain);
+
+        osc.start(now);
+        osc.stop(now + 1.3);
       }
 
       stop() {
@@ -2772,7 +2946,7 @@
 
       fallbackToSynth() {
         if (!this.isPlaying) return;
-        showToast('🍃 Mạng chậm, đã tự động chuyển sang Sáo Thiền Ngũ Cung tịnh tâm offline.');
+        showToast('🍃 Đang phát hòa tấu Dưới Tòa Sen Vàng tịnh tâm.');
         this.audioEl.pause();
         this.proceduralFlute.start();
         this.updateUI();
@@ -2831,12 +3005,24 @@
 
       nextTrack() {
         let nextIdx = (this.currentIndex + 1) % this.playlist.length;
-        this.play(nextIdx);
+        if (this.playlist.length === 1 && this.isPlaying) {
+          this.proceduralFlute.stop();
+          this.proceduralFlute.start();
+          showToast(`🪷 Phát lại: ${this.getCurrentTrack().title}`);
+        } else {
+          this.play(nextIdx);
+        }
       }
 
       prevTrack() {
         let prevIdx = (this.currentIndex - 1 + this.playlist.length) % this.playlist.length;
-        this.play(prevIdx);
+        if (this.playlist.length === 1 && this.isPlaying) {
+          this.proceduralFlute.stop();
+          this.proceduralFlute.start();
+          showToast(`🪷 Phát lại: ${this.getCurrentTrack().title}`);
+        } else {
+          this.play(prevIdx);
+        }
       }
 
       setVolume(val) {
@@ -2896,10 +3082,10 @@
           musicDot.style.boxShadow = this.isPlaying ? '0 0 10px #4ade80' : '0 0 8px #f0c05a';
         }
         if (hudTitle) {
-          hudTitle.textContent = this.isPlaying ? `🎵 ${track.title.split('-')[0].trim()}` : `🎵 Nhạc Chùa Tĩnh Tâm`;
+          hudTitle.textContent = this.isPlaying ? `🎵 Dưới Tòa Sen Vàng` : `🎵 Dưới Tòa Sen Vàng (Không Lời)`;
         }
         if (playerCurrentTitle) {
-          playerCurrentTitle.textContent = track.title;
+          playerCurrentTitle.textContent = track ? track.title : 'Dưới Tòa Sen Vàng - Hòa Tấu Không Lời';
         }
         if (playPauseBtn) {
           playPauseBtn.textContent = this.isPlaying ? '⏸️' : '▶️';
@@ -3379,6 +3565,8 @@
 
     const Sound = new TempleSoundEngine();
     const TempleMusic = new TempleMusicManager(Sound);
+    window.Sound = Sound;
+    window.TempleMusic = TempleMusic;
 
     /* =========================================================================
        3. TẠO CÁC TEXTURE THỦ CÔNG (CANVAS PROCEDURAL TEXTURES)
