@@ -1097,6 +1097,48 @@
       border: 2px solid var(--gold-primary);
       box-shadow: 0 6px 20px rgba(0,0,0,0.6);
     }
+
+    /* ===== NHÓM 3: LỜI PHẬT DẠY, NGỒI THIỀN, NHẠC NỀN ===== */
+    .icon-btn.on { background: linear-gradient(135deg, #e5a93b, #c47c20); color: #1a0f00; }
+    .quote-stone {
+      margin: 14px 0 6px; padding: 22px 18px; border-radius: 14px;
+      background: linear-gradient(160deg, #4a4540 0%, #2e2a26 100%);
+      border: 1px solid rgba(229,169,59,0.45); text-align: center;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+    }
+    .quote-stone .quote-day { font-size: 12px; color: #d9b36a; letter-spacing: 1px; margin-bottom: 10px; }
+    .quote-stone .quote-text { font-size: 18px; line-height: 1.55; color: #fff4d6; font-style: italic; }
+    .med-choices { display: flex; gap: 10px; justify-content: center; margin: 16px 0; }
+    .med-choice {
+      flex: 1; padding: 14px 6px; border-radius: 12px; cursor: pointer; text-align: center;
+      border: 1px solid rgba(229,169,59,0.4); background: rgba(255,255,255,0.04); color: #f3e3c0; font-weight: 700;
+    }
+    .med-choice.selected { background: rgba(229,169,59,0.25); border-color: #e5a93b; color: #ffe7a8; }
+    .med-choice small { display: block; font-weight: 400; opacity: 0.75; margin-top: 3px; font-size: 11px; }
+    .med-stats { text-align: center; font-size: 13px; color: #d9c8a0; margin-bottom: 8px; }
+    #meditation-hud {
+      position: absolute; left: 50%; top: 72px; transform: translateX(-50%);
+      display: none; flex-direction: column; align-items: center; gap: 10px;
+      pointer-events: none; z-index: 25; text-align: center;
+    }
+    #meditation-hud.active { display: flex; }
+    body.meditating #action-prompt { display: none; }
+    .breath-circle {
+      width: 92px; height: 92px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,226,150,0.55) 0%, rgba(229,169,59,0.18) 60%, rgba(229,169,59,0) 72%);
+      border: 2px solid rgba(255,226,150,0.6);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff4d6; font-weight: 700; font-size: 15px; text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+      transform: scale(0.65); transition: transform 4s ease-in-out;
+    }
+    .breath-circle.inhale { transform: scale(1.15); }
+    .med-info { color: #fff4d6; font-size: 14px; text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+      background: rgba(20,12,4,0.55); padding: 6px 14px; border-radius: 20px; }
+    .med-room { color: #ffd98a; font-size: 13px; text-shadow: 0 1px 4px rgba(0,0,0,0.8); min-height: 16px; }
+    #btn-stop-meditation {
+      pointer-events: auto; margin-top: 4px; padding: 8px 18px; border-radius: 20px; cursor: pointer;
+      background: rgba(20,12,4,0.7); color: #f3d38a; border: 1px solid rgba(229,169,59,0.6); font-weight: 700;
+    }
   </style>
 </head>
 <body>
@@ -1115,11 +1157,20 @@
           <span>Phòng: <strong id="hud-room-name">chua-an-lac</strong> (<strong id="online-peer-count">1</strong>)</span>
         </div>
         <div class="hud-top-actions">
+          <button class="icon-btn" id="btn-music" title="Bật / Tắt nhạc thiền (chuông gió)">🎵</button>
           <button class="icon-btn" id="btn-bow" title="Chắp tay vái chào (phím B)">🙏</button>
           <button class="icon-btn" id="btn-chat" title="Gửi lời chúc / Trò chuyện">💬</button>
           <button class="icon-btn" id="btn-journal" title="Sổ Cầu An">📜</button>
           <button class="icon-btn" id="btn-audio" title="Tắt / Bật Âm Thanh">🔊</button>
         </div>
+      </div>
+
+      <!-- Giao diện khi đang ngồi thiền -->
+      <div id="meditation-hud">
+        <div class="breath-circle" id="breath-circle">Hít vào</div>
+        <div class="med-info"><span id="med-time">03:00</span> · <span id="med-breaths">0</span> hơi thở</div>
+        <div class="med-room" id="med-room"></div>
+        <button id="btn-stop-meditation" type="button">Xả thiền 🙏</button>
       </div>
 
       <!-- Khung thông báo sự kiện Realtime -->
@@ -1169,7 +1220,7 @@
 
       <!-- Gợi ý điều khiển máy tính -->
       <div class="pc-controls-hint">
-        🎮 Phím <strong>W, A, S, D</strong> để đi | Nhấn <strong>Enter</strong> để chat realtime | <strong>B</strong> vái chào | Kéo chuột xoay camera
+        🎮 Phím <strong>W, A, S, D</strong> để đi | Nhấn <strong>Enter</strong> để chat realtime | <strong>B</strong> vái chào | <strong>M</strong> nhạc | Kéo chuột xoay camera
       </div>
     </div>
 
@@ -1429,6 +1480,36 @@
     </div>
   </div>
 
+  <!-- MODAL: LỜI PHẬT DẠY MỖI NGÀY -->
+  <div class="modal-overlay" id="modal-quote">
+    <div class="modal-card">
+      <button class="modal-close-btn" data-close="modal-quote">✕</button>
+      <h2 class="modal-title">LỜI PHẬT DẠY HÔM NAY</h2>
+      <p class="modal-subtitle">Mỗi ngày một lời nhắc nhỏ để sống an nhiên</p>
+      <div class="quote-stone">
+        <div class="quote-day" id="quote-day"></div>
+        <div class="quote-text" id="quote-text"></div>
+      </div>
+      <button class="btn-secondary" id="btn-next-quote">ĐỌC THÊM MỘT LỜI KHÁC 🍃</button>
+    </div>
+  </div>
+
+  <!-- MODAL: GÓC NGỒI THIỀN -->
+  <div class="modal-overlay" id="modal-meditation">
+    <div class="modal-card">
+      <button class="modal-close-btn" data-close="modal-meditation">✕</button>
+      <h2 class="modal-title">GÓC NGỒI THIỀN</h2>
+      <p class="modal-subtitle">Ngồi yên, theo dõi hơi thở. Cả phòng cùng ngồi sẽ tỏa hào quang 🪷</p>
+      <div class="med-choices">
+        <div class="med-choice" data-min="1">1 phút<small>Khởi đầu</small></div>
+        <div class="med-choice selected" data-min="3">3 phút<small>Tĩnh tâm</small></div>
+        <div class="med-choice" data-min="5">5 phút<small>An trú</small></div>
+      </div>
+      <div class="med-stats" id="med-stats"></div>
+      <button class="btn-gold" id="btn-start-meditation">BẮT ĐẦU NGỒI THIỀN 🧘</button>
+    </div>
+  </div>
+
   <!-- 8. MODAL: SỔ CẦU AN -->
   <div class="modal-overlay" id="modal-journal">
     <div class="modal-card">
@@ -1490,6 +1571,8 @@
       wishes: [],
       fortunes: [],
       hasSeenTutorial: false,
+      meditationSeconds: 0,
+      meditationSessions: 0,
       audioMuted: false,
 
       load() {
@@ -1519,7 +1602,9 @@
             highestPeaceScore: this.highestPeaceScore,
             wishes: this.wishes,
             fortunes: this.fortunes,
-            hasSeenTutorial: this.hasSeenTutorial
+            hasSeenTutorial: this.hasSeenTutorial,
+            meditationSeconds: this.meditationSeconds,
+            meditationSessions: this.meditationSessions
           }));
         } catch (e) {
           console.warn('Không thể ghi localStorage:', e);
@@ -1777,6 +1862,66 @@
         gain.connect(this.masterGain);
         osc.start(now);
         osc.stop(now + 1.9);
+      }
+
+      // Nhạc thiền: nền trầm + chuông gió ngũ cung ngẫu nhiên
+      toggleMusic() {
+        if (!this.ctx) this.init();
+        if (this.ctx.state === 'suspended') this.ctx.resume();
+        this.musicOn = !this.musicOn;
+        if (this.musicOn) this.startMusic(); else this.stopMusic();
+        return this.musicOn;
+      }
+
+      startMusic() {
+        const ctx = this.ctx, now = ctx.currentTime;
+        this.musicGain = ctx.createGain();
+        this.musicGain.gain.setValueAtTime(0.0001, now);
+        this.musicGain.gain.exponentialRampToValueAtTime(0.5, now + 2.5);
+        this.musicGain.connect(this.masterGain);
+
+        this.droneNodes = [];
+        [[110, 0.05], [164.8, 0.03], [220.5, 0.015]].forEach(([f, v]) => {
+          const o = ctx.createOscillator(), g = ctx.createGain();
+          const lfo = ctx.createOscillator(), lg = ctx.createGain();
+          o.type = 'sine'; o.frequency.value = f;
+          g.gain.value = v;
+          lfo.frequency.value = 0.07 + Math.random() * 0.06; lg.gain.value = v * 0.6;
+          lfo.connect(lg); lg.connect(g.gain);
+          o.connect(g); g.connect(this.musicGain);
+          o.start(); lfo.start();
+          this.droneNodes.push(o, lfo);
+        });
+
+        const scale = [523.25, 587.33, 659.25, 783.99, 880, 1046.5, 1174.66, 1318.5];
+        const ring = () => {
+          if (!this.musicOn) return;
+          const t = ctx.currentTime;
+          const notes = Math.random() < 0.3 ? 2 : 1;
+          for (let i = 0; i < notes; i++) {
+            const f = scale[Math.floor(Math.random() * scale.length)];
+            const o = ctx.createOscillator(), o2 = ctx.createOscillator(), g = ctx.createGain();
+            o.type = 'sine'; o.frequency.value = f;
+            o2.type = 'sine'; o2.frequency.value = f * 2.76;
+            const st = t + i * 0.18;
+            g.gain.setValueAtTime(0.0001, st);
+            g.gain.exponentialRampToValueAtTime(0.06, st + 0.01);
+            g.gain.exponentialRampToValueAtTime(0.0001, st + 3.5);
+            o.connect(g); o2.connect(g); g.connect(this.musicGain);
+            o.start(st); o2.start(st); o.stop(st + 3.6); o2.stop(st + 3.6);
+          }
+          this.chimeTimer = setTimeout(ring, 1400 + Math.random() * 3200);
+        };
+        ring();
+      }
+
+      stopMusic() {
+        clearTimeout(this.chimeTimer);
+        if (!this.musicGain) return;
+        const g = this.musicGain, nodes = this.droneNodes || [];
+        g.gain.setTargetAtTime(0.0001, this.ctx.currentTime, 0.4);
+        setTimeout(() => { nodes.forEach(n => { try { n.stop(); } catch {} }); g.disconnect(); }, 2500);
+        this.musicGain = null; this.droneNodes = [];
       }
 
       toggleMute() {
@@ -2510,6 +2655,49 @@
       for (const part of bowParts) part.baseRotX = 0;
     }
 
+    function applySitPose(leftLeg, rightLeg, leftArm, rightArm) {
+      leftLeg.rotation.x = -1.45; rightLeg.rotation.x = -1.45;
+      leftLeg.rotation.z = 0.5; rightLeg.rotation.z = -0.5;
+      leftArm.rotation.z = -0.55; rightArm.rotation.z = 0.55;
+      leftArm.rotation.x = -0.5; rightArm.rotation.x = -0.5;
+    }
+    function clearSitPose(leftLeg, rightLeg, leftArm, rightArm) {
+      leftLeg.rotation.z = 0; rightLeg.rotation.z = 0;
+      leftArm.rotation.z = 0; rightArm.rotation.z = 0;
+    }
+    function makeHalo() {
+      const g = new THREE.Group();
+      const ring = new THREE.Mesh(
+        new THREE.RingGeometry(0.75, 1.05, 48),
+        new THREE.MeshBasicMaterial({ color: 0xffd36b, transparent: true, opacity: 0.0, side: THREE.DoubleSide, blending: THREE.AdditiveBlending, depthWrite: false })
+      );
+      ring.rotation.x = -Math.PI / 2;
+      ring.position.y = 0.05;
+      g.add(ring);
+      const aura = new THREE.Mesh(
+        new THREE.SphereGeometry(0.95, 24, 16),
+        new THREE.MeshBasicMaterial({ color: 0xffe2a0, transparent: true, opacity: 0.0, blending: THREE.AdditiveBlending, depthWrite: false })
+      );
+      aura.position.y = 0.95;
+      g.add(aura);
+      g.visible = false;
+      g.userData = { ring, aura };
+      return g;
+    }
+    function updateHalo(halo, active, time, groupMode) {
+      halo.visible = active;
+      if (!active) return;
+      const pulse = 0.5 + 0.5 * Math.sin(time * 1.6);
+      const { ring, aura } = halo.userData;
+      const big = groupMode ? 1.6 : 1.0;
+      ring.scale.setScalar(big * (1 + pulse * 0.12));
+      ring.material.opacity = (groupMode ? 0.75 : 0.45) * (0.6 + 0.4 * pulse);
+      aura.scale.setScalar(groupMode ? 1.25 : 1.0);
+      aura.material.opacity = groupMode ? 0.16 + 0.08 * pulse : 0.07 + 0.04 * pulse;
+    }
+    const playerHalo = makeHalo();
+    playerGroup.add(playerHalo);
+
     const playerBowParts = makeBowParts([pHead, pBun, pBody, pLeftArm, pRightArm]);
 
     const PlayerController = {
@@ -2530,6 +2718,7 @@
 
       bowStart: 0,
       _bowed: false,
+      isMeditating: false,
 
       update(dt) {
         const bowAngle = bowAngleAt(this.bowStart);
@@ -2548,6 +2737,18 @@
           this.bowStart = 0;
           clearPrayArms(pLeftArm, pRightArm, playerBowParts);
           applyBowPose(playerBowParts, 0);
+        }
+
+        if (this.isMeditating) {
+          const len0 = Math.hypot(this.inputX, this.inputZ);
+          if (len0 > 0.05) {
+            stopMeditation(false);
+          } else {
+            this.isMoving = false;
+            applySitPose(pLeftLeg, pRightLeg, pLeftArm, pRightArm);
+            this.updateCamera(-0.32);
+            return;
+          }
         }
 
         if (this.isPraying) {
@@ -2615,8 +2816,8 @@
         this.updateCamera();
       },
 
-      updateCamera() {
-        playerGroup.position.set(this.x, 0, this.z);
+      updateCamera(y = 0) {
+        playerGroup.position.set(this.x, y, this.z);
         playerGroup.rotation.y = this.rotationY;
 
         const camX = this.x - Math.sin(this.cameraAngleX) * this.cameraDistance * Math.cos(this.cameraAngleY);
@@ -2654,6 +2855,10 @@
         }
       }
 
+      if (e.code === 'KeyM' && !e.repeat) {
+        toggleMusicUI();
+        return;
+      }
       if (e.code === 'KeyB' && !e.repeat) {
         doBow();
         return;
@@ -2907,6 +3112,9 @@
       rightLeg.position.set(0.16, 0.25, 0);
       group.add(rightLeg);
 
+      const halo = makeHalo();
+      group.add(halo);
+
       scene.add(group);
 
       // Bảng tên bạn bè hiển thị phía trên đầu
@@ -2920,6 +3128,9 @@
         bowStart: 0,
         _bowed: false,
         bowParts: makeBowParts([head, bun, body, leftArm, rightArm]),
+        halo,
+        isMeditating: false,
+        _sat: false,
         head,
         leftArm,
         rightArm,
@@ -2960,6 +3171,148 @@
       list.innerHTML = html;
     }
 
+    // =========================================================================
+    // PHÒNG NHIỀU NGƯỜI CHƠI QUA MÁY CHỦ TRUNG GIAN (MQTT PUBLIC BROKER)
+    // Không cần 2 máy nối thẳng với nhau => không bị chặn bởi 4G / NAT / tường lửa.
+    // API giống Trystero: makeAction, onPeerJoin, onPeerLeave, leave.
+    // =========================================================================
+    const RELAY_TOPIC_PREFIX = 'len-chua-cau-an-3d-vn/v2/';
+    const RELAY_BROKERS = (() => {
+      const custom = new URLSearchParams(location.search).get('broker');
+      if (custom) return [custom];
+      return [
+        'wss://broker.emqx.io:8084/mqtt',
+        'wss://broker.hivemq.com:8884/mqtt'
+      ];
+    })();
+    const MQTT_LIB_SOURCES = [
+      'https://cdn.jsdelivr.net/npm/mqtt@5.10.1/dist/mqtt.esm.js',
+      'https://unpkg.com/mqtt@5.10.1/dist/mqtt.esm.js'
+    ];
+
+    async function loadMqttLib() {
+      let lastErr;
+      for (const src of MQTT_LIB_SOURCES) {
+        try {
+          const mod = await import(src);
+          const lib = mod.default && mod.default.connect ? mod.default : mod;
+          if (lib.connect) return lib;
+        } catch (e) { lastErr = e; console.warn('Không tải được', src, e); }
+      }
+      throw lastErr || new Error('Không tải được thư viện MQTT');
+    }
+
+    function connectBroker(mqtt, url, selfId, topic) {
+      return new Promise((resolve, reject) => {
+        const client = mqtt.connect(url, {
+          clientId: 'lcca_' + selfId,
+          clean: true,
+          keepalive: 30,
+          connectTimeout: 8000,
+          reconnectPeriod: 2000,
+          will: { topic, payload: JSON.stringify({ f: selfId, k: 'bye' }), qos: 0, retain: false }
+        });
+        const timer = setTimeout(() => { client.end(true); reject(new Error('Hết thời gian kết nối ' + url)); }, 9000);
+        client.once('connect', () => { clearTimeout(timer); resolve(client); });
+        client.once('error', err => { clearTimeout(timer); client.end(true); reject(err); });
+      });
+    }
+
+    async function createRelayRoom(roomId) {
+      const mqtt = await loadMqttLib();
+      const selfId = Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
+      const topic = RELAY_TOPIC_PREFIX + encodeURIComponent(roomId);
+
+      let client = null, lastErr;
+      for (const url of RELAY_BROKERS) {
+        try { client = await connectBroker(mqtt, url, selfId, topic); console.log('Đã nối máy chủ', url); break; }
+        catch (e) { lastErr = e; console.warn('Không nối được', url, e); }
+      }
+      if (!client) throw lastErr || new Error('Không nối được máy chủ phòng');
+
+      const peers = new Map(); // peerId -> lastSeen
+      const actionHandlers = {};
+      let joinCb = () => {}, leaveCb = () => {};
+      let left = false;
+
+      const publish = (k, d, to) => {
+        if (left) return;
+        const msg = { f: selfId, k };
+        if (d !== undefined) msg.d = d;
+        if (to) msg.t = to;
+        client.publish(topic, JSON.stringify(msg), { qos: 0 });
+      };
+
+      const markSeen = id => {
+        const isNew = !peers.has(id);
+        peers.set(id, Date.now());
+        if (isNew) {
+          try { joinCb(id); } catch (e) { console.warn(e); }
+        }
+        return isNew;
+      };
+      const dropPeer = id => {
+        if (!peers.has(id)) return;
+        peers.delete(id);
+        try { leaveCb(id); } catch (e) { console.warn(e); }
+      };
+
+      client.on('message', (_t, buf) => {
+        let msg;
+        try { msg = JSON.parse(buf.toString()); } catch { return; }
+        if (!msg || !msg.f || msg.f === selfId) return;
+        if (msg.t && msg.t !== selfId) return;
+        if (msg.k === 'bye') { dropPeer(msg.f); return; }
+        const isNew = markSeen(msg.f);
+        if (msg.k === 'hello' && isNew) publish('ping', undefined, msg.f); // báo lại cho người mới biết mình có mặt
+        if (msg.k.startsWith('a:')) {
+          const h = actionHandlers[msg.k.slice(2)];
+          if (h) { try { h(msg.d, msg.f); } catch (e) { console.warn(e); } }
+        }
+      });
+
+      // Khi mạng chập chờn, MQTT tự nối lại => chào lại phòng
+      client.on('connect', () => { if (!left) publish('hello'); });
+
+      await new Promise((resolve, reject) => {
+        client.subscribe(topic, { qos: 0 }, err => err ? reject(err) : resolve());
+      });
+
+      // Nhịp tim mỗi 3 giây; ai im lặng quá 12 giây coi như đã rời phòng
+      const heartbeat = setInterval(() => {
+        publish('ping');
+        const now = Date.now();
+        peers.forEach((seen, id) => { if (now - seen > 12000) dropPeer(id); });
+      }, 3000);
+
+      const onUnload = () => { try { publish('bye'); } catch {} };
+      window.addEventListener('pagehide', onUnload);
+
+      const room = {
+        selfId,
+        makeAction(name) {
+          const send = (data, to) => publish('a:' + name, data, typeof to === 'string' ? to : undefined);
+          const receive = cb => { actionHandlers[name] = cb; };
+          return [send, receive];
+        },
+        onPeerJoin(cb) { joinCb = cb; },
+        onPeerLeave(cb) { leaveCb = cb; },
+        getPeers() { return Object.fromEntries(peers); },
+        leave() {
+          if (left) return;
+          publish('bye');
+          left = true;
+          clearInterval(heartbeat);
+          window.removeEventListener('pagehide', onUnload);
+          setTimeout(() => client.end(true), 200);
+        }
+      };
+
+      // Chào phòng sau khi đã đăng ký xong các action
+      setTimeout(() => publish('hello'), 50);
+      return room;
+    }
+
     // KẾT NỐI P2P REALTIME VỚI TRYSTERO (TỰ ĐỘNG CHUYỂN NGOẠI TUYẾN NẾU MẤT MẠNG)
     async function connectP2PRoom(roomId) {
       if (p2pRoom) {
@@ -2974,31 +3327,8 @@
       document.getElementById('room-id-change').value = roomId;
 
       try {
-        // Nạp Trystero WebTorrent ES module
-        // Gói npm trystero không có thư mục /dist nên link cũ bị 404.
-        // Dùng bản ESM đóng gói sẵn của jsDelivr (esm.run). Ưu tiên Nostr (nhiều relay, ổn định hơn tracker torrent).
-        let trystero;
-        const sources = [
-          'https://esm.run/trystero@0.20.1/nostr',
-          'https://esm.sh/trystero@0.20.1/nostr',
-          'https://esm.run/trystero@0.20.1/torrent'
-        ];
-        let lastErr;
-        for (const src of sources) {
-          try { trystero = await import(src); break; } catch (e) { lastErr = e; console.warn('Không tải được', src, e); }
-        }
-        if (!trystero) throw lastErr;
-        const config = {
-          appId: 'len-chua-cau-an-3d-vietnam',
-          rtcConfig: {
-            iceServers: [
-              { urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302', 'stun:stun.cloudflare.com:3478'] }
-              // Nếu 2 máy ở mạng khác nhau (4G, wifi công ty) vẫn không thấy nhau, thêm TURN server tại đây, ví dụ:
-              // { urls: 'turn:YOUR_TURN_HOST:3478', username: 'USER', credential: 'PASS' }
-            ]
-          }
-        };
-        p2pRoom = trystero.joinRoom(config, roomId);
+        // Kết nối qua máy chủ trung gian MQTT (chạy được mọi mạng: wifi, 4G, công ty...)
+        p2pRoom = await createRelayRoom(roomId);
 
         const [sendState, getState] = p2pRoom.makeAction('state');
         const [sendEvt, getEvt] = p2pRoom.makeAction('event');
@@ -3018,6 +3348,7 @@
             z: PlayerController.z,
             rot: PlayerController.rotationY,
             pray: PlayerController.isPraying,
+            med: PlayerController.isMeditating,
             walk: PlayerController.isMoving
           }, peerId);
           updateOnlineCount();
@@ -3047,6 +3378,7 @@
           p.targetZ = data.z;
           p.targetRot = data.rot;
           p.isPraying = data.pray;
+          p.isMeditating = !!data.med;
           p.isWalking = data.walk;
         });
 
@@ -3081,6 +3413,15 @@
 
     // XỬ LÝ SỰ KIỆN TỪ BẠN BÈ TRONG PHÒNG
     function handleRemoteEvent(evt, peerId) {
+      if (evt.type === 'meditate') {
+        const p = RemotePlayers.get(peerId);
+        if (p) p.isMeditating = !!evt.on;
+        if (evt.on) {
+          addSystemChatMessage(`🧘 Đạo hữu <strong>${escapeHtml(evt.name)}</strong> vừa ngồi thiền ${Number(evt.min) || ''} phút.`);
+          if (PlayerController.isMeditating) showToast('🪷 Cả phòng đang cùng tĩnh tâm, hào quang tỏa sáng!');
+        }
+        return;
+      }
       if (evt.type === 'bow') {
         const p = RemotePlayers.get(peerId);
         if (p) p.bowStart = performance.now();
@@ -3129,10 +3470,223 @@
       }
     }
 
+    // ===== LỜI PHẬT DẠY MỖI NGÀY =====
+    const BUDDHA_QUOTES = [
+      'Tâm an thì cảnh an. Muốn đổi cảnh, trước hết hãy an cái tâm của mình.',
+      'Hạnh phúc không đến từ việc có nhiều, mà từ việc biết đủ.',
+      'Giận người khác như tự cầm than hồng định ném đi, người bỏng trước là mình.',
+      'Quá khứ đã qua, tương lai chưa tới. Hãy sống trọn vẹn trong giây phút hiện tại.',
+      'Một ngọn nến thắp được ngàn ngọn nến khác mà không hề ngắn lại. Niềm vui cũng vậy.',
+      'Lời nói dịu dàng như mưa xuân, tưới mát lòng người nghe.',
+      'Chiến thắng ngàn quân không bằng chiến thắng chính mình.',
+      'Gieo nhân lành thì gặt quả lành. Mỗi việc nhỏ hôm nay là hạt giống của ngày mai.',
+      'Buông bỏ không phải là mất đi, mà là để lòng nhẹ nhàng hơn.',
+      'Hơi thở là chiếc cầu nối thân và tâm. Khi rối lòng, hãy trở về với hơi thở.',
+      'Người trí không để lời khen chê làm lay động, như núi đá vững giữa gió.',
+      'Hãy đối xử với người khác như cách bạn mong được đối xử.',
+      'Thân người khó được, đời người ngắn ngủi. Hãy làm điều có ích khi còn có thể.',
+      'Không có con đường dẫn đến hạnh phúc, hạnh phúc chính là con đường.',
+      'Nước chảy mãi đá cũng mòn. Kiên trì tu tập, việc khó cũng thành.',
+      'Lòng biết ơn biến những gì ta có thành đủ đầy.',
+      'Đừng tin điều gì chỉ vì nhiều người nói, hãy tự mình chiêm nghiệm.',
+      'Thương yêu chân thật là mong người kia được an vui, không phải giữ người ấy cho riêng mình.',
+      'Mỗi buổi sáng ta được sinh ra lần nữa. Điều ta làm hôm nay mới là quan trọng nhất.',
+      'Sen mọc từ bùn mà không nhiễm mùi bùn. Giữa đời bộn bề, tâm vẫn có thể trong sạch.',
+      'Im lặng đúng lúc cũng là một lời nói hay.',
+      'Hiểu được nỗi khổ của người khác là bắt đầu của lòng từ bi.',
+      'Chậm lại một chút, ta sẽ thấy nhiều điều đẹp mà khi vội vàng ta đã bỏ qua.',
+      'Tha thứ cho người là trả lại tự do cho chính mình.',
+      'Của cải mang theo được chỉ có những việc thiện ta đã làm.',
+      'Một lời xin lỗi chân thành có thể hóa giải cả một mùa giận hờn.',
+      'Cha mẹ là hai vị Phật tại gia. Hiếu thảo là phước lớn nhất.',
+      'Vô thường là lẽ tự nhiên. Biết vậy, ta trân quý từng khoảnh khắc bên người thân.',
+      'Ăn uống chánh niệm, đi đứng chánh niệm, mỗi bước chân đều là bình an.',
+      'Lắng nghe sâu là món quà quý nhất ta có thể trao cho người khác.'
+    ];
+    let currentQuoteIdx = 0;
+    function dailyQuoteIndex() {
+      const d = new Date();
+      const dayNum = Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000);
+      return dayNum % BUDDHA_QUOTES.length;
+    }
+    function renderQuote(idx) {
+      currentQuoteIdx = idx;
+      const isToday = idx === dailyQuoteIndex();
+      document.getElementById('quote-day').textContent = isToday
+        ? '🗓️ ' + new Date().toLocaleDateString('vi-VN', { weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric' })
+        : '🍃 Lời nhắc thêm';
+      document.getElementById('quote-text').textContent = '“' + BUDDHA_QUOTES[idx] + '”';
+    }
+    document.getElementById('btn-next-quote').addEventListener('click', () => {
+      Sound.playChime();
+      renderQuote((currentQuoteIdx + 1) % BUDDHA_QUOTES.length);
+    });
+
+    // Bia đá Lời Phật Dạy (3D)
+    (() => {
+      const c = document.createElement('canvas'); c.width = 256; c.height = 320;
+      const x = c.getContext('2d');
+      x.fillStyle = '#5a554f'; x.fillRect(0, 0, 256, 320);
+      for (let i = 0; i < 900; i++) { x.fillStyle = `rgba(0,0,0,${Math.random() * 0.12})`; x.fillRect(Math.random() * 256, Math.random() * 320, 2, 2); }
+      x.strokeStyle = '#d9b36a'; x.lineWidth = 6; x.strokeRect(14, 14, 228, 292);
+      x.fillStyle = '#f0d58f'; x.textAlign = 'center';
+      x.font = 'bold 34px serif'; x.fillText('LỜI', 128, 110); x.fillText('PHẬT', 128, 155); x.fillText('DẠY', 128, 200);
+      x.font = '42px serif'; x.fillText('☸', 128, 265);
+      const tex = new THREE.CanvasTexture(c);
+      const stone = new THREE.MeshStandardMaterial({ color: 0x6b655e, roughness: 0.95 });
+      const face = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.9 });
+      const g = new THREE.Group();
+      const base = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.35, 1.0), stone);
+      base.position.y = 0.17; g.add(base);
+      const slab = new THREE.Mesh(new THREE.BoxGeometry(1.4, 2.0, 0.28), [stone, stone, stone, stone, face, stone]);
+      slab.position.y = 1.35; slab.castShadow = true; g.add(slab);
+      const top = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.85, 0.3, 4), stone);
+      top.position.y = 2.5; top.rotation.y = Math.PI / 4; g.add(top);
+      g.position.set(-9, 0, 17.6);
+      scene.add(g);
+      addBoxCollider(-10, -8, 17.1, 18.1);
+    })();
+
+    // ===== GÓC NGỒI THIỀN =====
+    (() => {
+      const g = new THREE.Group();
+      const mat = new THREE.Mesh(new THREE.CylinderGeometry(2.2, 2.2, 0.06, 40),
+        new THREE.MeshStandardMaterial({ color: 0x7a2e1e, roughness: 0.9 }));
+      mat.position.y = 0.03; mat.receiveShadow = true; g.add(mat);
+      const cushionMat = new THREE.MeshStandardMaterial({ color: 0xc98a2b, roughness: 0.8 });
+      [[-1.1, -0.9], [1.1, -0.9], [-1.1, 0.9], [1.1, 0.9]].forEach(([cx, cz]) => {
+        const cu = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.45, 0.18, 24), cushionMat);
+        cu.position.set(cx, 0.12, cz); g.add(cu);
+      });
+      const petalMat = new THREE.MeshStandardMaterial({ color: 0xf2a7b8, emissive: 0x6b2a3a, roughness: 0.6 });
+      for (let i = 0; i < 12; i++) {
+        const a = (i / 12) * Math.PI * 2;
+        const petal = new THREE.Mesh(new THREE.SphereGeometry(0.28, 12, 8), petalMat);
+        petal.scale.set(0.6, 0.35, 1.2);
+        petal.position.set(Math.cos(a) * 2.45, 0.1, Math.sin(a) * 2.45);
+        petal.rotation.y = -a + Math.PI / 2;
+        g.add(petal);
+      }
+      g.position.set(9, 0, 19);
+      scene.add(g);
+    })();
+
+    const MeditationState = { minutes: 3, start: 0, breaths: 0, lastPhase: -1 };
+    const medHud = document.getElementById('meditation-hud');
+    const breathCircle = document.getElementById('breath-circle');
+
+    function meditatorsCount() {
+      let n = PlayerController.isMeditating ? 1 : 0;
+      RemotePlayers.forEach(p => { if (p.isMeditating) n++; });
+      return n;
+    }
+    function fmtTime(sec) {
+      sec = Math.max(0, Math.ceil(sec));
+      return String(Math.floor(sec / 60)).padStart(2, '0') + ':' + String(sec % 60).padStart(2, '0');
+    }
+    function renderMeditationStats() {
+      const mins = Math.floor((GameState.meditationSeconds || 0) / 60);
+      document.getElementById('med-stats').textContent = GameState.meditationSessions
+        ? `🪷 Bạn đã ngồi thiền trọn vẹn ${GameState.meditationSessions} lần, tổng ${mins} phút.`
+        : '🪷 Lần đầu ngồi thiền? Hãy bắt đầu với 1 phút nhé.';
+    }
+    document.querySelectorAll('.med-choice').forEach(el => {
+      el.addEventListener('click', () => {
+        document.querySelectorAll('.med-choice').forEach(x => x.classList.remove('selected'));
+        el.classList.add('selected');
+        MeditationState.minutes = Number(el.dataset.min);
+      });
+    });
+
+    // Chỗ ngồi: 4 bồ đoàn quanh tấm thảm, lấy chỗ còn trống
+    const MED_SEATS = [[-1.1, -0.9], [1.1, -0.9], [-1.1, 0.9], [1.1, 0.9]];
+    function pickSeat() {
+      for (const [sx, sz] of MED_SEATS) {
+        const x = 9 + sx, z = 19 + sz;
+        let taken = false;
+        RemotePlayers.forEach(p => { if (p.isMeditating && Math.hypot(p.targetX - x, p.targetZ - z) < 0.6) taken = true; });
+        if (!taken) return [x, z];
+      }
+      return [9 + (Math.random() - 0.5) * 2.4, 19 + (Math.random() - 0.5) * 2.4];
+    }
+
+    function startMeditation() {
+      closeModal('modal-meditation');
+      const [sx, sz] = pickSeat();
+      PlayerController.x = sx;
+      PlayerController.z = sz;
+      // Quay mặt vào giữa thảm
+      PlayerController.rotationY = Math.atan2(9 - sx, 19 - sz);
+      PlayerController.isMeditating = true;
+      PlayerController.inputX = 0; PlayerController.inputZ = 0;
+      MeditationState.start = performance.now();
+      MeditationState.breaths = 0;
+      MeditationState.lastPhase = -1;
+      medHud.classList.add('active');
+      document.body.classList.add('meditating');
+      Sound.playBell();
+      if (sendPlayerEvent) {
+        try { sendPlayerEvent({ type: 'meditate', on: true, min: MeditationState.minutes, name: GameState.playerName }); } catch (e) {}
+      }
+    }
+
+    function stopMeditation(completed) {
+      if (!PlayerController.isMeditating) return;
+      const sec = (performance.now() - MeditationState.start) / 1000;
+      PlayerController.isMeditating = false;
+      clearSitPose(pLeftLeg, pRightLeg, pLeftArm, pRightArm);
+      medHud.classList.remove('active');
+      document.body.classList.remove('meditating');
+      GameState.meditationSeconds = (GameState.meditationSeconds || 0) + Math.floor(sec);
+      if (completed) GameState.meditationSessions = (GameState.meditationSessions || 0) + 1;
+      GameState.save();
+      if (sendPlayerEvent) {
+        try { sendPlayerEvent({ type: 'meditate', on: false, name: GameState.playerName }); } catch (e) {}
+      }
+      if (completed) {
+        Sound.playBell();
+        showToast(`🪷 Viên mãn ${MeditationState.minutes} phút tĩnh tâm, ${MeditationState.breaths} hơi thở an lạc.`);
+        addSystemChatMessage(`🧘 Bạn đã hoàn thành <strong>${MeditationState.minutes} phút</strong> ngồi thiền.`);
+      } else if (sec > 5) {
+        showToast(`Đã xả thiền sau ${fmtTime(sec)}. Hẹn gặp lại nơi tĩnh lặng 🍃`);
+      }
+    }
+
+    function updateMeditationHud() {
+      const elapsed = (performance.now() - MeditationState.start) / 1000;
+      const total = MeditationState.minutes * 60;
+      if (elapsed >= total) { stopMeditation(true); return; }
+      // Nhịp thở: 4 giây hít vào, 4 giây thở ra
+      const phase = Math.floor(elapsed / 4);
+      if (phase !== MeditationState.lastPhase) {
+        MeditationState.lastPhase = phase;
+        const inhale = phase % 2 === 0;
+        breathCircle.classList.toggle('inhale', inhale);
+        breathCircle.textContent = inhale ? 'Hít vào' : 'Thở ra';
+        if (!inhale) MeditationState.breaths++;
+        document.getElementById('med-breaths').textContent = MeditationState.breaths;
+      }
+      document.getElementById('med-time').textContent = fmtTime(total - elapsed);
+      const n = meditatorsCount();
+      document.getElementById('med-room').textContent = n >= 2 ? `✨ ${n} người đang cùng thiền – hào quang tỏa sáng` : '';
+    }
+
+    document.getElementById('btn-start-meditation').addEventListener('click', startMeditation);
+    document.getElementById('btn-stop-meditation').addEventListener('click', () => stopMeditation(false));
+
+    // ===== NÚT NHẠC THIỀN =====
+    const btnMusic = document.getElementById('btn-music');
+    function toggleMusicUI() {
+      const on = Sound.toggleMusic();
+      btnMusic.classList.toggle('on', on);
+      showToast(on ? '🎵 Đã bật nhạc thiền chuông gió' : '🔕 Đã tắt nhạc thiền');
+    }
+    btnMusic.addEventListener('click', e => { e.currentTarget.blur(); toggleMusicUI(); });
+
     // NGƯỜI CHƠI BẤM VÁI CHÀO
     function doBow() {
       if (bowAngleAt(PlayerController.bowStart) > 0) return; // đang cúi thì bỏ qua
-      if (PlayerController.isPraying) return; // đang mở bảng hành lễ
+      if (PlayerController.isPraying || PlayerController.isMeditating) return;
       PlayerController.bowStart = performance.now();
       showSpeechBubbleForPeer('self', BOW_TEXT);
       if (sendPlayerEvent) {
@@ -3198,26 +3752,32 @@
     let lastSentZ = 0;
     let lastSentRot = 0;
     let lastSentPray = false;
+    let lastSentTime = 0;
+    let lastSentMed = false;
 
     setInterval(() => {
       if (!sendPlayerState) return;
       const dx = Math.abs(PlayerController.x - lastSentX);
       const dz = Math.abs(PlayerController.z - lastSentZ);
       const dr = Math.abs(PlayerController.rotationY - lastSentRot);
-      const dp = PlayerController.isPraying !== lastSentPray;
+      const dp = PlayerController.isPraying !== lastSentPray || PlayerController.isMeditating !== lastSentMed;
 
-      if (dx > 0.04 || dz > 0.04 || dr > 0.04 || dp) {
+      const stale = performance.now() - lastSentTime > 2500; // gửi lại định kỳ để bạn bè không bị lệch
+      if (dx > 0.04 || dz > 0.04 || dr > 0.04 || dp || stale) {
+        lastSentTime = performance.now();
         lastSentX = PlayerController.x;
         lastSentZ = PlayerController.z;
         lastSentRot = PlayerController.rotationY;
         lastSentPray = PlayerController.isPraying;
+        lastSentMed = PlayerController.isMeditating;
 
         sendPlayerState({
           name: GameState.playerName,
           x: PlayerController.x,
           z: PlayerController.z,
           rot: PlayerController.rotationY,
-          pray: PlayerController.isPraying,
+            pray: PlayerController.isPraying,
+            med: PlayerController.isMeditating,
           walk: PlayerController.isMoving
         });
       }
@@ -3232,7 +3792,9 @@
       { id: 'woodfish', name: 'Gõ Mõ Tụng Kinh', icon: '🪵', x: 0, z: -17, radius: 4.0, modal: 'modal-woodfish' },
       { id: 'wishtree', name: 'Treo Lụa Bồ Đề', icon: '🎋', x: 18, z: -5, radius: 4.2, modal: 'modal-wish', defaultTarget: 'tree' },
       { id: 'wishlantern', name: 'Thả Đèn Hoa Đăng', icon: '🪷', x: 18, z: 12, radius: 4.5, modal: 'modal-wish', defaultTarget: 'lantern' },
-      { id: 'fortune', name: 'Xin Quẻ Đầu Năm', icon: '📜', x: -15, z: 10, radius: 3.5, modal: 'modal-fortune' }
+      { id: 'fortune', name: 'Xin Quẻ Đầu Năm', icon: '📜', x: -15, z: 10, radius: 3.5, modal: 'modal-fortune' },
+      { id: 'quote', name: 'Đọc Lời Phật Dạy', icon: '🪨', x: -9, z: 19, radius: 3.2, modal: 'modal-quote' },
+      { id: 'meditation', name: 'Ngồi Thiền', icon: '🧘', x: 9, z: 19, radius: 3.2, modal: 'modal-meditation' }
     ];
 
     const actionPrompt = document.getElementById('action-prompt');
@@ -3267,8 +3829,11 @@
 
     btnInteract.addEventListener('click', () => {
       if (!activeHotspot) return;
+      if (PlayerController.isMeditating) return;
       openModal(activeHotspot.modal);
       PlayerController.isPraying = true;
+      if (activeHotspot.id === 'quote') renderQuote(dailyQuoteIndex());
+      if (activeHotspot.id === 'meditation') renderMeditationStats();
 
       if (activeHotspot.modal === 'modal-wish') {
         const target = activeHotspot.defaultTarget || 'tree';
@@ -3296,6 +3861,12 @@
     });
 
     // MÀN CHÀO (WELCOME) -> BẬT GAME, ÂM THANH & P2P
+    // Điền sẵn mã phòng từ link mời (#ten-phong) hoặc phòng đã vào lần trước
+    (() => {
+      const inp = document.getElementById('room-input-welcome');
+      if (inp && GameState.roomId) inp.value = GameState.roomId;
+    })();
+
     document.getElementById('btn-enter-temple').addEventListener('click', () => {
       const nameInput = document.getElementById('player-name-input').value.trim();
       if (nameInput) GameState.playerName = nameInput;
@@ -3989,6 +4560,8 @@
       // Cập nhật người chơi & máy quay
       PlayerController.update(dt);
       checkHotspots();
+      updateHalo(playerHalo, PlayerController.isMeditating, time, meditatorsCount() >= 2);
+      if (PlayerController.isMeditating) updateMeditationHud();
 
       // CẬP NHẬT BẠN BÈ ONLINE P2P TRONG 3D
       RemotePlayers.forEach((p, peerId) => {
@@ -4000,6 +4573,13 @@
         while (diff < -Math.PI) diff += Math.PI * 2;
         while (diff > Math.PI) diff -= Math.PI * 2;
         p.mesh.rotation.y += diff * 0.25;
+
+        if (p._sat && !p.isMeditating) {
+          p._sat = false;
+          clearSitPose(p.leftLeg, p.rightLeg, p.leftArm, p.rightArm);
+        }
+        p.mesh.position.y += ((p.isMeditating ? -0.32 : 0) - p.mesh.position.y) * 0.2;
+        updateHalo(p.halo, p.isMeditating, time, meditatorsCount() >= 2);
 
         // Dáng vái chào / hành lễ / bước đi
         const pBowAngle = bowAngleAt(p.bowStart);
@@ -4014,6 +4594,9 @@
           p.bowStart = 0;
           clearPrayArms(p.leftArm, p.rightArm, p.bowParts);
           applyBowPose(p.bowParts, 0);
+        } else if (p.isMeditating) {
+          p._sat = true;
+          applySitPose(p.leftLeg, p.rightLeg, p.leftArm, p.rightArm);
         } else if (p.isPraying) {
           p.leftArm.rotation.z = -0.7;
           p.leftArm.rotation.x = -0.8;

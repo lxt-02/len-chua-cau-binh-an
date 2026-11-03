@@ -15,13 +15,16 @@
 
 ---
 
-## 🎮 5 Hoạt Động Tâm Linh
+## 🎮 7 Hoạt Động Tâm Linh & Tịnh Tâm
 
 1. 🕯️ **Thắp hương:** Chọn 1 hoặc 3 nén, cắm hương vào đại lư đồng, khói hương nghi ngút bay lên trời hoàng hôn.
 2. 🔔 **Thỉnh chuông:** Căn đúng nhịp vòng sóng hội tụ vào Đại Hồng Chung. Tiếng chuông ngân vang, màn hình rung chuyển tịnh tâm.
 3. 🪵 **Gõ mõ tụng kinh:** Mini-game nhịp điệu tịnh tâm 30 giây (Tĩnh tâm / Được / Lệch nhịp) với thang điểm *Tâm an (0–100)* và lời khen an lạc.
 4. 📜 **Viết lời cầu an:** Viết lời nguyện ước (gia đình, thi cử, sức khỏe...) với bộ lọc từ nhạy cảm; chọn treo dải lụa đỏ lên Cội Bồ Đề hoặc thả đèn hoa đăng trôi trên hồ sen.
 5. 🎋 **Xin quẻ đầu năm:** Lắc ống xăm trúc nhận một trong 40 thẻ quẻ tích cực, nhẹ nhàng, an lành (mang tính giải trí).
+6. 🪨 **Đọc Lời Phật Dạy:** Chiêm bái bia đá cổ ghi lời kinh Pháp Cú thanh tịnh mỗi ngày.
+7. 🧘 **Ngồi thiền định:** Chọn thời lượng (1-5 phút), hướng dẫn nhịp thở Hít vào - Thở ra bằng vòng tròn trực quan, kích hoạt vầng hào quang rực rỡ khi cùng thiền với bạn bè (P2P).
+8. 🎵 **Nhạc thiền chuông gió:** Nút bấm bật/tắt nhạc thiền tịnh tâm tự phát bằng Web Audio API.
 
 ---
 
