@@ -4715,7 +4715,7 @@
         if (vulanHotspot) vulanHotspot.active = (effective === 'VU_LAN' || effective === 'AUTO');
       }
     };
-    FestivalAtmosphereManager.setAtmosphere('AUTO');
+    // Sẽ gọi FestivalAtmosphereManager.setAtmosphere('AUTO') sau khi Hotspots được khởi tạo
 
 
 
@@ -6738,6 +6738,7 @@
       { id: 'quote', name: 'Đọc Lời Phật Dạy', icon: '🪨', x: -9, z: 19, radius: 3.2, modal: 'modal-quote' },
       { id: 'meditation', name: 'Ngồi Thiền', icon: '🧘', x: 9, z: 19, radius: 3.2, modal: 'modal-meditation' }
     ];
+    FestivalAtmosphereManager.setAtmosphere('AUTO');
 
     const actionPrompt = document.getElementById('action-prompt');
     const actionText = document.getElementById('action-text');
